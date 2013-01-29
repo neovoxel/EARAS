@@ -54,7 +54,7 @@ public class Reseau{
 	
 	public static boolean connexion(){
 		 try {
-			sRecup = new Socket(host, port);
+			sRecup = new Socket(host, port);	// J'écris un commentaire lol - Pierre
 		 } catch (UnknownHostException e) {
 			 System.out.println("Marche po");
 			return connected=false;
