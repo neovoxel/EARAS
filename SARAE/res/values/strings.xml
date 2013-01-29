@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SARAE</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">SARAE</string>
+    <color name="Fond">#743715</color>
+    <color name="FondContent">#787878</color>
+
+</resources>

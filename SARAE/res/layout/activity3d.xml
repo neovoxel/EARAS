@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/monLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/layoutPlans2D"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/FondContent"
+        android:minWidth="120dp"
+        android:orientation="vertical"
+        android:scrollbars="vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:minWidth="80dp"
+            android:text="Plans 2D"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

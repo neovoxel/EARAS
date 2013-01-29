@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Fond"
+    tools:context=".ActivityOnglets" >
+    
+	<ImageView
+		android:id="@+id/OngletInfo"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:layout_marginLeft="10dp"
+		android:src="@drawable/ic_action_search" />
+	   
+	<ImageView
+	    android:id="@+id/OngletRapport"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"
+	    android:layout_marginLeft="305dp"
+	    android:src="@drawable/ic_action_search" />
+	
+	<ImageView
+	    android:id="@+id/OngletAFPS"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"
+	    android:layout_marginLeft="590dp"
+	    android:src="@drawable/ic_action_search" />
+	
+	<ImageView
+	    android:id="@+id/OngletPhoto"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"
+	    android:layout_marginLeft="875dp"
+	    android:src="@drawable/ic_action_search" />
+
+	<LinearLayout
+	    android:id="@+id/LinearLayoutOnglets"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/OngletInfo"
+	    android:layout_marginTop="10dp"
+	    android:background="@color/FondContent"
+	    android:gravity="center" >
+	</LinearLayout>
+</RelativeLayout>

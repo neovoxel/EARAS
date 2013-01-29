@@ -1,0 +1,53 @@
+/************************************ FICHE AFPS PAGE 1 *************************************/
+#information { float:right; border:1px solid black; }
+#information label { float:left; width:150px; padding:5px;}
+#information input { padding:5px; }
+#titre .titre {font-weight:bold; font-size:20px; }
+#banniere { margin-top: 7px; }
+img { position:absolute; left: 20px; }
+.condition { color: red; font-weight:bold; }
+#titre .version { font-style:italic; font-size:10px; }
+#titre { border: 1px solid black; text-align:center; height: 55px; }
+#permission { color:red; font-weight:bold; text-align:center;}
+.italic { font-style:italic; }
+.date { padding-left: 39px; }
+.radio { margin-left : 650px; margin-top: -1.7%;}
+.nbre { margin-left : 250px; margin-top: -1.7%; }
+#nbre { width : 100px; display:block; float:left; }
+.yes { margin-left : 350px; margin-top: -1.5%; }
+#hr { width:390px; margin-top: -9px;}
+.nb_classes { padding-left : 122px; font-style:italic; }
+.nb_niveau { font-weight:bold; }
+
+td { border : 1px solid black; min-width: 20px; text-align:center; }
+
+input[type="checkbox"] { width:50px; height:50px; }
+#label label{ position: relative; margin-top: 20px; }
+#label { height:50px; }
+
+#numpage { text-align:right; }
+#divbutton { text-align:center; }
+
+/********* COLOR *********/
+.red { color:red; }
+.green { color: green; }
+.yellow { color: #CEB637; }
+/********************************************************************************************/
+
+/************************************ FICHE AFPS PAGE 2 *************************************/
+#center { text-align:center; }
+#tabfixed { margin-left:505px; position: relative; background:white; }
+#main_td { width:500px; }
+#page2 tr { height: 70px; }
+.check { width: 200px; float:left; }
+.checkbox { margin-left: 50px; float:left; }
+.remplissage { float:left; width:220px; margin-left:50px; font-style:italic; text-align:center; }
+/********************************************************************************************/
+
+
+
+
+
+
+
+
