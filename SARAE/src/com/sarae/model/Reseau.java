@@ -17,6 +17,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.NetworkOnMainThreadException;
+import android.util.Log;
 import android.widget.ImageView;
 
 
@@ -63,6 +64,7 @@ public class Reseau{
 			return connected=false;
 		 } catch (NetworkOnMainThreadException e) {
 			 System.out.println("3-Marche po");
+			 Log.e("CLIENT","failed to connect",e);
 			 return connected=false;
 		 }
 		 return connected=true;

@@ -1,38 +1,24 @@
 package com.sarae.view.onglets;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.List;
+
 
 import com.sarae.model.DataManager;
 
+import android.R.integer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Gallery;
-import android.widget.Gallery.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -71,14 +57,14 @@ public class ViewPhoto{
 				final AlertDialog al = new AlertDialog.Builder(context).create();
 				final int nb = arg2;
 				al.setTitle("Supprimer?");
-				al.setMessage("Voulez vous supprimer le fichier : "+fichier[arg2]);
+				al.setMessage("Voulez-vous supprimer le fichier : "+fichier[arg2]);
 				al.setButton("Supprimer", new DialogInterface.OnClickListener() {
 					
 					public void onClick(DialogInterface dialog, int which) {
 						
 						DataManager.DeleteFile(myfile.getAbsolutePath()+File.separator+fichier[nb]);
 						update();
-						Toast.makeText(context, "Suppression", Toast.LENGTH_SHORT).show();
+						Toast.makeText(context, "Photo supprimée", Toast.LENGTH_SHORT).show();
 						
 					}
 				});
@@ -154,8 +140,17 @@ public class ViewPhoto{
 		for (int i=0; i<fichier.length;i++)
 		{
 			String path=myfile.getAbsolutePath() + File.separator+ fichier[i];
+			String tmp = "";
+			int j=0;
+			while (fichier[i].charAt(j)!='_')
+			{
+				tmp=tmp+fichier[i].charAt(j);
+				j++;
+			}
+			if(Integer.parseInt(tmp) == id_bat)
+			{
 			bitmap.add(BitmapLoader.loadBitmap(path, 200, 120));
-			System.out.println(myfile.getAbsolutePath() + File.separator+ fichier[i]);
+			}
 		}
 			
 	}
