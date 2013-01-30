@@ -56,13 +56,13 @@ public class Reseau{
 		 try {
 			sRecup = new Socket(host, port);	// J'écris un commentaire lol - Pierre
 		 } catch (UnknownHostException e) {
-			 System.out.println("Marche po");
+			 System.out.println("1-Marche po");
 			return connected=false;
 		 } catch (IOException e) {
-			 System.out.println("Marche po");
+			 System.out.println("2-Marche po");
 			return connected=false;
 		 } catch (NetworkOnMainThreadException e) {
-			 System.out.println("Marche po");
+			 System.out.println("3-Marche po");
 			 return connected=false;
 		 }
 		 return connected=true;

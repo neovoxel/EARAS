@@ -1,5 +1,6 @@
 package com.sarae.model;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Vector;
@@ -103,5 +104,11 @@ public class DataManager {
 		imgZone.clear();
 		photos.clear();
 		//mapTiles.clear();
+	}
+	
+	public static final  void DeleteFile(String path)
+	{
+		File tmp = new File(path);
+		tmp.delete();
 	}
 }

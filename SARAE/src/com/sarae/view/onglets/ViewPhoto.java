@@ -9,18 +9,24 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sarae.model.DataManager;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -56,6 +62,39 @@ public class ViewPhoto{
 		gallery=new ListView(context);
 		gallery.setLayoutParams(layoutParambutton);
 		gallery.setAdapter(new ImageAdapter(context));
+		gallery.setOnItemClickListener(new OnItemClickListener() {
+			@SuppressWarnings("deprecation")
+			public void onItemClick(AdapterView<?> arg0, View arg1,  int arg2,
+					long arg3) {
+				final File myfile = myActivity.getDir("Photo",Activity.MODE_PRIVATE);
+				final String[] fichier = myfile.list();
+				final AlertDialog al = new AlertDialog.Builder(context).create();
+				final int nb = arg2;
+				al.setTitle("Supprimer?");
+				al.setMessage("Voulez vous supprimer le fichier : "+fichier[arg2]);
+				al.setButton("Supprimer", new DialogInterface.OnClickListener() {
+					
+					public void onClick(DialogInterface dialog, int which) {
+						
+						DataManager.DeleteFile(myfile.getAbsolutePath()+File.separator+fichier[nb]);
+						update();
+						Toast.makeText(context, "Suppression", Toast.LENGTH_SHORT).show();
+						
+					}
+				});
+				
+				al.setButton2("Annuler", new DialogInterface.OnClickListener() {
+					
+					public void onClick(DialogInterface dialog, int which) {
+					
+						al.cancel();
+					}
+				});
+				al.show();
+			}
+		});
+		
+		
 		
 		
 		
@@ -93,6 +132,7 @@ public class ViewPhoto{
 			ImageView iv = new ImageView(this.myContext);
 			iv.setImageBitmap(bitmap.get(position));
 			iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+
 			
 			return iv;
 		}
@@ -121,15 +161,12 @@ public class ViewPhoto{
 	}
 	
 	public void update()
-	{
-
-		
-		File myfile = myActivity.getDir("Photo",Activity.MODE_PRIVATE);
-		String[] fichier = myfile.list();
-		String path=myfile.getAbsolutePath() + File.separator+ fichier[fichier.length-1];
-		bitmap.add(BitmapLoader.loadBitmap(path, 200, 120));
+	{	
+		getDrawableList();
 		gallery.setAdapter(new ImageAdapter(context));
 	}
+	
+	
 	
 	
 	
