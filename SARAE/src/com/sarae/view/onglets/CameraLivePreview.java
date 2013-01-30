@@ -37,7 +37,26 @@ public final class CameraLivePreview extends SurfaceView
     private Context myContext;
     private Activity myActivity;
 	private int id_bat;
+	ViewPhoto myVp;
     
+	 public CameraLivePreview(Context context, Activity activity, int idbat, ViewPhoto vp) {
+	        super(context);
+	        myContext=context;
+	        myActivity = activity;
+			id_bat=idbat;
+			myVp=vp;
+	        init();
+	        setOnTouchListener(new OnTouchListener() {
+				
+				public boolean onTouch(View v, MotionEvent event) {
+					camera.takePicture(shutterCallback, rawCallback, jpegCallback);
+					return false;
+				}
+			});
+	       
+	    }
+
+
 
     /**
      * Retrieve raw picture data after shooting
@@ -58,7 +77,7 @@ public final class CameraLivePreview extends SurfaceView
         public void onPictureTaken(byte[] data, Camera c) {
             // start the camera preview
             camera.startPreview();
-            File pictureFileDir = getDir();
+            File pictureFileDir = myActivity.getDir("Photo",Activity.MODE_PRIVATE);
 
             if (!pictureFileDir.exists() && !pictureFileDir.mkdirs()) {
 
@@ -89,12 +108,9 @@ public final class CameraLivePreview extends SurfaceView
               Toast.makeText(myContext, "Image could not be saved.",
                   Toast.LENGTH_LONG).show();
             }
+            	myVp.update();
           }
 
-          private File getDir() {
-            File sdDir = myActivity.getDir("Photo",Activity.MODE_PRIVATE);
-            return new File(sdDir, "CameraAPIDemo");
-          }
         
     };
     
@@ -135,32 +151,7 @@ public final class CameraLivePreview extends SurfaceView
         }
     };
 
-    public CameraLivePreview(Context context, Activity activity, int idbat) {
-        super(context);
-        myContext=context;
-        myActivity = activity;
-		id_bat=idbat;
-        init();
-        setOnTouchListener(new OnTouchListener() {
-			
-			public boolean onTouch(View v, MotionEvent event) {
-				camera.takePicture(shutterCallback, rawCallback, jpegCallback);
-				return false;
-			}
-		});
-       
-    }
 
-    public CameraLivePreview(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
-    public CameraLivePreview(Context context, AttributeSet attrs, 
-            int defStyle) {
-        super(context, attrs, defStyle);
-        init();
-    }
     
     private void init() {
         holder = getHolder();
@@ -185,15 +176,19 @@ public final class CameraLivePreview extends SurfaceView
     public void surfaceDestroyed(SurfaceHolder holder) {
         // surface destroyed
         // we must tell the camera to stop it preview
-        camera.stopPreview();
-        camera.release();
-        camera = null;
+        //camera.stopPreview();
+        //camera.release();
+        //camera = null;
     }
+    
+    
 
     public void surfaceChanged(SurfaceHolder holder, 
             int format, int w, int h) {
         // we get the surface dimensions
         // we can configure the preview
+    if(camera!=null)
+    	{   
         Camera.Parameters parameters = camera.getParameters();
 
         List<Size> sizes = parameters.getSupportedPreviewSizes();
@@ -205,6 +200,7 @@ public final class CameraLivePreview extends SurfaceView
         // let render
         camera.startPreview();
         camera.setPreviewCallback(frameCallback);
+    	}
     }
 
     private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
@@ -253,12 +249,6 @@ public final class CameraLivePreview extends SurfaceView
         // 1 - auto focus
         // 2 - take the picture in the auto focus callback
         camera.autoFocus(autoFocusCallback);
-    }
-    
-    public void addtoLayout(LinearLayout layout)
-    {
-    	layout.removeAllViews();
-    	layout.addView(this);
     }
 
 }
