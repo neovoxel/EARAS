@@ -6,11 +6,15 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
+import android.net.wifi.p2p.WifiP2pManager.ActionListener;
+import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -37,6 +41,8 @@ public final class CameraLivePreview extends SurfaceView
     private Context myContext;
     private Activity myActivity;
 	private int id_bat;
+	private boolean canTake=true;
+	private CountDownTimer timer;
 	ViewPhoto myVp;
     
 	 public CameraLivePreview(Context context, Activity activity, int idbat, ViewPhoto vp) {
@@ -49,7 +55,29 @@ public final class CameraLivePreview extends SurfaceView
 	        setOnTouchListener(new OnTouchListener() {
 				
 				public boolean onTouch(View v, MotionEvent event) {
-					camera.takePicture(shutterCallback, rawCallback, jpegCallback);
+					if (canTake)
+		        	{
+		        	timer= new CountDownTimer(3000,1000) {
+		    			
+		    			@Override
+		    			public void onTick(long millisUntilFinished) {
+		    				// TODO Auto-generated method stub
+		    				
+		    			}
+		    			
+		    			@Override
+		    			public void onFinish() {
+		    				canTake=true;
+		                	
+		    				
+		    			}
+		    			
+		    		}.start();
+		    		canTake=false;
+		    		camera.takePicture(shutterCallback, rawCallback, jpegCallback);
+		    		
+		        	}
+					
 					return false;
 				}
 			});
@@ -75,6 +103,7 @@ public final class CameraLivePreview extends SurfaceView
     private Camera.PictureCallback jpegCallback = 
             new Camera.PictureCallback() {
         public void onPictureTaken(byte[] data, Camera c) {
+        	
             // start the camera preview
             camera.startPreview();
             File pictureFileDir = myActivity.getDir("Photo",Activity.MODE_PRIVATE);
@@ -109,7 +138,9 @@ public final class CameraLivePreview extends SurfaceView
                   Toast.LENGTH_LONG).show();
             }
             	myVp.update();
+
           }
+        	
 
         
     };
@@ -147,7 +178,9 @@ public final class CameraLivePreview extends SurfaceView
             // handle focus done
             // you can choose to take a picture
             // after auto focus is completed
-            camera.takePicture(shutterCallback, rawCallback, jpegCallback);
+        	
+    		camera.takePicture(shutterCallback, rawCallback, jpegCallback);
+            
         }
     };
 
@@ -176,9 +209,11 @@ public final class CameraLivePreview extends SurfaceView
     public void surfaceDestroyed(SurfaceHolder holder) {
         // surface destroyed
         // we must tell the camera to stop it preview
-        //camera.stopPreview();
-        //camera.release();
-        //camera = null;
+        this.getHolder().removeCallback(this);
+    	camera.stopPreview();
+        camera.setPreviewCallback(null);
+        camera.release();
+        camera = null;
     }
     
     
@@ -187,8 +222,7 @@ public final class CameraLivePreview extends SurfaceView
             int format, int w, int h) {
         // we get the surface dimensions
         // we can configure the preview
-    if(camera!=null)
-    	{   
+    
         Camera.Parameters parameters = camera.getParameters();
 
         List<Size> sizes = parameters.getSupportedPreviewSizes();
@@ -200,7 +234,7 @@ public final class CameraLivePreview extends SurfaceView
         // let render
         camera.startPreview();
         camera.setPreviewCallback(frameCallback);
-    	}
+    	
     }
 
     private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
@@ -248,7 +282,8 @@ public final class CameraLivePreview extends SurfaceView
         // take a photo :
         // 1 - auto focus
         // 2 - take the picture in the auto focus callback
-        camera.autoFocus(autoFocusCallback);
+    	camera.autoFocus(autoFocusCallback);
     }
+   
 
 }

@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 import android.view.View;
@@ -32,6 +33,7 @@ public class ViewPhoto{
 	private Activity myActivity;
 	private Context context;
 	private ArrayList<Bitmap> bitmap;
+	private ArrayList<String> imagePath;
 	public ViewPhoto(Context _context,AttributeSet attrs,Activity act, int id) {
 		context = _context;
 		id_bat= id;
@@ -62,7 +64,7 @@ public class ViewPhoto{
 					
 					public void onClick(DialogInterface dialog, int which) {
 						
-						DataManager.DeleteFile(myfile.getAbsolutePath()+File.separator+fichier[nb]);
+						DataManager.DeleteFile(imagePath.get(nb));
 						update();
 						Toast.makeText(context, "Photo supprimée", Toast.LENGTH_SHORT).show();
 						
@@ -135,6 +137,7 @@ public class ViewPhoto{
 	private void getDrawableList(){
 		
 		bitmap = new ArrayList<Bitmap>();
+		imagePath = new ArrayList<String>();
 		File myfile = myActivity.getDir("Photo",Activity.MODE_PRIVATE);
 		String[] fichier = myfile.list();
 		for (int i=0; i<fichier.length;i++)
@@ -150,6 +153,8 @@ public class ViewPhoto{
 			if(Integer.parseInt(tmp) == id_bat)
 			{
 			bitmap.add(BitmapLoader.loadBitmap(path, 200, 120));
+			imagePath.add(path);
+			
 			}
 		}
 			
