@@ -32,19 +32,19 @@ public class Etare3D {
 		
 		int i = 0;
 		tabPoints[i++] = x;
-		tabPoints[i++] = y;
+		tabPoints[i++] = y+0.01f;
 		tabPoints[i++] = z;
 		
 		tabPoints[i++] = x-l; 
-		tabPoints[i++] = y;
+		tabPoints[i++] = y+0.01f;
 		tabPoints[i++] = z;
 		
 		tabPoints[i++] = x-l;
-		tabPoints[i++] = y+l;
+		tabPoints[i++] = y+l-0.01f;
 		tabPoints[i++] = z;
 		
 		tabPoints[i++] = x;
-		tabPoints[i++] = y+l;
+		tabPoints[i++] = y+l-0.01f;
 		tabPoints[i++] = z;
 		
 		ByteBuffer vbb = ByteBuffer.allocateDirect(tabPoints.length * 4);	// float has 4 bytes
@@ -78,12 +78,16 @@ public class Etare3D {
 	}
 	
 	public void draw(GL10 gl) {
-		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+		//gl.glPushMatrix();
+		
+		//gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
 		gl.glColor4f(1.f, 0.f, 0.f, 1.f);
 		
 		gl.glDrawElements(GL10.GL_TRIANGLES, surfaceIndexes.length, GL10.GL_UNSIGNED_SHORT, indexBufferSurfaces);
 		
-	    gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+	    //gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+	    
+	    //gl.glPopMatrix();
 	}
 }

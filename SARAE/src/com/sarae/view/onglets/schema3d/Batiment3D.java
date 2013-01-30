@@ -62,12 +62,19 @@ public class Batiment3D {
 		    //gl.glDrawElements(GL10.GL_TRIANGLES, surfacesIndexesToit.length, GL10.GL_UNSIGNED_SHORT, indexBufferSurfacesToit);
 	    //}
 	    
+		//for (int i = 0 ; i < batiment.getNbNiveaux() ; ++i)
+			//codeEtares[i].draw(gl);
+		
 	    gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-	    
-	    //etare.draw(gl);
-	    
-	    for (int i = 0 ; i < batiment.getNbNiveaux() ; ++i)
+	}
+	
+	public void drawEtares(GL10 gl) {
+		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+		
+		for (int i = 0 ; i < batiment.getNbNiveaux() ; ++i)
 			codeEtares[i].draw(gl);
+		
+		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 	}
 	
 	private void generateLines() {
@@ -198,7 +205,7 @@ public class Batiment3D {
 				//etare.generate(-x, y, -z, 1.f-y);
 			if (i < batiment.getNbNiveaux()) {
 				codeEtares[i] = new Etare3D(null);
-				codeEtares[i].generate(x, y, z, 1.f-y);
+				codeEtares[i].generate(-(x+0.02f), y, -z, hauteurEtage);
 			}
 		}
 		
