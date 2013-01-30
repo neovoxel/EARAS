@@ -11,6 +11,8 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -24,49 +26,42 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Gallery;
+import android.widget.Gallery.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class ViewPhoto{
 	private SurfaceView  camera;
-	private Gallery gallery;
+
+	private ListView gallery;
 	private int id_bat=0;
 	private Activity myActivity;
 	private Context context;
-	private ArrayList<Drawable> drawables;
+	private ArrayList<Bitmap> bitmap;
 	public ViewPhoto(Context _context,AttributeSet attrs,Activity act, int id) {
 		context = _context;
 		id_bat= id;
 		myActivity=act;
 		
-		LinearLayout.LayoutParams layoutPhotoView = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 0.1f);
-		LinearLayout.LayoutParams layoutParambutton = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f - 0.1f);
+		LinearLayout.LayoutParams layoutPhotoView = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 0.20f);
+		LinearLayout.LayoutParams layoutParambutton = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f - 0.20f);
 		
-		camera = new CameraLivePreview(context,myActivity,id_bat);
+		camera = new CameraLivePreview(context,myActivity,id_bat,this);
 		camera.setLayoutParams(layoutPhotoView);
 		
+		
 		getDrawableList();
-		gallery=new Gallery(context);
+		gallery=new ListView(context);
 		gallery.setLayoutParams(layoutParambutton);
 		gallery.setAdapter(new ImageAdapter(context));
-		gallery.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			public void onItemSelected(AdapterView<?> parent, View v,
-					int position, long id) {
-				
-				
-			}
-
-			public void onNothingSelected(AdapterView<?> parent) {
-
-			}
-
-
-		});
+		
 		
 		
 	}	
+	
+
 	
 	public class ImageAdapter extends BaseAdapter {
 		/** The parent context */
@@ -82,7 +77,7 @@ public class ViewPhoto{
 		// inherited abstract methods - must be implemented
 		// Returns count of images, and individual IDs
 		public int getCount() {
-			return drawables.size();
+			return bitmap.size();
 		}
 
 		public Object getItem(int position) {
@@ -94,24 +89,11 @@ public class ViewPhoto{
 		}
 		// Returns a new ImageView to be displayed,
 		public View getView(int position, View convertView, 
-				ViewGroup parent) {
-
-			// Get a View to display image data 					
+				ViewGroup parent) {					
 			ImageView iv = new ImageView(this.myContext);
-			iv.setImageDrawable(drawables.get(position));
-
-			// Image should be scaled somehow
-			//iv.setScaleType(ImageView.ScaleType.CENTER);
-			//iv.setScaleType(ImageView.ScaleType.CENTER_CROP);			
-			//iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-			//iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
-			iv.setScaleType(ImageView.ScaleType.FIT_XY);
-			//iv.setScaleType(ImageView.ScaleType.FIT_END);
+			iv.setImageBitmap(bitmap.get(position));
+			iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 			
-			// Set the Width & Height of the individual images
-			iv.setLayoutParams(new Gallery.LayoutParams(95, 70));
-			
-
 			return iv;
 		}
 	}// ImageAdapter
@@ -119,22 +101,34 @@ public class ViewPhoto{
 	public void addtoLayout(LinearLayout layout)
 	{
 		layout.removeAllViews();
-		layout.setOrientation(LinearLayout.VERTICAL);
+		layout.setOrientation(LinearLayout.HORIZONTAL);
 		layout.addView(camera);
-		//layout.addView(gallery);
+		layout.addView(gallery);
 	}
 	
 	private void getDrawableList(){
 		
-		drawables = new ArrayList<Drawable>();
+		bitmap = new ArrayList<Bitmap>();
 		File myfile = myActivity.getDir("Photo",Activity.MODE_PRIVATE);
 		String[] fichier = myfile.list();
 		for (int i=0; i<fichier.length;i++)
 		{
-			drawables.add(Drawable.createFromPath(fichier[i]));
+			String path=myfile.getAbsolutePath() + File.separator+ fichier[i];
+			bitmap.add(BitmapLoader.loadBitmap(path, 200, 120));
+			System.out.println(myfile.getAbsolutePath() + File.separator+ fichier[i]);
 		}
-		Toast.makeText(context, fichier[0], Toast.LENGTH_LONG).show();
 			
+	}
+	
+	public void update()
+	{
+
+		
+		File myfile = myActivity.getDir("Photo",Activity.MODE_PRIVATE);
+		String[] fichier = myfile.list();
+		String path=myfile.getAbsolutePath() + File.separator+ fichier[fichier.length-1];
+		bitmap.add(BitmapLoader.loadBitmap(path, 200, 120));
+		gallery.setAdapter(new ImageAdapter(context));
 	}
 	
 	
