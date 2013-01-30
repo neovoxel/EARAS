@@ -40,7 +40,7 @@ public class ActivityOnglets extends Activity {
 		info = new InfoChoix(this, null, id_bat, this);
 		rapport = new RedigerRapport(this, null, this, id_bat);
 		camera = null;
-		afps = new FicheAFPS(this);
+		afps = new FicheAFPS(this, id_bat);
 		
 		info.addToLayout(myLayout);
 		
