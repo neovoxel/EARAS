@@ -19,7 +19,8 @@ public class Batiment3D {
 	private ShortBuffer[] indexBuffer;
 	private ShortBuffer indexBufferToit;
 	
-	private Etare3D etare;
+	//private Etare3D etare;
+	private Etare3D[] codeEtares;
 	
 	//private short[] surfaceIndexes;
 	//private short[] surfacesIndexesToit;
@@ -29,7 +30,9 @@ public class Batiment3D {
 	public Batiment3D(Batiment bat) {
 		batiment = bat;
 		
-		etare = new Etare3D(null);
+		//etare = new Etare3D(null);
+		
+		codeEtares = new Etare3D[batiment.getNbNiveaux()];
 		
 		lineIndexes = new short[batiment.getNbNiveaux()][];
 		indexBuffer = new ShortBuffer[batiment.getNbNiveaux()];
@@ -61,7 +64,10 @@ public class Batiment3D {
 	    
 	    gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 	    
-	    etare.draw(gl);
+	    //etare.draw(gl);
+	    
+	    for (int i = 0 ; i < batiment.getNbNiveaux() ; ++i)
+			codeEtares[i].draw(gl);
 	}
 	
 	private void generateLines() {
@@ -188,8 +194,12 @@ public class Batiment3D {
 			tabPoints[k + j++] = y;	// 3
 			tabPoints[k + j++] = z;
 			
-			if (i == batiment.getNbNiveaux()-1)
-				etare.generate(-x, y, -z, 1.f-y);
+			//if (i == batiment.getNbNiveaux()-1)
+				//etare.generate(-x, y, -z, 1.f-y);
+			if (i < batiment.getNbNiveaux()) {
+				codeEtares[i] = new Etare3D(null);
+				codeEtares[i].generate(x, y, z, 1.f-y);
+			}
 		}
 		
 		if (batiment.typePenteToit == "Pt") {
