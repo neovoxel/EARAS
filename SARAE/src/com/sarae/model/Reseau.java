@@ -19,6 +19,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.NetworkOnMainThreadException;
+import android.util.Log;
 import android.widget.ImageView;
 
 
@@ -58,13 +59,16 @@ public class Reseau{
 		 try {
 			sRecup = new Socket(host, port);	// J'écris un commentaire lol - Pierre
 		 } catch (UnknownHostException e) {
-			 System.out.println("Marche po");
+			 System.out.println(" 1 Marche po");
+			 Log.e("1", "erreur host",e);
 			return connected=false;
 		 } catch (IOException e) {
-			 System.out.println("Marche po");
+			 System.out.println(" 2 Marche po");
+			 Log.e("2", "erreur IOException",e);
 			return connected=false;
 		 } catch (NetworkOnMainThreadException e) {
-			 System.out.println("Marche po");
+			 System.out.println(" 3 Marche po");
+			 Log.e("3", "erreur Thread",e);
 			 return connected=false;
 		 }
 		 return connected=true;
@@ -87,7 +91,7 @@ public class Reseau{
 		new Thread(new Runnable() {
 			 
 			public void run() {
-				setConnexion("192.168.7.1", 7863);
+				setConnexion("192.168.7.1", 80);
 				
 				if(connexion())
 				{
@@ -100,9 +104,10 @@ public class Reseau{
 					}
 					catch (IOException e) { }
 				}
+				
 
 			}}).start();
-		return false;
+		return true;
 			
 	}
 	
