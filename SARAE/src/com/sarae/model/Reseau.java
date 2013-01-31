@@ -100,7 +100,7 @@ public class Reseau{
 					try {
 						//sRecup.getOutputStream().write(buffer, 0, buffer.length);
 						PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(sRecup.getOutputStream())),true);
-			            out.println(tmp);
+			            out.println(tmp); 
 					}
 					catch (IOException e) { }
 				}
