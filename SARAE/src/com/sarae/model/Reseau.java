@@ -103,7 +103,6 @@ public class Reseau{
 	}
 	
 	public static boolean chargerDonnees(Context context) {
-		
 		Batiment batbat = new Batiment();
 		Batiment.Niveau nivniv = batbat.new Niveau();
 		

@@ -21,7 +21,7 @@ public class VortexRenderer implements GLSurfaceView.Renderer {
 	}
 	
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		
+		myBat.loadTextures(gl);
 	}
 	
 	public void onSurfaceChanged(GL10 gl, int w, int h) {
@@ -54,9 +54,15 @@ public class VortexRenderer implements GLSurfaceView.Renderer {
 	    
 	    gl.glTranslatef(0f, -0.25f, 0f);
 	    
-	    myBat.drawEtares(gl);
+	    
 	    
 	    gl.glRotatef(_angle, 0f, 1f, 0f);
+	    
+	    gl.glEnable(GL10.GL_TEXTURE_2D);
+	    
+	    myBat.drawEtares(gl);
+	    
+	    gl.glDisable(GL10.GL_TEXTURE_2D);
 	    
 	    myBat.draw(gl);
 	    
@@ -71,7 +77,8 @@ public class VortexRenderer implements GLSurfaceView.Renderer {
         				0f, 1.0f, 0.0f);	// up
         
         //gl.glDisable(GL10.GL_CULL_FACE);
-        //gl.glDisable(GL10.GL_BLEND); 
+        //gl.glDisable(GL10.GL_BLEND);
+        
 	}
 	
 	public void setAngle(float angle) {

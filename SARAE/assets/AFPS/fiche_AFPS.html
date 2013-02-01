@@ -14,13 +14,13 @@
 			<div id="titre">
 				<img src="./AFPS.png" border="0">
 				<span class="titre">DIAGNOSTIC POST-SISMIQUE D'URGENCE</span> <br>
-				FICHE D'EVALUATION RAPIDE DU NIVEAU DE SECURITE <span class="version">v9.01-ch</span>
+				FICHE D'EVALUATION RAPIDE DU NIVEAU DE SECURITE <span class="version">ver M 1.1</span>
 			</div>
 			<div id="permission">SEULS LES INPECTEURS AGREES PAR L'AFPS SONT HABILITES A UTILISER CETTE FICHE</div><br>
 			<div id="legende">(L : localisé - G : généralisé - C : certitude - E : évaluation - T : témoignage - N : ne sais pas )</div>
 			
 			<div id="information">
-				<label>Inspecteur n°</label><input type="text" name="inspecteur" id="inspecteur" value="" size="8"><br>
+				<label>Unité d'inspection n°</label><input type="text" name="unite_inspection" id="unite_inspection" value="" size="8"><br>
 				<label>Date inspection</label><input type="text" id="date_inspection" name="date_inspection" value="" size="8" disabled><br>
 				<label>Heure inspection</label><input type="text" id="heure_inspection" name="heure_inspection" value=""  size="8" disabled><br>
 				<hr>	
@@ -116,12 +116,12 @@
 					<label>T</label><input name="group9" id="T8" type="radio">
 					<label>N</label><input name="group9" id="N8" type="radio"></div><br>
 					<!-- NIVEAU D'INSPECTION -->
-					<br><span class="nb_niveau">NIVEAU D'INSPECTION</span><br>
+					<br><span class="nb_niveau">CHAMP DE L'INSPECTION</span><br>
 					<label>Vu toutes les façades extérieures</label><div class="yes">OUI<input name="yes1" value="oui1" id="oui1" type="radio">NON<input name="yes1" value="non1" id="non1" type="radio"></div><br>
 					<label>Vu tous les niveaux intérieurs</label><div class="yes">OUI<input name="yes2" value="oui2" id="oui2" type="radio">NON<input name="yes2" value="non2" id="non2" type="radio"></div>
 					<!-- DEROULEMENT DE LA VISITE -->
 					<br><span class="nb_niveau">DEROULEMENT DE LA VISITE</span><br>
-					<label>Visite à la demande de</label><div class="yes">Préf / DDE<input name="groupeVisite" value="Pref/DDE" id="Pref/DDE" type="radio">Maire<input name="groupeVisite" value="maire" id="maire" type="radio">Autre<input name="groupeVisite" value="autre" id="autre" type="radio"></div>
+					<label>Visite à la demande de</label><div class="yes">Préf / DDE<input name="groupeVisite" value="Pref/DDE" id="Pref/DDE" type="radio">Maire<input name="groupeVisite" value="maire" id="maire" type="radio">Autre<input name="groupeVisite" value="autre0" id="autre0" type="radio"></div>
 				
 					<br><label>Visite accompagné de : </label><br>
 					<span id="nbre"><i>Nom</i></span><input name="visite_name" id="visite_name" type="text"><br>
@@ -140,7 +140,7 @@
 					<textarea name="classement_comment" id="classement_comment" cols="62" rows="2" style="resize: none;"></textarea><br>
 					
 					<!-- COULEUR -->
-					<br><label>Couleur : </label><div class="yes"><span class="green"> V : Vert </span> | <span class="yellow"> J : Jaune </span> | <span class="red"> R : Rouge </span></div>
+					<br><label>Couleur : </label><span class="green"> V : Vert </span> | <span class="yellow"> J : Jaune </span> | <span class="red"> R : Rouge </span><br>
 					
 					<!-- EVALUATION DES DOMMAGES ET DECISION -->
 					<br><span class="nb_niveau">EVALUATION DES DOMMAGES ET DECISION</span><br>
@@ -162,16 +162,18 @@
 						</tr>
 					</table>
 					
-					<br><label>L'INSPECTEUR DEMANDE UN AUTRE AVIS</label><div class="yes">OUI</span><input name="yes5" value="oui5" id="oui5" type="radio">NON<input name="yes5" value="non5" id="non5" type="radio"></div><br>
+					<br><label>L'UNITE D'INSPECTION DEMANDE UN AUTRE AVIS</label><div class="yes">OUI</span><input name="yes5" value="oui5" id="oui5" type="radio">NON<input name="yes5" value="non5" id="non5" type="radio"></div><br>
 					
-					<fieldset>
-						<label><b>CONDITIONS DE TRANSMISSION AU COD</b></label><br>
-						Par l'inspecteur lui-même <input type="radio" name="transmission" value="COD_inspecteur" id="COD_inspecteur"> Confié à membre AFPS <input type="radio" name="transmission" value="COD_AFPS" id="COD_AFPS"><br>
-						Moyen de transmission : e <input type="checkbox" name="COD_T_e" id="COD_T_e"> fax <input type="checkbox" name="COD_T_fax" id="COD_T_fax"> sms <input type="checkbox" name="COD_T_sms" id="COD_T_sms"> voc <input type="checkbox" name="COD_T_voc" id="COD_T_voc"><br>
-						Confié à des tiers : PC Communal <input type="checkbox" name="COD_PC_Communal" id="COD_PC_Communal"> CCC <input type="text" name="COD_CCC" id="COD_CCC" size="4"> Gendarmerie <input type="checkbox" name="COD_gendarmerie" id="COD_gendarmerie">
-					</fieldset>
+					<span class="nb_niveau">NOM DES INSPECTEURS DE L'UNITE</span><br>
+					<label><u>Inspecteur n°1</u> : </label><br>
+					<span id="nbre"><i>Nom</i></span><input name="nom_inspecteur1" id="nom_inspecteur1" type="text"><br>
+					<span id="nbre"><i>Prénom</i></span><input name="prenom_inspecteur1" id="prenom_inspecteur1" type="text"><br>
+					<label><u>Inspecteur n°2</u> : </label><br>
+					<span id="nbre"><i>Nom</i></span><input name="nom_inspecteur2" id="nom_inspecteur2" type="text"><br>
+					<span id="nbre"><i>Prénom</i></span><input name="prenom_inspecteur2" id="prenom_inspecteur2" type="text"><br>
 							
 					<div id="numpage"><cite>page 1/2</cite></div>
+					<hr/>
 					<div id="divbutton"><button id="button" onclick="document.getElementById('page1').style.display = 'none'; document.getElementById('page2').style.display = 'block'; document.location = '#page2';" type="button" name="next" style="padding:5px; width: 300px; font: 18px Times New Roman;">Page Suivante</button></div>
 				</form>
 				
@@ -190,7 +192,7 @@
 				<div id="titre">
 					<img src="./AFPS.png" border="0">
 					<span class="titre">DIAGNOSTIC POST-SISMIQUE D'URGENCE</span> <br>
-					FICHE D'EVALUATION RAPIDE DU NIVEAU DE SECURITE <span class="version">v9.01-ch</span>
+					FICHE D'EVALUATION RAPIDE DU NIVEAU DE SECURITE <span class="version">ver M 1.1</span>
 				</div>
 				<div id="permission">SEULS LES INPECTEURS AGREES PAR L'AFPS SONT HABILITES A UTILISER CETTE FICHE</div><br>
 				<div id="legende" style="text-align:center;">(L : localisé - G : généralisé - C : certitude - E : évaluation - T : témoignage - N : ne sais pas )</div>
@@ -201,10 +203,10 @@
 					<div id="tabfixed">
 						<table style="border:1px solid black">
 							<tr>
-								<td colspan="1" rowspan="2" style="width:100px;">Nuls à<br>Légers<br>D(1)<br><br><span class="green">Vert</span></td>
-								<td colspan="1" rowspan="2" style="width:100px;">Modérés<br><br>(D2 - D3)<br><br><span class="yellow">Jaune</span></td>
-								<td colspan="1" rowspan="2" style="width:100px;">Importants<br><br>(D4 - D5)<br><br><span class="red">Rouge</span></td>
-								<td colspan="2" rowspan="1" style="width:100px;">Etendu</td>
+								<td colspan="1" rowspan="2" style="width:100px;">Nuls à<br>Légers<br><br><span class="green">Vert</span></td>
+								<td colspan="1" rowspan="2" style="width:100px;">Modérés<br><br><br><span class="yellow">Jaune</span></td>
+								<td colspan="1" rowspan="2" style="width:100px;">Importants<br><br><br><span class="red">Rouge</span></td>
+								<td colspan="2" rowspan="1" style="width:100px;">Etendue</td>
 								<td colspan="4" rowspan="1" style="width:200px;">Indice de<br>confiance</td>
 							</tr>
 							<tr>
@@ -221,7 +223,7 @@
 					
 					<table style="border:1px solid black">
 						<tr>
-							<td id='main_td'><b>A - Sol : </b><br>Dégradation du terrain (glissement, affaiblissement)</td>
+							<td id='main_td'><b>A - Sites et Sol : </b><br>Sol de fondation</td>
 							<td style="width:100px"><input value="A1_Vert" id="A1_Vert" name="A1" type="radio"></td>
 							<td style="width:100px"><input value="A1_Jaune" id="A1_Jaune" name="A1" type="radio"></td>
 							<td style="width:100px"><input value="A1_Rouge" id="A1_Rouge" name="A1" type="radio"></td>
@@ -236,7 +238,7 @@
 						</tr>
 						
 						<tr>
-							<td id='main_td'>Dégats préexistants</td>
+							<td id='main_td'>Site environnant (glissement, affaissement)</td>
 							<td style="width:100px"><input value="A2_Vert" id="A2_Vert" name="A2" type="radio"></td>
 							<td style="width:100px"><input value="A2_Jaune" id="A2_Jaune" name="A2" type="radio"></td>
 							<td style="width:100px"><input value="A2_Rouge" id="A2_Rouge" name="A2" type="radio"></td>
@@ -248,6 +250,21 @@
 							<td style="width:46px;"><input value="A_E2" id="A_E2"name="A_Indice2" type="radio"></td>
 							<td style="width:46px;"><input value="A_T2" id="A_T2" name="A_Indice2" type="radio"></td>
 							<td style="width:45px;"><input value="A_N2" id="A_N2" name="A_Indice2" type="radio"></td>
+						</tr>
+
+						<tr>
+							<td id='main_td'>Dégâts préexistants</td>
+							<td style="width:100px"><input value="A2*_Vert" id="A2*_Vert" name="A2*" type="radio"></td>
+							<td style="width:100px"><input value="A2*_Jaune" id="A2*_Jaune" name="A2*" type="radio"></td>
+							<td style="width:100px"><input value="A2*_Rouge" id="A2*_Rouge" name="A2*" type="radio"></td>
+							
+							<td style="width:46px;"><input value="A*_L2" id="A*_L2" name="A*_Etendu2" type="radio"></td>
+							<td style="width:46px;"><input value="A*_G2" id="A*_G2" name="A*_Etendu2" type="radio"></td>
+							
+							<td style="width:46px;"><input value="A*_C2" id="A*_C2" name="A*_Indice2" type="radio"></td>
+							<td style="width:46px;"><input value="A*_E2" id="A*_E2"name="A*_Indice2" type="radio"></td>
+							<td style="width:46px;"><input value="A*_T2" id="A*_T2" name="A*_Indice2" type="radio"></td>
+							<td style="width:45px;"><input value="A*_N2" id="A*_N2" name="A*_Indice2" type="radio"></td>
 						</tr>
 						
 						<tr>
@@ -271,7 +288,7 @@
 					
 					<table style="border:1px solid black">
 						<tr>
-							<td id='main_td'><b>B - Environnement extérieur : </b><br>Construction voisine menaçante</td>
+							<td id='main_td'><b>B - Eléments avoisinants : </b><br>Ouvrages voisins menaçants</td>
 							<td style="width:100px"><input value="B1_Vert" id="B1_Vert" name="B1" type="radio"></td>
 							<td style="width:100px"><input value="B1_Jaune" id="B1_Jaune" name="B1" type="radio"></td>
 							<td style="width:100px"><input value="B1_Rouge" id="B1_Rouge" name="B1" type="radio"></td>
@@ -284,9 +301,24 @@
 							<td style="width:46px;"><input value="B_T1" id="B_T1" name="B_Indice1" type="radio"></td>
 							<td style="width:45px;"><input value="B_N1" id="B_N1" name="B_Indice1" type="radio"></td>
 						</tr>
+
+						<tr>
+							<td id='main_td'>Chutes d'éléments provenant d'autres bâtiments</td>
+							<td style="width:100px"><input value="B2*_Vert" id="B2*_Vert" name="B2*" type="radio"></td>
+							<td style="width:100px"><input value="B2*_Jaune" id="B2*_Jaune" name="B2*" type="radio"></td>
+							<td style="width:100px"><input value="B2*_Rouge" id="B2*_Rouge" name="B2*" type="radio"></td>
+							
+							<td style="width:46px;"><input value="B*_L2" id="B*_L2" name="B*_Etendu2" type="radio"></td>
+							<td style="width:46px;"><input value="B*_G2" id="B*_G2" name="B*_Etendu2" type="radio"></td>
+							
+							<td style="width:46px;"><input value="B*_C2" id="B*_C2" name="B*_Indice2" type="radio"></td>
+							<td style="width:46px;"><input value="B*_E2" id="B*_E2" name="B*_Indice2" type="radio"></td>
+							<td style="width:46px;"><input value="B*_T2" id="B*_T2" name="B*_Indice2" type="radio"></td>
+							<td style="width:45px;"><input value="B*_N2" id="B*_N2" name="B*_Indice2" type="radio"></td>
+						</tr>
 						
 						<tr>
-							<td id='main_td'>Autres : (à préciser)</td>
+							<td id='main_td'>Autre : (à préciser)</td>
 							<td style="width:100px"><input value="B2_Vert" id="B2_Vert" name="B2" type="radio"></td>
 							<td style="width:100px"><input value="B2_Jaune" id="B2_Jaune" name="B2" type="radio"></td>
 							<td style="width:100px"><input value="B2_Rouge" id="B2_Rouge" name="B2" type="radio"></td>
@@ -328,7 +360,13 @@
 					<table style="border:1px solid black;">
 						<tr>
 							<td id='main_td' style="text-align:left;"><center><b>C - Eléments structuraux : </b><br><i>Structure verticale</i></center>
-								<input value="Mur1" name="Mur1" id="Mur1" type="checkbox" class="checkbox"><label class="check">Mur en maçonneries : </label><input value="chaine1" id="chaine1" name="chaine" type="radio">Non chaînées
+								<input value="Mur1" name="Mur1" id="Mur1" type="checkbox" class="checkbox"><label class="check">Mur en maçonneries : </label><br>
+								<input value="chaine1" id="chaine1" name="chaine" type="radio">Non chaînées
+								<input value="chaine2" id="chaine2" name="chaine" type="radio">Chaînées
+								<input value="chaine3" id="chaine3" name="chaine" type="radio">Chaînage inconnu<br>
+								<input value="chaine4" id="chaine4" name="chaine" type="radio" style="margin-left:73px;">Harpées
+								<input value="chaine5" id="chaine5" name="chaine" type="radio">Armées
+								<input value="chaine6" id="chaine6" name="chaine" type="radio">Autres : ...
 							</td>
 							<td style="width:100px"><input value="C1_Vert" id="C1_Vert" name="C1" type="radio"></td>
 							<td style="width:100px"><input value="C1_Jaune" id= "C1_Jaune" name="C1" type="radio"></td>
@@ -341,40 +379,6 @@
 							<td style="width:46px;"><input value="C_E1" id="C_E1" name="C_Indice1" type="radio"></td>
 							<td style="width:46px;"><input value="C_T1" id="C_T1" name="C_Indice1" type="radio"></td>
 							<td style="width:45px;"><input value="C_N1" id="C_N1" name="C_Indice1" type="radio"></td>
-						</tr>
-						
-						<tr>
-							<td id='main_td' style="text-align:left;">
-								<input value="Mur2" id="Mur2" name="Mur2" type="checkbox" class="checkbox"><label class="check">Mur en pierres : </label><input value="chaine2" id="chaine2" name="chaine" type="radio">Chaînées
-							</td>
-							<td style="width:100px"><input value="C2_Vert" id="C2_Vert" name="C2" type="radio"></td>
-							<td style="width:100px"><input value="C2_Jaune" id="C2_Jaune" name="C2" type="radio"></td>
-							<td style="width:100px"><input value="C2_Rouge" id="C2_Rouge" name="C2" type="radio"></td>
-							
-							<td style="width:46px;"><input value="C_L2" id="C_L2" name="C_Etendu2" type="radio"></td>
-							<td style="width:46px;"><input value="C_G2" id="C_L2" name="C_Etendu2" type="radio"></td>
-							
-							<td style="width:46px;"><input value="C_C2" id="C_C2" name="C_Indice2" type="radio"></td>
-							<td style="width:46px;"><input value="C_E2" id="C_E2" name="C_Indice2" type="radio"></td>
-							<td style="width:46px;"><input value="C_T2" id="C_T2" name="C_Indice2" type="radio"></td>
-							<td style="width:45px;"><input value="C_N2" id="C_N2" name="C_Indice2" type="radio"></td>
-						</tr>
-						
-						<tr>
-							<td id='main_td'>
-								<label style="float:left; width:250px;"></label><input value="chaine3" id="chaine3" name="chaine" type="radio" style="margin-left:204px">Chaînage inconnu
-							</td>
-							<td style="width:100px"><input value="C3_Vert" id="C3_Vert" name="C3" type="radio"></td>
-							<td style="width:100px"><input value="C3_Jaune" id="C3_Jaune" name="C3" type="radio"></td>
-							<td style="width:100px"><input value="C3_Rouge" id="C3_Rouge" name="C3" type="radio"></td>
-						
-							<td style="width:46px;"><input value="C_L3" id="C_L3" name="C_Etendu3" type="radio"></td>
-							<td style="width:46px;"><input value="C_G3" id="C_G3" name="C_Etendu3" type="radio"></td>
-						
-							<td style="width:46px;"><input value="C_C3" id="C_C3" name="C_Indice3" type="radio"></td>
-							<td style="width:46px;"><input value="C_E3" id="C_E3" name="C_Indice3" type="radio"></td>
-							<td style="width:46px;"><input value="C_T3" id="C_T3" name="C_Indice3" type="radio"></td>
-							<td style="width:45px;"><input value="C_N3" id="C_N3"name="C_Indice3" type="radio"></td>
 						</tr>
 						
 						<tr>
@@ -427,40 +431,7 @@
 							<td style="width:46px;"><input value="C_T6" id="C_T6" name="C_Indice6" type="radio"></td>
 							<td style="width:45px;"><input value="C_N6" id="C_N6" name="C_Indice6" type="radio"></td>
 						</tr>
-						
-						<tr>
-							<td id='main_td' style="text-align:left;">
-								<label class="remplissage">Remplissage : </label><input value="maçonnerie" id="maconnerie" name="remplissage" type="radio">maçonneries
-							</td>
-							<td style="width:100px"><input value="C7_Vert" id="C7_Vert" name="C7" type="radio"></td>
-							<td style="width:100px"><input value="C7_Jaune" id="C7_Jaune" name="C7" type="radio"></td>
-							<td style="width:100px"><input value="C7_Rouge" id="C7_Rouge" name="C7" type="radio"></td>
-							
-							<td style="width:46px;"><input value="C_L7" id="C_L7" name="C_Etendu7" type="radio"></td>
-							<td style="width:46px;"><input value="C_G7" id="C_G7" name="C_Etendu7" type="radio"></td>
-						
-							<td style="width:46px;"><input value="C_C7" id="C_C7" name="C_Indice7" type="radio"></td>
-							<td style="width:46px;"><input value="C_E7" id="C_E7" name="C_Indice7" type="radio"></td>
-							<td style="width:46px;"><input value="C_T7" id="C_T7" name="C_Indice7" type="radio"></td>
-							<td style="width:45px;"><input value="C_N7" id="C_N7" name="C_Indice7" type="radio"></td>
-						</tr>
-						
-						<tr>
-							<td id='main_td'>
-								<label style="float:left; width:250px;"></label><input value="beton" id="beton" name="remplissage" type="radio" style="margin-left:112px">Béton
-							<td style="width:100px"><input value="C8_Vert" id="C8_Vert" name="C8" type="radio"></td>
-							<td style="width:100px"><input value="C8_Jaune" id="C8_Jaune" name="C8" type="radio"></td>
-							<td style="width:100px"><input value="C8_Rouge" id="C8_Rouge" name="C8" type="radio"></td>
-							
-							<td style="width:46px;"><input value="C_L8" id="C_L8" name="C_Etendu8" type="radio"></td>
-							<td style="width:46px;"><input value="C_G8" id="C_G8" name="C_Etendu8" type="radio"></td>
-							
-							<td style="width:46px;"><input value="C_C8" id="C_C8" name="C_Indice8" type="radio"></td>
-							<td style="width:46px;"><input value="C_E8" id="C_E8" name="C_Indice8" type="radio"></td>
-							<td style="width:46px;"><input value="C_T8" id="C_T8" name="C_Indice8" type="radio"></td>
-							<td style="width:45px;"><input value="C_N8" id="C_N8" name="C_Indice8" type="radio"></td>
-						</tr>
-						
+
 						<tr>
 							<td id='main_td' style="text-align:left;">
 								<input value="bois1" id="bois1" name="bois1" type="checkbox" class="checkbox"><label class="check">Poteaux Bois</label>
@@ -480,7 +451,95 @@
 						
 						<tr>
 							<td id='main_td' style="text-align:left;">
-								<center><i>Structure horizontale</i></center><input value="BA3" id="BA3" name="BA3" type="checkbox" class="checkbox"><label class="check">Dalles BA</label>
+								<input value="remplissage" name="remplissage" id="remplissage" type="checkbox" class="checkbox"><label class="check">Remplissage : </label><br>
+								<input value="remplissage1" id="remplissage1" name="remplissage" type="radio">Maçonneries
+								<input value="remplissage2" id="remplissage2" name="remplissage" type="radio">Béton
+								<input value="remplissage3" id="remplissage3" name="remplissage" type="radio">Autre : ...
+							</td>
+							<td style="width:100px"><input value="C7_Vert" id="C7_Vert" name="C7" type="radio"></td>
+							<td style="width:100px"><input value="C7_Jaune" id="C7_Jaune" name="C7" type="radio"></td>
+							<td style="width:100px"><input value="C7_Rouge" id="C7_Rouge" name="C7" type="radio"></td>
+							
+							<td style="width:46px;"><input value="C_L7" id="C_L7" name="C_Etendu7" type="radio"></td>
+							<td style="width:46px;"><input value="C_G7" id="C_G7" name="C_Etendu7" type="radio"></td>
+						
+							<td style="width:46px;"><input value="C_C7" id="C_C7" name="C_Indice7" type="radio"></td>
+							<td style="width:46px;"><input value="C_E7" id="C_E7" name="C_Indice7" type="radio"></td>
+							<td style="width:46px;"><input value="C_T7" id="C_T7" name="C_Indice7" type="radio"></td>
+							<td style="width:45px;"><input value="C_N7" id="C_N7" name="C_Indice7" type="radio"></td>
+						</tr>
+
+						<tr>
+							<td id='main_td' style="text-align:left;">
+								<input value="pale" id="pale" name="pale" type="checkbox" class="checkbox"><label class="check">Palée de stabilité (bois ou CM)</label>
+							</td>
+							<td style="width:100px"><input value="C8_Vert" id="C8_Vert" name="C8" type="radio"></td>
+							<td style="width:100px"><input value="C8_Jaune" id="C8_Jaune" name="C8" type="radio"></td>
+							<td style="width:100px"><input value="C8_Rouge" id="C8_Rouge" name="C8" type="radio"></td>
+						
+							<td style="width:46px;"><input value="C_L8" id="C_L8" name="C_Etendu8" type="radio"></td>
+							<td style="width:46px;"><input value="C_G8" id="C_G8" name="C_Etendu8" type="radio"></td>
+						
+							<td style="width:46px;"><input value="C_C8" id="C_C8" name="C_Indice8" type="radio"></td>
+							<td style="width:46px;"><input value="C_E8" id="C_E8" name="C_Indice8" type="radio"></td>
+							<td style="width:46px;"><input value="C_T8" id="C_T8" name="C_Indice8" type="radio"></td>
+							<td style="width:45px;"><input value="C_N8" id="C_N8" name="C_Indice8" type="radio"></td>
+						</tr>
+
+						<tr>
+							<td id='main_td' style="text-align:left;">
+								<input value="panneau_bois" id="panneau_bois" name="panneau_bois" type="checkbox" class="checkbox"><label class="check">Panneau bois</label>
+							</td>
+							<td style="width:100px"><input value="C2_Vert" id="C2_Vert" name="C2" type="radio"></td>
+							<td style="width:100px"><input value="C2_Jaune" id="C2_Jaune" name="C2" type="radio"></td>
+							<td style="width:100px"><input value="C2_Rouge" id="C2_Rouge" name="C2" type="radio"></td>
+						
+							<td style="width:46px;"><input value="C_L2" id="C_L2" name="C_Etendu2" type="radio"></td>
+							<td style="width:46px;"><input value="C_G2" id="C_G2" name="C_Etendu2" type="radio"></td>
+						
+							<td style="width:46px;"><input value="C_C2" id="C_C2" name="C_Indice2" type="radio"></td>
+							<td style="width:46px;"><input value="C_E2" id="C_E2" name="C_Indice2" type="radio"></td>
+							<td style="width:46px;"><input value="C_T2" id="C_T2" name="C_Indice2" type="radio"></td>
+							<td style="width:45px;"><input value="C_N2" id="C_N2" name="C_Indice2" type="radio"></td>
+						</tr>
+
+						<tr>
+							<td id='main_td' style="text-align:left;">
+								<input value="liaison" id="liaison" name="liaison" type="checkbox" class="checkbox"><label class="check">Liaison-assemblage</label>
+							</td>
+							<td style="width:100px"><input value="C8*_Vert" id="C8*_Vert" name="C8*" type="radio"></td>
+							<td style="width:100px"><input value="C8*_Jaune" id="C8*_Jaune" name="C8*" type="radio"></td>
+							<td style="width:100px"><input value="C8*_Rouge" id="C8*_Rouge" name="C8*" type="radio"></td>
+						
+							<td style="width:46px;"><input value="C_L8*" id="C_L8*" name="C_Etendu8*" type="radio"></td>
+							<td style="width:46px;"><input value="C_G8*" id="C_G8*" name="C_Etendu8*" type="radio"></td>
+						
+							<td style="width:46px;"><input value="C_C8*" id="C_C8*" name="C_Indice8*" type="radio"></td>
+							<td style="width:46px;"><input value="C_E8*" id="C_E8*" name="C_Indice8*" type="radio"></td>
+							<td style="width:46px;"><input value="C_T8*" id="C_T8*" name="C_Indice8*" type="radio"></td>
+							<td style="width:45px;"><input value="C_N8*" id="C_N8*" name="C_Indice8*" type="radio"></td>
+						</tr>
+
+						<tr>
+							<td id='main_td' style="text-align:left;">
+								<input value="autre2" id="autre2" name="autre2" type="checkbox" class="checkbox"><label class="check">Autre : (à préciser)</label>
+							</td>
+							<td style="width:100px"><input value="C3_Vert" id="C3_Vert" name="C3" type="radio"></td>
+							<td style="width:100px"><input value="C3_Jaune" id="C3_Jaune" name="C3" type="radio"></td>
+							<td style="width:100px"><input value="C3_Rouge" id="C3_Rouge" name="C3" type="radio"></td>
+						
+							<td style="width:46px;"><input value="C_L3" id="C_L3" name="C_Etendu3" type="radio"></td>
+							<td style="width:46px;"><input value="C_G3" id="C_G3" name="C_Etendu3" type="radio"></td>
+						
+							<td style="width:46px;"><input value="C_C3" id="C_C3" name="C_Indice3" type="radio"></td>
+							<td style="width:46px;"><input value="C_E3" id="C_E3" name="C_Indice3" type="radio"></td>
+							<td style="width:46px;"><input value="C_T3" id="C_T3" name="C_Indice3" type="radio"></td>
+							<td style="width:45px;"><input value="C_N3" id="C_N3" name="C_Indice3" type="radio"></td>
+						</tr>
+						
+						<tr>
+							<td id='main_td' style="text-align:left;">
+								<center><i>Structure horizontale</i></center><input value="BA3" id="BA3" name="BA3" type="checkbox" class="checkbox"><label class="check">Linteau</label>
 							</td>
 							<td style="width:100px"><input value="C10_Vert" id="C10_Vert" name="C10" type="radio"></td>
 							<td style="width:100px"><input value="C10_Jaune" id="C10_Jaune" name="C10" type="radio"></td>
@@ -493,6 +552,23 @@
 							<td style="width:46px;"><input value="C_E10" id="C_E10" name="C_Indice10" type="radio"></td>
 							<td style="width:46px;"><input value="C_T10" id="C_T10" name="C_Indice10" type="radio"></td>
 							<td style="width:45px;"><input value="C_N10" id="C_N10" name="C_Indice10" type="radio"></td>
+						</tr>
+
+						<tr>
+							<td id='main_td' style="text-align:left;">
+								<input value="BA4*" id="BA4*" name="BA4*" type="checkbox" class="checkbox"><label class="check">Dalles BA</label>
+							</td>
+							<td style="width:100px"><input value="C11*_Vert" id="C11*_Vert" name="C11*" type="radio"></td>
+							<td style="width:100px"><input value="C11*_Jaune" id="C11*_Jaune" name="C11*" type="radio"></td>
+							<td style="width:100px"><input value="C11*_Rouge" id="C11*_Rouge" name="C11*" type="radio"></td>
+						
+							<td style="width:46px;"><input value="C_L11*" id="C_L11*" name="C_Etendu11*" type="radio"></td>
+							<td style="width:46px;"><input value="C_G11*" id="C_G11*" name="C_Etendu11*" type="radio"></td>
+						
+							<td style="width:46px;"><input value="C_C11*" id="C_C11*" name="C_Indice11*" type="radio"></td>
+							<td style="width:46px;"><input value="C_E11*" id="C_E11*" name="C_Indice11*" type="radio"></td>
+							<td style="width:46px;"><input value="C_T11*" id="C_T11*" name="C_Indice11*" type="radio"></td>
+							<td style="width:45px;"><input value="C_N11*" id="C_N11*" name="C_Indice11*" type="radio"></td>
 						</tr>
 						
 						<tr>
@@ -545,27 +621,90 @@
 							<td style="width:46px;"><input value="C_T13" id="C_T13" name="C_Indice13" type="radio"></td>
 							<td style="width:45px;"><input value="C_N13" id="C_N13" name="C_Indice13" type="radio"></td>
 						</tr>
-						
+
 						<tr>
 							<td id='main_td' style="text-align:left;">
-								<center><i>Toiture</i></center><input value="anticyclonique" id="anticyclonique" name="anticyclonique" type="checkbox" class="checkbox"><label class="check">Dalle anticyclonique</label>
+								<input value="plancher" name="plancher" id="plancher" type="checkbox" class="checkbox"><label class="check">Plancher : </label><br>
+								<input value="plancher1" id="plancher1" name="plancher" type="radio">Voutins
+								<input value="plancher2" id="plancher2" name="plancher" type="radio">Bois
+								<input value="plancher3" id="plancher3" name="plancher" type="radio">Poutrelles-hourdis<br>
+								<input value="plancher4" id="plancher4" name="plancher" type="radio" style="margin-left:73px;">Collaborant
+								<input value="plancher5" id="plancher5" name="plancher" type="radio">Autres : ...
 							</td>
-							<td style="width:100px"><input value="C14_Vert" id="C14_Vert" name="C14" type="radio"></td>
-							<td style="width:100px"><input value="C14_Jaune" id="C14_Jaune" name="C14" type="radio"></td>
-							<td style="width:100px"><input value="C14_Rouge" id="C14_Rouge" name="C14" type="radio"></td>
+							<td style="width:100px"><input value="C7*_Vert" id="C7*_Vert" name="C7*" type="radio"></td>
+							<td style="width:100px"><input value="C7*_Jaune" id="C7*_Jaune" name="C7*" type="radio"></td>
+							<td style="width:100px"><input value="C7*_Rouge" id="C7*_Rouge" name="C7*" type="radio"></td>
+							
+							<td style="width:46px;"><input value="C_L7*" id="C_L7*" name="C_Etendu7*" type="radio"></td>
+							<td style="width:46px;"><input value="C_G7*" id="C_G7*" name="C_Etendu7*" type="radio"></td>
 						
-							<td style="width:46px;"><input value="C_L14" id="C_L14" name="C_Etendu14" type="radio"></td>
-							<td style="width:46px;"><input value="C_G14" id="C_G14" name="C_Etendu14" type="radio"></td>
+							<td style="width:46px;"><input value="C_C7*" id="C_C7*" name="C_Indice7*" type="radio"></td>
+							<td style="width:46px;"><input value="C_E7*" id="C_E7*" name="C_Indice7*" type="radio"></td>
+							<td style="width:46px;"><input value="C_T7*" id="C_T7*" name="C_Indice7*" type="radio"></td>
+							<td style="width:45px;"><input value="C_N7*" id="C_N7*" name="C_Indice7*" type="radio"></td>
+						</tr>
+
+						<tr>
+							<td id='main_td' style="text-align:left;">
+								<input value="liaison1" id="liaison1" name="liaison1" type="checkbox" class="checkbox"><label class="check">Liaison-assemblage</label>
+							</td>
+							<td style="width:100px"><input value="C8**_Vert" id="C8**_Vert" name="C8**" type="radio"></td>
+							<td style="width:100px"><input value="C8**_Jaune" id="C8**_Jaune" name="C8**" type="radio"></td>
+							<td style="width:100px"><input value="C8**_Rouge" id="C8**_Rouge" name="C8**" type="radio"></td>
 						
-							<td style="width:46px;"><input value="C_C14" id="C_C14" name="C_Indice14" type="radio"></td>
-							<td style="width:46px;"><input value="C_E14" id="C_E14" name="C_Indice14" type="radio"></td>
-							<td style="width:46px;"><input value="C_T14" id="C_T14" name="C_Indice14" type="radio"></td>
-							<td style="width:45px;"><input value="C_N14" id="C_N14" name="C_Indice14" type="radio"></td>
+							<td style="width:46px;"><input value="C_L8**" id="C_L8**" name="C_Etendu8**" type="radio"></td>
+							<td style="width:46px;"><input value="C_G8**" id="C_G8**" name="C_Etendu8**" type="radio"></td>
+						
+							<td style="width:46px;"><input value="C_C8**" id="C_C8**" name="C_Indice8**" type="radio"></td>
+							<td style="width:46px;"><input value="C_E8**" id="C_E8**" name="C_Indice8**" type="radio"></td>
+							<td style="width:46px;"><input value="C_T8**" id="C_T8**" name="C_Indice8**" type="radio"></td>
+							<td style="width:45px;"><input value="C_N8**" id="C_N8**" name="C_Indice8**" type="radio"></td>
+						</tr>
+
+						<tr>
+							<td id='main_td' style="text-align:left;">
+								<input value="autre3" id="autre3" name="autre3" type="checkbox" class="checkbox"><label class="check">Autre : (à préciser)</label>
+							</td>
+							<td style="width:100px"><input value="C25_Vert" id="C25_Vert" name="C25" type="radio"></td>
+							<td style="width:100px"><input value="C25_Jaune" id="C25_Jaune" name="C25" type="radio"></td>
+							<td style="width:100px"><input value="C25_Rouge" id="C25_Rouge" name="C25" type="radio"></td>
+						
+							<td style="width:46px;"><input value="C_L25" id="C_L25" name="C_Etendu25" type="radio"></td>
+							<td style="width:46px;"><input value="C_G25" id="C_G25" name="C_Etendu25" type="radio"></td>
+						
+							<td style="width:46px;"><input value="C_C25" id="C_C25" name="C_Indice25" type="radio"></td>
+							<td style="width:46px;"><input value="C_E25" id="C_E25" name="C_Indice25" type="radio"></td>
+							<td style="width:46px;"><input value="C_T25" id="C_T25" name="C_Indice25" type="radio"></td>
+							<td style="width:45px;"><input value="C_N25" id="C_N25" name="C_Indice25" type="radio"></td>
 						</tr>
 						
 						<tr>
 							<td id='main_td' style="text-align:left;">
-								<input value="bois3" id="bois3" name="bois3" type="checkbox" class="checkbox"><label class="check">Charpente bois</label>
+								<center><i>Toiture</i></center><input value="couverture" id="couverture" name="couverture" type="checkbox" class="checkbox"><label class="check">Couverture sur charpente</label><br>
+								<input value="couverture1" id="couverture1" name="couverture" type="radio">Tuiles
+								<input value="couverture2" id="couverture2" name="couverture" type="radio">Tôle
+								<input value="couverture3" id="couverture3" name="couverture" type="radio">Autre : ...
+							</td>
+							<td style="width:100px"><input value="C26_Vert" id="C26_Vert" name="C26" type="radio"></td>
+							<td style="width:100px"><input value="C26_Jaune" id="C26_Jaune" name="C26" type="radio"></td>
+							<td style="width:100px"><input value="C26_Rouge" id="C26_Rouge" name="C26" type="radio"></td>
+						
+							<td style="width:46px;"><input value="C_L26" id="C_L26" name="C_Etendu26" type="radio"></td>
+							<td style="width:46px;"><input value="C_G26" id="C_G26" name="C_Etendu26" type="radio"></td>
+						
+							<td style="width:46px;"><input value="C_C26" id="C_C26" name="C_Indice26" type="radio"></td>
+							<td style="width:46px;"><input value="C_E26" id="C_E26" name="C_Indice26" type="radio"></td>
+							<td style="width:46px;"><input value="C_T26" id="C_T26" name="C_Indice26" type="radio"></td>
+							<td style="width:45px;"><input value="C_N26" id="C_N26" name="C_Indice26" type="radio"></td>
+						</tr>
+						
+						<tr>
+							<td id='main_td' style="text-align:left;">
+								<input value="bois3" id="bois3" name="bois3" type="checkbox" class="checkbox"><label class="check">Charpente bois</label><br>
+								<input value="charpente1" id="charpente1" name="charpente" type="radio">Métallique
+								<input value="charpente2" id="charpente2" name="charpente" type="radio">Bois
+								<input value="charpente3" id="charpente3" name="charpente" type="radio">Béton
+								<input value="charpente4" id="charpente4" name="charpente" type="radio">Autre : ...
 							</td>
 							<td style="width:100px"><input value="C15_Vert" id="C15_Vert" name="C15" type="radio"></td>
 							<td style="width:100px"><input value="C15_Jaune" id="C15_Jaune" name="C15" type="radio"></td>
@@ -578,23 +717,6 @@
 							<td style="width:46px;"><input value="C_E15" id="C_E15" name="C_Indice15" type="radio"></td>
 							<td style="width:46px;"><input value="C_T15" id="C_T15" name="C_Indice15" type="radio"></td>
 							<td style="width:45px;"><input value="C_N15" id="C_N15" name="C_Indice15" type="radio"></td>
-						</tr>
-						
-						<tr>
-							<td id='main_td' style="text-align:left;">
-								<input value="metal" id="metal" name="metal" type="checkbox" class="checkbox"><label class="check">Charpente métallique</label>
-							</td>
-							<td style="width:100px"><input value="C16_Vert" id="C16_Vert" name="C16" type="radio"></td>
-							<td style="width:100px"><input value="C16_Jaune" id="C16_Jaune" name="C16" type="radio"></td>
-							<td style="width:100px"><input value="C16_Rouge" id="C16_Rouge" name="C16" type="radio"></td>
-						
-							<td style="width:46px;"><input value="C_L16" id="C_L16" name="C_Etendu16" type="radio"></td>
-							<td style="width:46px;"><input value="C_G16" id="C_G16" name="C_Etendu16" type="radio"></td>
-						
-							<td style="width:46px;"><input value="C_C16" id="C_C16" name="C_Indice16" type="radio"></td>
-							<td style="width:46px;"><input value="C_E16" id="C_E16" name="C_Indice16" type="radio"></td>
-							<td style="width:46px;"><input value="C_T16" id="C_T16" name="C_Indice16" type="radio"></td>
-							<td style="width:45px;"><input value="C_N16" id="C_N16" name="C_Indice16" type="radio"></td>
 						</tr>
 						
 						<tr>
@@ -616,7 +738,7 @@
 						
 						<tr>
 							<td id='main_td' style="text-align:left;">
-								<input value="autre" id="autre" name="autre" type="checkbox" class="checkbox"><label class="check">Autres : (à préciser)</label>
+								<input value="autre1" id="autre1" name="autre1" type="checkbox" class="checkbox"><label class="check">Autre : (à préciser)</label>
 							</td>
 							<td style="width:100px"><input value="C18_Vert" id="C18_Vert" name="C18" type="radio"></td>
 							<td style="width:100px"><input value="C18_Jaune" id="C18_Jaune" name="C18" type="radio"></td>
@@ -650,7 +772,7 @@
 						
 						<tr>
 							<td id='main_td' style="text-align:left;">
-								<center><i>Autres : (à préciser)</i></center>
+								<center><i>Autre : (à préciser)</i></center>
 							</td>
 							<td style="width:100px"><input value="C20_Vert" id="C20_Vert" name="C20" type="radio"></td>
 							<td style="width:100px"><input value="C20_Jaune" id="C20_Jaune" name="C20" type="radio"></td>
@@ -820,7 +942,7 @@
 						</tr>
 						
 						<tr>
-							<td id='main_td'>Autres : (à préciser)</td>
+							<td id='main_td'>Autre : (à préciser)</td>
 							<td style="width:100px"><input value="D6_Vert" id="D6_Vert" name="D6" type="radio"></td>
 							<td style="width:100px"><input value="D6_Jaune" id="D6_Jaune" name="D6" type="radio"></td>
 							<td style="width:100px"><input value="D6_Rouge" id="D6_Rouge" name="D6" type="radio"></td>
@@ -873,6 +995,7 @@
 					</table>
 					
 					<div id="numpage"><cite>page 2/2</cite></div>
+					<hr/>
 					<div id="divbutton"><button id="button" onclick="document.getElementById('page1').style.display = 'block'; document.getElementById('page2').style.display = 'none'; document.location = '#page1';" type="button" name="next" style="padding:5px; width: 300px; font: 18px Times New Roman;">Page Précedente</button></div>
 				</form>
 			</div>
