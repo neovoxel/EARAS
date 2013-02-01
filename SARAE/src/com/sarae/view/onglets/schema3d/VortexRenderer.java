@@ -51,21 +51,11 @@ public class VortexRenderer implements GLSurfaceView.Renderer {
         
         //gl.glLineWidth(1.2f);
 	    
-	    
 	    gl.glTranslatef(0f, -0.25f, 0f);
-	    
-	    
-	    
 	    gl.glRotatef(_angle, 0f, 1f, 0f);
 	    
-	    gl.glEnable(GL10.GL_TEXTURE_2D);
-	    
 	    myBat.drawEtares(gl);
-	    
-	    gl.glDisable(GL10.GL_TEXTURE_2D);
-	    
 	    myBat.draw(gl);
-	    
 	    
 	    // Set GL_MODELVIEW transformation mode
 	    gl.glMatrixMode(GL10.GL_MODELVIEW);

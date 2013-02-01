@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.Vector;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -19,70 +20,54 @@ public class Batiment3D {
 	private ShortBuffer[] indexBuffer;
 	private ShortBuffer indexBufferToit;
 	
-	private Etare3D[] codeEtares;
-	
-	//private short[] surfaceIndexes;
-	//private short[] surfacesIndexesToit;
-	//private ShortBuffer indexBufferSurfaces;
-	//private ShortBuffer indexBufferSurfacesToit;
+	private Vector<Etare3D> codeEtares;
 	
 	public Batiment3D(Batiment bat) {
 		batiment = bat;
 		
-		codeEtares = new Etare3D[batiment.getNbNiveaux()];
+		codeEtares = new Vector<Etare3D>();
 		
 		lineIndexes = new short[batiment.getNbNiveaux()][];
 		indexBuffer = new ShortBuffer[batiment.getNbNiveaux()];
 		
 		generateTabPoints();
 		generateLines();
-		//generateSurfaces();
 	}
 	
 	public void loadTextures(GL10 gl) {
-		for (int i = 0 ; i < batiment.getNbNiveaux() ; ++i)
+		for (int i = 0 ; i < codeEtares.size() ; ++i) {
 			try {
-				codeEtares[i].loadTexture(gl);
+				codeEtares.get(i).loadTexture(gl);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
 	}
 	
 	public void draw(GL10 gl) {
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
 		gl.glColor4f(0.f, 0.f, 0.f, 1.f);
-		for (int i = 0 ; i < batiment.getNbNiveaux() ; ++i) {
+		for (int i = 0 ; i < batiment.getNbNiveaux() ; ++i)
 		    gl.glDrawElements(GL10.GL_LINES, lineIndexes[i].length, GL10.GL_UNSIGNED_SHORT, indexBuffer[i]);
-		}
 	    
-		if (!batiment.typePenteToit.isEmpty()) {
+		if (!batiment.typePenteToit.isEmpty())
 		    gl.glDrawElements(GL10.GL_LINES, lineIndexToit.length, GL10.GL_UNSIGNED_SHORT, indexBufferToit);
-		}
-		
-		//gl.glColor4f(1.f, 1.f, 1.f, 0.85f);
-	    //gl.glDrawElements(GL10.GL_TRIANGLES, surfaceIndexes.length, GL10.GL_UNSIGNED_SHORT, indexBufferSurfaces);
-		
-	    //if (!batiment.typePenteToit.isEmpty()) {
-	    	//gl.glColor4f(1.f, 1.f, 1.f, 0.75f);
-		    //gl.glDrawElements(GL10.GL_TRIANGLES, surfacesIndexesToit.length, GL10.GL_UNSIGNED_SHORT, indexBufferSurfacesToit);
-	    //}
-	    
-		//for (int i = 0 ; i < batiment.getNbNiveaux() ; ++i)
-			//codeEtares[i].draw(gl);
 		
 	    gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 	}
 	
 	public void drawEtares(GL10 gl) {
+		gl.glEnable(GL10.GL_TEXTURE_2D);
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 		
-		for (int i = 0 ; i < batiment.getNbNiveaux() ; ++i)
-			codeEtares[i].draw(gl);
+		for (int i = 0 ; i < codeEtares.size() ; ++i)
+			codeEtares.get(i).draw(gl);
 		
 		gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+		gl.glDisable(GL10.GL_TEXTURE_2D);
 	}
 	
 	private void generateLines() {
@@ -140,44 +125,6 @@ public class Batiment3D {
 		}
 	}
 	
-	/*
-	private void generateSurfaces() {
-		surfaceIndexes = new short[] {
-			0, 1, (short) (5 + 4 *(batiment.getNbNiveaux()-1)),
-			(short) (5 + 4 *(batiment.getNbNiveaux()-1)), (short) (4 + 4 *(batiment.getNbNiveaux()-1)), 0,
-			1, 2, (short) (6 + 4 *(batiment.getNbNiveaux()-1)),
-			(short) (6 + 4 *(batiment.getNbNiveaux()-1)), (short) (5 + 4 *(batiment.getNbNiveaux()-1)), 1,
-			2, 3, (short) (7 + 4 *(batiment.getNbNiveaux()-1)),
-			(short) (7 + 4 *(batiment.getNbNiveaux()-1)), (short) (6 + 4 *(batiment.getNbNiveaux()-1)), 2,
-			3, 0, (short) (4 + 4 *(batiment.getNbNiveaux()-1)),
-			(short) (4 + 4 *(batiment.getNbNiveaux()-1)), (short) (7 + 4 *(batiment.getNbNiveaux()-1)), 3
-		};
-		
-		ByteBuffer ibb = ByteBuffer.allocateDirect(surfaceIndexes.length * 2);
-		ibb.order(ByteOrder.nativeOrder());
-		indexBufferSurfaces = ibb.asShortBuffer();
-		indexBufferSurfaces.put(surfaceIndexes);
-		indexBufferSurfaces.position(0);
-		
-		if (batiment.typePenteToit == "Pt") {
-			surfacesIndexesToit = new short[] {
-				(short) (4 + 4 *(batiment.getNbNiveaux()-1)), (short) (7 + 4 *(batiment.getNbNiveaux()-1)), (short) (8 + 4 *(batiment.getNbNiveaux()-1)),
-				(short) (5 + 4 *(batiment.getNbNiveaux()-1)), (short) (6 + 4 *(batiment.getNbNiveaux()-1)), (short) (9 + 4 *(batiment.getNbNiveaux()-1)),
-				(short) (4 + 4 *(batiment.getNbNiveaux()-1)), (short) (5 + 4 *(batiment.getNbNiveaux()-1)), (short) (9 + 4 *(batiment.getNbNiveaux()-1)),
-				(short) (9 + 4 *(batiment.getNbNiveaux()-1)), (short) (8 + 4 *(batiment.getNbNiveaux()-1)), (short) (4 + 4 *(batiment.getNbNiveaux()-1)),
-				(short) (6 + 4 *(batiment.getNbNiveaux()-1)), (short) (7 + 4 *(batiment.getNbNiveaux()-1)), (short) (8 + 4 *(batiment.getNbNiveaux()-1)),
-				(short) (8 + 4 *(batiment.getNbNiveaux()-1)), (short) (9 + 4 *(batiment.getNbNiveaux()-1)), (short) (6 + 4 *(batiment.getNbNiveaux()-1))
-			};
-			
-			ByteBuffer ibb_ = ByteBuffer.allocateDirect(surfacesIndexesToit.length * 2);
-			ibb_.order(ByteOrder.nativeOrder());
-			indexBufferSurfacesToit = ibb_.asShortBuffer();
-			indexBufferSurfacesToit.put(surfacesIndexesToit);
-			indexBufferSurfacesToit.position(0);
-		}
-	}
-	*/
-	
 	private void generateTabPoints() {
 		int toit = 0;
 		if (batiment.typePenteToit == "Pt")
@@ -212,8 +159,24 @@ public class Batiment3D {
 			tabPoints[k + j++] = z;
 			
 			if (i < batiment.getNbNiveaux()) {
-				codeEtares[i] = new Etare3D(batiment.niveaux.elementAt(i).codes.elementAt(0));
-				codeEtares[i].generate(-(x+0.02f), y, -z, hauteurEtage);
+				for (int code = 0 ; code < batiment.niveaux.elementAt(i).codes.size() ; ++code) {
+					codeEtares.add(new Etare3D(batiment.niveaux.elementAt(i).codes.elementAt(code)));
+					
+					float l = hauteurEtage;
+					if (l > 0.2f)
+						l = 0.2f;
+					codeEtares.lastElement().generate(-((x+0.02f)+(l+0.02f)*code), y, -z, l);
+					
+					
+					/*
+					codeEtares[i] = new Etare3D(batiment.niveaux.elementAt(i).codes.elementAt(code));
+					
+					float l = hauteurEtage;
+					if (l > 0.2f)
+						l = 0.2f;
+					codeEtares[i].generate(-((x+0.02f)+(l+0.02f)*code), y, -z, l);
+					*/
+				}
 			}
 		}
 		

@@ -10,7 +10,6 @@ import javax.microedition.khronos.opengles.GL10;
 import com.sarae.model.Batiment;
 
 import android.graphics.Bitmap;
-import android.opengl.GLU;
 import android.opengl.GLUtils;
 
 public class Etare3D {
@@ -90,7 +89,7 @@ public class Etare3D {
 		    gl.glFlush();
 		}
 		else
-			throw new Exception("BMP IS NULL BITCH");
+			throw new Exception("can't load texture : Bitmap is null");
 	}
 	
 	public void draw(GL10 gl) {
