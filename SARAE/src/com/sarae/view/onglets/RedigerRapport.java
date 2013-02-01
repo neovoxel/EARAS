@@ -103,7 +103,7 @@ public class RedigerRapport{
                if (writer != null) {
                       try {
                              writer.close();
-                         	Toast.makeText(context,"Le rapport a ï¿½tï¿½ enregistrï¿½ avec succï¿½s.", Toast.LENGTH_LONG).show();
+                         	Toast.makeText(context,"Le rapport a été enregistré avec succès.", Toast.LENGTH_LONG).show();
                       } catch (IOException e) {
                              e.printStackTrace();
                       }

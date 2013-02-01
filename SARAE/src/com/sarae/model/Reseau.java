@@ -19,6 +19,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.NetworkOnMainThreadException;
+import android.util.Log;
 import android.widget.ImageView;
 
 
@@ -58,13 +59,16 @@ public class Reseau{
 		 try {
 			sRecup = new Socket(host, port);	// J'écris un commentaire lol - Pierre
 		 } catch (UnknownHostException e) {
-			 System.out.println("Marche po");
+			 System.out.println(" 1 Marche po");
+			 Log.e("1", "erreur host",e);
 			return connected=false;
 		 } catch (IOException e) {
-			 System.out.println("Marche po");
+			 System.out.println(" 2 Marche po");
+			 Log.e("2", "erreur IOException",e);
 			return connected=false;
 		 } catch (NetworkOnMainThreadException e) {
-			 System.out.println("Marche po");
+			 System.out.println(" 3 Marche po");
+			 Log.e("3", "erreur Thread",e);
 			 return connected=false;
 		 }
 		 return connected=true;
@@ -84,22 +88,27 @@ public class Reseau{
 	
 	public static boolean ping()
 	{	
-		setConnexion("192.168.7.1", 7863);
-		
-		if(connexion())
-		{
-			byte[] buffer = {'c', 'o', 'u', 'c', 'o', 'u'};
-			String tmp="coucou";
-			try {
-				//sRecup.getOutputStream().write(buffer, 0, buffer.length);
-				PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(sRecup.getOutputStream())),true);
-	            out.println(tmp);
-			}
-			catch (IOException e) { return false; }
-			return true;
-		}
-		else
-			return false;
+		new Thread(new Runnable() {
+			 
+			public void run() {
+				setConnexion("192.168.7.1", 80);
+				
+				if(connexion())
+				{
+					byte[] buffer = {'c', 'o', 'u', 'c', 'o', 'u'};
+					String tmp="coucou";
+					try {
+						//sRecup.getOutputStream().write(buffer, 0, buffer.length);
+						PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(sRecup.getOutputStream())),true);
+			            out.println(tmp); 
+					}
+					catch (IOException e) { }
+				}
+				
+
+			}}).start();
+		return true;
+			
 	}
 	
 	public static boolean chargerDonnees(Context context) {

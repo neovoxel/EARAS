@@ -1,6 +1,6 @@
 package com.sarae.view;
 
-import java.util.ArrayList;
+
 
 import com.sarae.model.DataManager;
 
@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
