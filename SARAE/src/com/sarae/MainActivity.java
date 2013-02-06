@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
 				boolean ok = true;
 				//ok = Reseau.ping();
 				Reseau reseau = Reseau.getInstance();
-				//reseau.start();
+				reseau.start();
 				if (!ok)
 					Toast.makeText(MainActivity.this, "Erreur lors  de la connexion", Toast.LENGTH_SHORT).show();
 				else if (ok)
