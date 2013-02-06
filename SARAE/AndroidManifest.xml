@@ -37,5 +37,6 @@
             android:name=".view.ActivityOnglets"
 			android:screenOrientation="landscape">
         </activity>
+        <activity android:name=".view.RapportPDF"></activity>
     </application>
 </manifest>

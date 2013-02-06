@@ -25,9 +25,11 @@ public class RapportPDF extends Activity {
 		web.getSettings().setJavaScriptEnabled(true);
 		web.getSettings().setBuiltInZoomControls(true);
 		web.setBackgroundColor(Color.GRAY);
-		web.loadDataWithBaseURL("file:///android_asset/","<html><center><img src=\"pdfTest.jpg\"></html>","text/html","utf-8","");
-	
-		
+		String content="<html><center>";
+		for(int i = 0 ; i < 2 ; i++)
+			content += "<div><img src=\"pdfTest.jpg\"></div>";
+		content +="</center></html>";
+		web.loadDataWithBaseURL("file:///android_asset/",content,"text/html","utf-8","");
 	}
 	
 	
