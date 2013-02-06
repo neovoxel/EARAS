@@ -24,7 +24,6 @@ public class Batiment3D {
 	
 	public Batiment3D(Batiment bat) {
 		batiment = bat;
-		
 		codeEtares = new Vector<Etare3D>();
 		
 		lineIndexes = new short[batiment.getNbNiveaux()][];
@@ -51,23 +50,24 @@ public class Batiment3D {
 		for (int i = 0 ; i < batiment.getNbNiveaux() ; ++i)
 		    gl.glDrawElements(GL10.GL_LINES, lineIndexes[i].length, GL10.GL_UNSIGNED_SHORT, indexBuffer[i]);
 	    
-		if (!batiment.typePenteToit.isEmpty())
+		if (batiment.typePenteToit == "Pt" || batiment.typePenteToit == "Tr")
 		    gl.glDrawElements(GL10.GL_LINES, lineIndexToit.length, GL10.GL_UNSIGNED_SHORT, indexBufferToit);
 		
 	    gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 	}
 	
 	public void drawEtares(GL10 gl) {
-		gl.glEnable(GL10.GL_TEXTURE_2D);
+		
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+		gl.glEnable(GL10.GL_TEXTURE_2D);
 		
 		for (int i = 0 ; i < codeEtares.size() ; ++i)
 			codeEtares.get(i).draw(gl);
 		
 		gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-		gl.glDisable(GL10.GL_TEXTURE_2D);
+		
 	}
 	
 	private void generateLines() {
@@ -80,7 +80,11 @@ public class Batiment3D {
 				4, 5,
 				5, 6,
 				6, 7,
-				7, 4
+				7, 4,
+				0, (short) (4 + 4 *(batiment.getNbNiveaux()-1)),
+				1, (short) (5 + 4 *(batiment.getNbNiveaux()-1)),
+				2, (short) (6 + 4 *(batiment.getNbNiveaux()-1)),
+				3, (short) (7 + 4 *(batiment.getNbNiveaux()-1))
 			};
 			
 			ByteBuffer ibb_ = ByteBuffer.allocateDirect(lineIndexes[0].length * 2);
@@ -89,12 +93,8 @@ public class Batiment3D {
 			indexBuffer[0].put(lineIndexes[0]);
 			indexBuffer[0].position(0);
 		}
-		if (batiment.typePenteToit == "Pt") {	// Pt // Tr
+		if (batiment.typePenteToit == "Pt" || batiment.typePenteToit == "Tr") {	// Pt // Tr
 			lineIndexToit = new short[] {
-				0, (short) (4 + 4 *(batiment.getNbNiveaux()-1)),
-				1, (short) (5 + 4 *(batiment.getNbNiveaux()-1)),
-				2, (short) (6 + 4 *(batiment.getNbNiveaux()-1)),
-				3, (short) (7 + 4 *(batiment.getNbNiveaux()-1)),
 				(short) (4 + 4 *(batiment.getNbNiveaux()-1)), (short) (8 + 4 *(batiment.getNbNiveaux()-1)),
 				(short) (7 + 4 *(batiment.getNbNiveaux()-1)), (short) (8 + 4 *(batiment.getNbNiveaux()-1)),
 				(short) (5 + 4 *(batiment.getNbNiveaux()-1)), (short) (9 + 4 *(batiment.getNbNiveaux()-1)),
@@ -127,7 +127,7 @@ public class Batiment3D {
 	
 	private void generateTabPoints() {
 		int toit = 0;
-		if (batiment.typePenteToit == "Pt")
+		if (batiment.typePenteToit == "Pt" || batiment.typePenteToit == "Tr")
 			toit = 2;
 		tabPoints = new float[(batiment.getNbNiveaux()+1) * 4 * 3 + toit * 3];
 		final float hauteurEtage = (float) 1/batiment.getNbNiveaux();
@@ -159,24 +159,18 @@ public class Batiment3D {
 			tabPoints[k + j++] = z;
 			
 			if (i < batiment.getNbNiveaux()) {
-				for (int code = 0 ; code < batiment.niveaux.elementAt(i).codes.size() ; ++code) {
-					codeEtares.add(new Etare3D(batiment.niveaux.elementAt(i).codes.elementAt(code)));
-					
-					float l = hauteurEtage;
-					if (l > 0.2f)
-						l = 0.2f;
-					codeEtares.lastElement().generate(-((x+0.02f)+(l+0.02f)*code), y, -z, l);
-					
-					
-					/*
-					codeEtares[i] = new Etare3D(batiment.niveaux.elementAt(i).codes.elementAt(code));
-					
-					float l = hauteurEtage;
-					if (l > 0.2f)
-						l = 0.2f;
-					codeEtares[i].generate(-((x+0.02f)+(l+0.02f)*code), y, -z, l);
-					*/
-				}
+				if (batiment.niveaux != null)
+					if (batiment.niveaux.elementAt(i) != null)
+						if (batiment.niveaux.elementAt(i).codes != null)
+							for (int code = 0 ; code < batiment.niveaux.elementAt(i).codes.size() ; ++code) {
+								if (batiment.niveaux.elementAt(i).codes.elementAt(code) != null)
+									codeEtares.add(new Etare3D(batiment.niveaux.elementAt(i).codes.elementAt(code)));
+								
+								float l = hauteurEtage;
+								if (l > 0.2f)
+									l = 0.2f;
+								codeEtares.lastElement().generate(-((x+0.02f)+(l+0.02f)*code), y, -z, l);
+							}
 			}
 		}
 		
@@ -190,6 +184,17 @@ public class Batiment3D {
 			tabPoints[i + j++] = x;
 			tabPoints[i + j++] = 1.25f;
 			tabPoints[i + j++] = z;
+		}
+		else if (batiment.typePenteToit == "Tr") {
+			final int i = (batiment.getNbNiveaux()+1) * 4 * 3;
+			int j = 0;
+			tabPoints[i + j++] = -x+(x*0.25f);
+			tabPoints[i + j++] = 1.25f;
+			tabPoints[i + j++] = 0.f;
+			
+			tabPoints[i + j++] = x-(x*0.25f);
+			tabPoints[i + j++] = 1.25f;
+			tabPoints[i + j++] = 0.f;
 		}
 		
 		ByteBuffer vbb = ByteBuffer.allocateDirect(tabPoints.length * 4);	// float has 4 bytes

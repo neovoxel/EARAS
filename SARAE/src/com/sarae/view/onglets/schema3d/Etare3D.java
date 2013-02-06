@@ -20,22 +20,29 @@ public class Etare3D {
 	private FloatBuffer vertexBuffer;
 	private short[] surfaceIndexes;
 	private ShortBuffer indexBufferSurface;
-	private short[] texCoords;
-	private ShortBuffer texBuffer;
+	private float[] texCoords;
+	private FloatBuffer texBuffer;
 		
 	public Etare3D(Batiment.Niveau.CodeEtare code) {
 		bmp = code.logo;
 		
-		texCoords = new short[] {
+		/*texCoords = new short[] {
 			0, 1,		//bottom right
 			1, 1,		//bottom left	// I have no idea what I'm doing
 			1, 0,		//top right
 			0, 0		//top left
+		};*/
+		
+		texCoords = new float[] {
+			0.f, 1.f,		//bottom right
+			1.f, 1.f,		//bottom left	// I have no idea what I'm doing
+			1.f, 0.f,		//top right
+			0.f, 0.f		//top left
 		};
 		
-		ByteBuffer ibb = ByteBuffer.allocateDirect(texCoords.length * 2);
+		ByteBuffer ibb = ByteBuffer.allocateDirect(texCoords.length * 4);
 		ibb.order(ByteOrder.nativeOrder());
-		texBuffer = ibb.asShortBuffer();
+		texBuffer = ibb.asFloatBuffer();
 		texBuffer.put(texCoords);
 		texBuffer.position(0);
 	}
@@ -94,10 +101,10 @@ public class Etare3D {
 	
 	public void draw(GL10 gl) {
 		gl.glColor4f(1.f, 1.f, 1.f, 1.f);
-		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
-		gl.glTexCoordPointer(2, GL10.GL_SHORT, 0, texBuffer);
-		//gl.glActiveTexture(GL10.GL_TEXTURE0); // <---------------------------------------
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, id[0]);
+		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
+		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, texBuffer);
+		//gl.glActiveTexture(GL10.GL_TEXTURE0); // <---------------------------------------
 		
 		gl.glDrawElements(GL10.GL_TRIANGLES, surfaceIndexes.length, GL10.GL_UNSIGNED_SHORT, indexBufferSurface);
 	}

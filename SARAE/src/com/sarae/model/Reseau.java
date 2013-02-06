@@ -162,11 +162,14 @@ public class Reseau extends Thread{
 		vec.add(map.get("toxique"));
 		vec.add(map.get("comburant"));
 		
+		Vector<Batiment.Niveau.CodeEtare> vec2 = new Vector<Batiment.Niveau.CodeEtare>();
+		vec2.add(map.get("nocif"));
+		
 		Batiment tmp = new Batiment(0,20,10,6,
 							1,1,"HopitalNice","1",
-							"Pt","1", null, new Position(4.637843,43.673163), new Vector<Batiment.Niveau>());
+							"Tr","1", null, new Position(4.637843,43.673163), new Vector<Batiment.Niveau>());
 	    tmp.niveaux.add(tmp.new Niveau(0, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
-		tmp.niveaux.add(tmp.new Niveau(1, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
+		tmp.niveaux.add(tmp.new Niveau(1, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec2));
 		tmp.niveaux.add(tmp.new Niveau(2, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
 		//tmp.niveaux.get(0).codes.add(tmp.niveaux.get(0).new CodeEtare("Gaz", null));
 	    DataManager.addBatiment(tmp);
@@ -175,17 +178,17 @@ public class Reseau extends Thread{
 							1,1,"IUT","1",
 							"Pt","1", null, new Position(4.640016,43.672491), new Vector<Batiment.Niveau>());
 	    tmp.niveaux.add(tmp.new Niveau(0, 6, DataManager.getBitmapFromAsset(context, "plans/plan2D_2.png"), vec));
-		tmp.niveaux.add(tmp.new Niveau(1, 3, DataManager.getBitmapFromAsset(context, "plans/plan2D_3.jpg"), vec));
+		tmp.niveaux.add(tmp.new Niveau(1, 3, DataManager.getBitmapFromAsset(context, "plans/plan2D_3.jpg"), vec2));
 		//tmp.niveaux.get(0).codes.add(tmp.niveaux.get(0).new CodeEtare("LOL", null));
 	    DataManager.addBatiment(tmp);
 	    
 	    tmp = new Batiment(2,50,20,20,
 							1,1,"Batiment 443","1",
-							"Pt","1", null, new Position(4.638685,43.672018), new Vector<Batiment.Niveau>());
+							"lol","1", null, new Position(4.638685,43.672018), new Vector<Batiment.Niveau>());
 	    tmp.niveaux.add(tmp.new Niveau(-1, 4, DataManager.getBitmapFromAsset(context, "plans/plan2D_3.jpg"), vec));
-		tmp.niveaux.add(tmp.new Niveau(0, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
+		tmp.niveaux.add(tmp.new Niveau(0, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec2));
 		tmp.niveaux.add(tmp.new Niveau(1, 5, null, vec));
-		tmp.niveaux.add(tmp.new Niveau(2, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D_2.png"), vec));
+		tmp.niveaux.add(tmp.new Niveau(2, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D_2.png"), null));
 		tmp.niveaux.add(tmp.new Niveau(3, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
 		//tmp.niveaux.get(0).codes.add(tmp.niveaux.get(0).new CodeEtare("Acide", null));
 	    DataManager.addBatiment(tmp); 
