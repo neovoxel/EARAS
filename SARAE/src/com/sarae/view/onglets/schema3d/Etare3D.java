@@ -96,7 +96,7 @@ public class Etare3D {
 		gl.glColor4f(1.f, 1.f, 1.f, 1.f);
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
 		gl.glTexCoordPointer(2, GL10.GL_SHORT, 0, texBuffer);
-		gl.glActiveTexture(GL10.GL_TEXTURE0); // <---------------------------------------
+		//gl.glActiveTexture(GL10.GL_TEXTURE0); // <---------------------------------------
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, id[0]);
 		
 		gl.glDrawElements(GL10.GL_TRIANGLES, surfaceIndexes.length, GL10.GL_UNSIGNED_SHORT, indexBufferSurface);
