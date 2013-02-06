@@ -8,84 +8,105 @@ import java.util.Map;
 import java.util.Vector;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-import com.sarae.MainActivity;
-
-
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.NetworkOnMainThreadException;
 import android.util.Log;
-import android.widget.ImageView;
 
 
-public class Reseau{
+public class Reseau extends Thread{
 	
-	private static boolean connected=false;
-	// Création du socket et connexion
-    private static Socket sRecup;
-    private static InetAddress host;
-    private static int port;
+	 public enum Status{
+	    	CONNECTE, ENVOIE, RECEPTION, STANDBY, DOWN, ERREUR;
+	    	public String toString(){
+	    		switch(this){
+	    			case CONNECTE:
+	    				return "Status: Connecté";
+	    			case ENVOIE:
+	    				return "Status: Envoie";
+	    			case RECEPTION:
+	    				return "Status: Reception";
+	    			case STANDBY:
+	    				return "Status: StandBy";
+	    			case DOWN:
+	    				return "Status: Down";
+	    			case ERREUR:
+	    				return "Status: Erreur";
+	    			default:
+	    				return "Status: Down";
+	    		}
+	    	}
+	    }
+	private boolean connected=false;
+	// CrÃ©ation du socket et connexion
+    private Socket sRecup;
+    private InetAddress host;
+    private int port;
+    private  Status status=Status.DOWN;
+    
+    private static Reseau singleton = new Reseau();
 	
-	private Reseau(){}
+	private Reseau() {}
 	
-	public static void setHost(String _host)
-	{ try {
-		host=InetAddress.getByName(_host);
-	} catch (UnknownHostException e) {
-	}}
-	
-	public static InetAddress getHost()
+	public InetAddress getHost()
 	{return host;}
 	
-	public static void setPort(int _port)
-	{ port=_port;}
 	
-	public static int getPort()
+	public int getPort()
 	{ return port;}
 	
-	public static void setConnexion(String _host, int _port)
+	public void setConnexion(String _host, int _port)
 	{
 		try { host=InetAddress.getByName(_host); }
-		catch (UnknownHostException e) {  }
+		catch (UnknownHostException e) { status=Status.ERREUR; }
 		port=_port;
 	}	
 	
-	public static boolean connexion(){
+	public boolean connexion(){
 		 try {
-			sRecup = new Socket(host, port);	// J'écris un commentaire lol - Pierre
+			 setConnexion("192.168.7.1", 80);
+			 sRecup = new Socket(host, port);	// J'Ã©cris un commentaire lol - Pierre
 		 } catch (UnknownHostException e) {
 			 System.out.println(" 1 Marche po");
+			 status=Status.ERREUR;
 			 Log.e("1", "erreur host",e);
 			return connected=false;
 		 } catch (IOException e) {
 			 System.out.println(" 2 Marche po");
+			 status=Status.ERREUR;
 			 Log.e("2", "erreur IOException",e);
 			return connected=false;
 		 } catch (NetworkOnMainThreadException e) {
 			 System.out.println(" 3 Marche po");
+			 status=Status.ERREUR;
 			 Log.e("3", "erreur Thread",e);
 			 return connected=false;
 		 }
+		 status=Status.CONNECTE;
 		 return connected=true;
 	}
 	
-	public static void deconnexion()
+	public void deconnexion()
 	{
 		if(sRecup != null)
 			try {
 				sRecup.close();
+				status = Status.DOWN;
 			} catch (IOException e)
 			{  }
 	}
 	
-	public static boolean isConnected()
+	public boolean isConnected()
 	{return connected;}
 	
+	public Status getStatus(){
+		return status;
+	}
+	/*
 	public static boolean ping()
 	{	
 		new Thread(new Runnable() {
@@ -95,7 +116,6 @@ public class Reseau{
 				
 				if(connexion())
 				{
-					byte[] buffer = {'c', 'o', 'u', 'c', 'o', 'u'};
 					String tmp="coucou";
 					try {
 						//sRecup.getOutputStream().write(buffer, 0, buffer.length);
@@ -103,15 +123,33 @@ public class Reseau{
 			            out.println(tmp); 
 					}
 					catch (IOException e) { }
-				}
+				} 
 				
 
 			}}).start();
 		return true;
-			
-	}
+	}//*/
 	
-	public static boolean chargerDonnees(Context context) {
+	///*
+	public boolean chargerDonnees(double x, double y,Context context) {
+		/*
+		
+		/*
+		 * ENVOIE DE COORDONNEE
+		 
+		
+		if(status==Status.CONNECTE){
+			Vector<Bitmap> tiles = new Vector<Bitmap>();
+			envoie("GET handling.php?x="+x+"&y="+y);
+			System.out.println(recoit());
+		}
+		else{
+			System.out.println("Il n'y a pas de connexion!");
+		}
+		
+		//*/
+
+		
 		Batiment batbat = new Batiment();
 		Batiment.Niveau nivniv = batbat.new Niveau();
 		
@@ -150,19 +188,81 @@ public class Reseau{
 		tmp.niveaux.add(tmp.new Niveau(2, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D_2.png"), vec));
 		tmp.niveaux.add(tmp.new Niveau(3, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
 		//tmp.niveaux.get(0).codes.add(tmp.niveaux.get(0).new CodeEtare("Acide", null));
-	    DataManager.addBatiment(tmp);
+	    DataManager.addBatiment(tmp); 
 		
 		return true; //Tout va bien wesh
+	}//*/
+	
+	/*
+	 * FAIRE UNE FONCTION ENVOIE ET RECUP!
+	 */
+	private void envoie(String cmd){
+		try {
+			PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(sRecup.getOutputStream())),true);
+			out.write(cmd);
+		} catch (IOException e) {
+			status=Status.ERREUR;
+			e.printStackTrace();
+		}
 	}
 	
-	private static String getSubString(String chaine)
-	{
+	private String recoit(){
+		String tmp = new String();
+		
+		/*
+		 * Faire une fonction qui lance le thread d'écoute, et une fonction qui recoit le résultat.
+		 */
+		new Thread(new Runnable() {
+			public void run() {		
+				InputStream in=null;
+				
+				try {
+					in = sRecup.getInputStream();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				byte[] b = new byte[512];
+			try {
+				while(in.read(b)>0){
+					/*for(int i=0;i<b.length;i++)
+						tmp+=b[i];*/
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}}
+
+		}).start();
+		return tmp;
+	}
+	
+	private String getSubString(String chaine){
 		int i=0;
-		while(chaine.charAt(i)!=';' || i<chaine.length())
+		while(chaine.charAt(i)!=':' || i<chaine.length())
 			i++;
 		String s = chaine.substring(0, i-1);
 		chaine=chaine.substring(i+1); 
 		return s; 
+	}
+	
+	public static Reseau getInstance(){
+		return singleton;
+	}
+
+	public void run() {
+		if(status==Status.DOWN){
+			connexion();
+		}
+		if(status==Status.ERREUR){
+			System.out.println("Une erreur s'est produite sur le réseau.");
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println("Run ok");
 	}
 	
 }

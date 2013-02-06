@@ -1,6 +1,7 @@
 package com.sarae.view.onglets;
 
 import com.sarae.model.DataManager;
+import com.sarae.view.RapportPDF;
 
 import android.app.Activity;
 import android.content.Context;
@@ -29,7 +30,7 @@ public class InfoChoix {
 		buttonPDF.setLayoutParams(layoutParamsPDF);
 		buttonPDF.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				//activity.startActivity(new Intent(context, ActivityFicheAFPS.class));
+				activity.startActivity(new Intent(context, RapportPDF.class));
 			}
 		});
 		
