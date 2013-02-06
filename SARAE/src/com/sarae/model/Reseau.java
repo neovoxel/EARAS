@@ -12,6 +12,12 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.NetworkOnMainThreadException;
@@ -25,7 +31,7 @@ public class Reseau extends Thread{
 	    	public String toString(){
 	    		switch(this){
 	    			case CONNECTE:
-	    				return "Status: Connecté";
+	    				return "Status: Connect�";
 	    			case ENVOIE:
 	    				return "Status: Envoie";
 	    			case RECEPTION:
@@ -47,11 +53,14 @@ public class Reseau extends Thread{
     private InetAddress host;
     private int port;
     private  Status status=Status.DOWN;
+    private String reponse=null;
+    public String commande;
     
     private static Reseau singleton = new Reseau();
 	
 	private Reseau() {}
 	
+	/*
 	public InetAddress getHost()
 	{return host;}
 	
@@ -132,24 +141,24 @@ public class Reseau extends Thread{
 	
 	///*
 	public boolean chargerDonnees(double x, double y,Context context) {
-		/*
+		//*
 		
 		/*
 		 * ENVOIE DE COORDONNEE
+		 */
 		 
 		
 		if(status==Status.CONNECTE){
 			Vector<Bitmap> tiles = new Vector<Bitmap>();
-			envoie("GET handling.php?x="+x+"&y="+y);
-			System.out.println(recoit());
+			envoie("coucou");
+			System.out.println(reponse);
 		}
 		else{
-			System.out.println("Il n'y a pas de connexion!");
-		}
+			System.out.println("Il n'y a pas de connexion!");}
 		
 		//*/
 
-		
+		/*
 		Batiment batbat = new Batiment();
 		Batiment.Niveau nivniv = batbat.new Niveau();
 		
@@ -192,33 +201,32 @@ public class Reseau extends Thread{
 		tmp.niveaux.add(tmp.new Niveau(3, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
 		//tmp.niveaux.get(0).codes.add(tmp.niveaux.get(0).new CodeEtare("Acide", null));
 	    DataManager.addBatiment(tmp); 
-		
+		//*/
 		return true; //Tout va bien wesh
-	}//*/
+	}
 	
 	/*
 	 * FAIRE UNE FONCTION ENVOIE ET RECUP!
 	 */
 	private void envoie(String cmd){
-		try {
-			PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(sRecup.getOutputStream())),true);
-			out.write(cmd);
-		} catch (IOException e) {
-			status=Status.ERREUR;
-			e.printStackTrace();
-		}
-	}
-	
-	private String recoit(){
-		String tmp = new String();
-		
-		/*
-		 * Faire une fonction qui lance le thread d'écoute, et une fonction qui recoit le résultat.
-		 */
 		new Thread(new Runnable() {
+			public void run() {	
+				HttpGet httppost = new HttpGet("http://192.168.7.1/test.txt");
+				HttpClient httpclient = new DefaultHttpClient();
+				try {
+					httpclient.execute(httppost);
+				} catch (ClientProtocolException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} //Voila, la requ�te est envoy�e
+			}}).start();
+		/*new Thread(new Runnable() {
 			public void run() {		
 				InputStream in=null;
-				
+				String tmp = "";
 				try {
 					in = sRecup.getInputStream();
 				} catch (IOException e) {
@@ -228,16 +236,23 @@ public class Reseau extends Thread{
 				byte[] b = new byte[512];
 			try {
 				while(in.read(b)>0){
-					/*for(int i=0;i<b.length;i++)
-						tmp+=b[i];*/
+					for(int i=0;i<b.length;i++)
+						tmp+=b[i];
+					Reseau.getInstance().recoit(tmp);				
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}}
 
-		}).start();
-		return tmp;
+		}).start();*/
+	}
+		
+	public void recoit(String message){		
+		/*
+		 * Faire une fonction qui lance le thread d'écoute, et une fonction qui recoit le résultat.
+		 */
+		reponse=message;
 	}
 	
 	private String getSubString(String chaine){
@@ -255,7 +270,7 @@ public class Reseau extends Thread{
 
 	public void run() {
 		if(status==Status.DOWN){
-			connexion();
+			//connexion();
 		}
 		if(status==Status.ERREUR){
 			System.out.println("Une erreur s'est produite sur le réseau.");

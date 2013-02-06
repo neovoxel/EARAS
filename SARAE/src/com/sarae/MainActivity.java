@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,11 +21,16 @@ public class MainActivity extends Activity {
 	private ImageView Bconnexion;
 	private ProgressBar progressBar;
 	private TextView textProgress;
+	private LinearLayout Layout;
+	private TextView connexion;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_main);
+	    
+	    Layout= (LinearLayout) findViewById(R.id.LinearLayout_connec);
+	    connexion=(TextView) findViewById(R.id.TexteConnexion);
 	    progressBar = (ProgressBar) findViewById(R.id.progressBar1);
 	    progressBar.setVisibility(ProgressBar.INVISIBLE);
 	    
@@ -44,6 +50,9 @@ public class MainActivity extends Activity {
 				{
 					//while(reseau.getStatus()==Reseau.Status.DOWN);
 					ok = reseau.chargerDonnees(4.639458,43.672647,MainActivity.this);
+					Layout.removeAllViews();
+					Layout.addView(progressBar);
+					Layout.addView(textProgress);
 					progressBar.setVisibility(ProgressBar.VISIBLE);
 					textProgress.setText("Connexion");
 					textProgress.setVisibility(TextView.VISIBLE);
@@ -60,6 +69,9 @@ public class MainActivity extends Activity {
 		    				
 		    				progressBar.setVisibility(ProgressBar.GONE);
 		    				textProgress.setVisibility(TextView.INVISIBLE);
+		    				Layout.removeAllViews();
+		    				Layout.addView(Bconnexion);
+		    				Layout.addView(connexion);
 		    				startActivity(new Intent(MainActivity.this, AfficherCarte_Activity.class));
 	
 		    				

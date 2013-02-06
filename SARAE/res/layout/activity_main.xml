@@ -5,6 +5,7 @@
     android:background="@color/Fond" >
 
     <LinearLayout
+        android:id="@+id/LinearLayout_connec"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -13,6 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:gravity="center"
         android:orientation="vertical" >
 
         <ImageView
@@ -37,6 +39,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:maxHeight="150dp"
+            android:maxWidth="150dip"
+            android:minHeight="150dip"
             android:visibility="visible" />
 
         <TextView
