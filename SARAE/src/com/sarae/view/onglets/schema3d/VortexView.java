@@ -13,8 +13,11 @@ public class VortexView extends GLSurfaceView {
 	
 	public VortexView(Context context, AttributeSet attrs, Batiment bat) {
 		super(context, attrs);
-		_renderer = new VortexRenderer(new Batiment3D(bat));
-		setRenderer(_renderer);
+		
+		if (bat.getNbNiveaux() > 0) {
+			_renderer = new VortexRenderer(new Batiment3D(bat));
+			setRenderer(_renderer);
+		}
 	}
 	
 	public boolean onTouchEvent(final MotionEvent event) {

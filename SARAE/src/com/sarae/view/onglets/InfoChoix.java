@@ -1,5 +1,6 @@
 package com.sarae.view.onglets;
 
+import com.sarae.MainActivity;
 import com.sarae.model.DataManager;
 import com.sarae.view.RapportPDF;
 
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class InfoChoix {
 	private ImageButton buttonPDF;
@@ -42,9 +44,13 @@ public class InfoChoix {
 		button3D.setLayoutParams(layoutParams3D);
 		button3D.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent myIntent = new Intent(context, Activity3D.class);
-				myIntent.putExtra("id_bat", id_bat);
-				activity.startActivity(myIntent);
+				if (DataManager.getBatimentById(id_bat).getNbNiveaux() > 0) {
+					Intent myIntent = new Intent(context, Activity3D.class);
+					myIntent.putExtra("id_bat", id_bat);
+					activity.startActivity(myIntent);
+				}
+				else
+					Toast.makeText(activity, "Impossible d'afficher la vue 3D pour ce bâtiment : données insuffisantes.", Toast.LENGTH_SHORT).show();
 			}
 		});
 	}

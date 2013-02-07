@@ -205,7 +205,7 @@ public class Reseau{
 		Batiment.Niveau nivniv = batbat.new Niveau();
 		
 		Map<String, Batiment.Niveau.CodeEtare> map = new HashMap<String, Batiment.Niveau.CodeEtare>();
-		map.put("nocif", nivniv.new CodeEtare("nocif", DataManager.getBitmapFromAsset(context, "etare/nocif.bmp")));
+		map.put("nocif", nivniv.new CodeEtare("nocif", DataManager.getBitmapFromAsset(context, "etare/nocif.jpg")));
 		map.put("toxique", nivniv.new CodeEtare("toxique", DataManager.getBitmapFromAsset(context, "etare/toxique.jpg")));
 		map.put("comburant", nivniv.new CodeEtare("comburant", DataManager.getBitmapFromAsset(context, "etare/comburant.jpg")));
 		
@@ -227,8 +227,8 @@ public class Reseau{
 	    tmp = new Batiment(1,20,20,10,
 							1,1,"IUT","1",
 							"Pt","1", null, new Position(4.640016,43.672491), new Vector<Batiment.Niveau>());
-	    tmp.niveaux.add(tmp.new Niveau(0, 6, DataManager.getBitmapFromAsset(context, "plans/plan2D_2.png"), vec));
-		tmp.niveaux.add(tmp.new Niveau(1, 3, DataManager.getBitmapFromAsset(context, "plans/plan2D_3.jpg"), vec2));
+	    //tmp.niveaux.add(tmp.new Niveau(0, 6, DataManager.getBitmapFromAsset(context, "plans/plan2D_2.png"), vec));
+		//tmp.niveaux.add(tmp.new Niveau(1, 3, DataManager.getBitmapFromAsset(context, "plans/plan2D_3.jpg"), vec2));
 	    DataManager.addBatiment(tmp);
 	    
 	    tmp = new Batiment(2,50,20,20,

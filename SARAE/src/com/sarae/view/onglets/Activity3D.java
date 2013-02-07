@@ -6,6 +6,7 @@ import com.sarae.model.DataManager;
 import com.sarae.view.onglets.schema3d.VortexView;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,8 +16,9 @@ import android.widget.LinearLayout;
 
 public class Activity3D extends Activity {
 	private LinearLayout myLayout;
+	private Button[] boutonsEtages;
 	private Button retour3D;
- 
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +27,7 @@ public class Activity3D extends Activity {
         setContentView(R.layout.activity3d);
         
         final Batiment bat = DataManager.getBatiment(b.getInt("id_bat"));
+        boutonsEtages = new Button[bat.getNbNiveaux()];
         
         retour3D = new Button(this);
         retour3D.setText("Retour 3D");
@@ -34,6 +37,10 @@ public class Activity3D extends Activity {
 				myLayout.removeViewAt(1);
 				myLayout.addView(new VortexView(Activity3D.this, null, bat), 1);
 				retour3D.setVisibility(View.GONE);
+				for (int k = 0 ; k < bat.getNbNiveaux() ; ++k) {
+					boutonsEtages[k].setTextSize(14.f);
+					boutonsEtages[k].setTextColor(Color.BLACK);
+				}
 			}
 		});
         
@@ -44,11 +51,13 @@ public class Activity3D extends Activity {
         
         for (int i = 0 ; i < bat.getNbNiveaux() ; ++i) {
         	final int j = i;
-        	Button bouton = new Button(this);
-            bouton.setText("Etage " + bat.niveaux.elementAt(i).numEtage);
+        	boutonsEtages[i] = new Button(this);
+        	boutonsEtages[i].setText("Etage " + bat.niveaux.elementAt(i).numEtage);
+        	
             if (bat.niveaux.elementAt(i).plan2D == null)
-            	bouton.setEnabled(false);
-            bouton.setOnClickListener(new OnClickListener() {
+            	boutonsEtages[i].setEnabled(false);
+            
+            boutonsEtages[i].setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					myLayout.removeViewAt(1);
 					
@@ -60,10 +69,18 @@ public class Activity3D extends Activity {
 					plan.setLayoutParams(layoutParams);
 					myLayout.addView(plan, 1);
 					
+					for (int k = 0 ; k < bat.getNbNiveaux() ; ++k) {
+						boutonsEtages[k].setTextSize(14.f);
+						boutonsEtages[k].setTextColor(Color.BLACK);
+					}
+					
+					boutonsEtages[j].setTextSize(19.f);
+					boutonsEtages[j].setTextColor(Color.rgb(139,90,43));
+					
 					retour3D.setVisibility(View.VISIBLE);
 				}
 			});
-            plans2D.addView(bouton);
+            plans2D.addView(boutonsEtages[i]);
         }
         
         plans2D.addView(retour3D);

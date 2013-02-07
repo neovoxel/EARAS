@@ -22,8 +22,6 @@ public class VortexRenderer implements GLSurfaceView.Renderer {
 		gl.glShadeModel(GL10.GL_SMOOTH);
 		// define the color we want to be displayed as the "clipping wall"
 	    gl.glClearColor(1.f, 1.f, 1.f, 1.f);
-        //gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		
 		
 		gl.glEnable(GL10.GL_TEXTURE_2D);
 		myBat.loadTextures(gl);
