@@ -6,7 +6,11 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -22,6 +26,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.CountDownTimer;
@@ -143,60 +148,24 @@ public class Reseau{
 	}//*/
 	
 	///*
-	public boolean chargerDonnees(double x, double y,Context context) {
+	public boolean chargerDonnees(double x, double y,Activity myActivity, Context context) {
 		//*
 		
 		/*
 		 * ENVOIE DE COORDONNEE
 		 */
 		Vector<Bitmap> tiles = new Vector<Bitmap>();
-		envoie("Handling.php?x="+x+"&y="+y+"");
-		envoie("map/Z18/"+recoit());
-		System.out.println(recoit());
 		
-		//*/
-
-		/*
-		Batiment batbat = new Batiment();
-		Batiment.Niveau nivniv = batbat.new Niveau();
+		envoie("Handling.php?x="+x+"&y="+y+""); //On demande une liste d'image
+		String links[] = recoit().split(";");
+		System.out.println("FICHIER:"+links[0]);
+		envoie("map/Z18/"+links[0]); //On récupère une image
+		writeFile(links[0], recoit().getBytes(), myActivity);
+		tiles.add(DataManager.getBitmapFromAsset(context, myActivity.getDir("getData",Activity.MODE_PRIVATE).getAbsolutePath()+links[0]));
 		
-		Map<String, Batiment.Niveau.CodeEtare> map = new HashMap<String, Batiment.Niveau.CodeEtare>();
-		map.put("nocif", nivniv.new CodeEtare("nocif", DataManager.getBitmapFromAsset(context, "etare/nocif.bmp")));
-		map.put("toxique", nivniv.new CodeEtare("toxique", DataManager.getBitmapFromAsset(context, "etare/toxique.jpg")));
-		map.put("comburant", nivniv.new CodeEtare("comburant", DataManager.getBitmapFromAsset(context, "etare/comburant.jpg")));
+		DataManager.addZone(tiles.get(0));
 		
-		Vector<Batiment.Niveau.CodeEtare> vec = new Vector<Batiment.Niveau.CodeEtare>();
-		vec.add(map.get("toxique"));
-		vec.add(map.get("comburant"));
 		
-		Batiment tmp = new Batiment(0,20,10,6,
-							1,1,"HopitalNice","1",
-							"Pt","1", null, new Position(4.637843,43.673163), new Vector<Batiment.Niveau>());
-	    tmp.niveaux.add(tmp.new Niveau(0, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
-		tmp.niveaux.add(tmp.new Niveau(1, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
-		tmp.niveaux.add(tmp.new Niveau(2, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
-		//tmp.niveaux.get(0).codes.add(tmp.niveaux.get(0).new CodeEtare("Gaz", null));
-	    DataManager.addBatiment(tmp);
-	    
-	    tmp = new Batiment(1,20,20,10,
-							1,1,"IUT","1",
-							"Pt","1", null, new Position(4.640016,43.672491), new Vector<Batiment.Niveau>());
-	    tmp.niveaux.add(tmp.new Niveau(0, 6, DataManager.getBitmapFromAsset(context, "plans/plan2D_2.png"), vec));
-		tmp.niveaux.add(tmp.new Niveau(1, 3, DataManager.getBitmapFromAsset(context, "plans/plan2D_3.jpg"), vec));
-		//tmp.niveaux.get(0).codes.add(tmp.niveaux.get(0).new CodeEtare("LOL", null));
-	    DataManager.addBatiment(tmp);
-	    
-	    tmp = new Batiment(2,50,20,20,
-							1,1,"Batiment 443","1",
-							"Pt","1", null, new Position(4.638685,43.672018), new Vector<Batiment.Niveau>());
-	    tmp.niveaux.add(tmp.new Niveau(-1, 4, DataManager.getBitmapFromAsset(context, "plans/plan2D_3.jpg"), vec));
-		tmp.niveaux.add(tmp.new Niveau(0, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
-		tmp.niveaux.add(tmp.new Niveau(1, 5, null, vec));
-		tmp.niveaux.add(tmp.new Niveau(2, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D_2.png"), vec));
-		tmp.niveaux.add(tmp.new Niveau(3, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
-		//tmp.niveaux.get(0).codes.add(tmp.niveaux.get(0).new CodeEtare("Acide", null));
-	    DataManager.addBatiment(tmp); 
-		//*/
 		return true; //Tout va bien wesh
 	}
 	
@@ -298,6 +267,26 @@ public class Reseau{
 		while(reponse==null && !timeElapsed);
 		return reponse;
 	}
+	
+	
+	/*
+	 * ECRITURE DE FICHIER
+	 */
+	private void writeFile(String name, byte data[], Activity myActivity){
+		try {
+			DataOutputStream writer = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(myActivity.getDir("getData",Activity.MODE_PRIVATE).getAbsolutePath()+name)));
+			writer.write(data);
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	
 	private String getSubString(String chaine){
 		int i=0;
