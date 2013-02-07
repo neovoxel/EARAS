@@ -62,6 +62,8 @@ public class FicheAFPS {
         		niveau++;
         }	
         
+        if(bat.libelle == null)
+        	bat.libelle = "";
         data = new String[nb];
         data[0] = "lat:" + bat.position.x + ",;,";
         data[1] = "long:" + bat.position.y + ",;,";
@@ -76,7 +78,7 @@ public class FicheAFPS {
         	str += data[i];
         
         /* An instance of this class will be registered as a JavaScript interface */  
-        class MyJavaScriptInterface   
+        class MyJavaScriptInterface
         {   
             public void saveResultat(String resultat)  
             { 
@@ -162,8 +164,13 @@ public class FicheAFPS {
         finally 
         {
 	         if (input != null) {
-		         try { input.close(); }
-		         catch (IOException e) { e.printStackTrace(); }
+		         try 
+		         { input.close(); }
+		         catch (IOException e) 
+		         { 
+		        	 Toast.makeText(context,"Impossible d'ouvrir la fiche AFPS.", Toast.LENGTH_LONG).show();
+		        	 e.printStackTrace(); 
+		         }
 	         }
         }
         return monText;
