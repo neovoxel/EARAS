@@ -43,10 +43,11 @@ public class MainActivity extends Activity {
 				boolean ok = true;
 				//ok = Reseau.ping();
 				Reseau reseau = Reseau.getInstance();
-				//reseau.start();
+				reseau.testPierre(MainActivity.this);
+				startActivity(new Intent(MainActivity.this, AfficherCarte_Activity.class));
 				if (!ok)
 					Toast.makeText(MainActivity.this, "Erreur lors  de la connexion", Toast.LENGTH_SHORT).show();
-				else if (ok)
+				/*else if (ok)
 				{
 					//while(reseau.getStatus()==Reseau.Status.DOWN);
 					ok = reseau.chargerDonnees(4.639458,43.675647,MainActivity.this);
@@ -78,7 +79,7 @@ public class MainActivity extends Activity {
 		    			}
 		    			
 		    		}.start();
-				}
+				}*/
 				
 				
 			}
