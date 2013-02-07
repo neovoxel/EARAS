@@ -49,7 +49,7 @@ public class MainActivity extends Activity {
 				else if (ok)
 				{
 					//while(reseau.getStatus()==Reseau.Status.DOWN);
-					ok = reseau.chargerDonnees(4.639458,43.672647,MainActivity.this);
+					ok = reseau.chargerDonnees(4.639458,43.675647,MainActivity.this);
 					Layout.removeAllViews();
 					Layout.addView(progressBar);
 					Layout.addView(textProgress);
