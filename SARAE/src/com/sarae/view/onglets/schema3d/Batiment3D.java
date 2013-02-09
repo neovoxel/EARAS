@@ -21,6 +21,8 @@ public class Batiment3D {
 	private ShortBuffer indexBufferToit;
 	
 	private Vector<Etare3D> codeEtares;
+	private TextureEtage RDC;
+	private Vector<TextureEtage> SSOLs;
 	
 	public Batiment3D(Batiment bat) {
 		batiment = bat;
@@ -29,6 +31,14 @@ public class Batiment3D {
 		int nbNiv = batiment.getNbNiveaux();
 		if (nbNiv <= 0)
 			nbNiv = 1;
+		
+		RDC = new TextureEtage(TextureEtage.TypeEtage.RDC);
+		SSOLs = new Vector<TextureEtage>();
+		
+		/*for (int i = 0 ; i < nbSousSol ; ++i) {
+			SSOLs.add(new TextureEtage(TextureEtage.TypeEtage.SSOL));
+			//SSOLs.lastElement().generate(nbSousSol/nbNiv);
+		}*/
 		
 		lineIndexes = new short[nbNiv][];
 		indexBuffer = new ShortBuffer[nbNiv];
@@ -45,9 +55,23 @@ public class Batiment3D {
 				e.printStackTrace();
 			}
 		}
+		try {
+			RDC.loadTexture(gl);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		for (int i = 0 ; i < SSOLs.size(); ++i) {
+			try {
+				SSOLs.get(i).loadTexture(gl);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void draw(GL10 gl) {
+		drawTextures(gl);
+		
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
 		gl.glColor4f(0.f, 0.f, 0.f, 1.f);
@@ -65,13 +89,18 @@ public class Batiment3D {
 	    gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 	}
 	
-	public void drawEtares(GL10 gl) {
+	private void drawTextures(GL10 gl) {
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 		gl.glEnable(GL10.GL_TEXTURE_2D);
 		
 		for (int i = 0 ; i < codeEtares.size() ; ++i)
 			codeEtares.get(i).draw(gl);
+		
+		RDC.draw(gl);
+		
+		for (int i = 0 ; i < SSOLs.size() ; ++i)
+			SSOLs.get(i).draw(gl);
 		
 		gl.glDisable(GL10.GL_TEXTURE_2D);
 		gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
@@ -152,6 +181,23 @@ public class Batiment3D {
 		final float x = tmp;
 		final float z = 0.5f;
 		
+		{
+			int nbSousSol = 0;
+			for (int i = 0 ; i < batiment.getNbNiveaux() ; ++i)
+				if (batiment.niveaux.elementAt(i).numEtage < 0)
+					nbSousSol++;
+			
+			float l = hauteurEtage;
+			if (l > 0.3f)
+				l = 0.3f;
+			RDC.generate((x+0.02f)+(l+0.02f), ((float) nbSousSol)/((float) nbNiv), -z, l);
+			
+			for (int i = 0 ; i < nbSousSol ; ++i) {
+				SSOLs.add(new TextureEtage(TextureEtage.TypeEtage.SSOL));
+				SSOLs.lastElement().generate((x+0.02f)+(l+0.02f), (((float) nbSousSol)/((float) nbNiv)) - (hauteurEtage * (i+1)) , -z, l);
+			}
+		}
+		
 		for (int i = 0 ; i < nbNiv+1 ; ++i) {
 			int j = 0, k = i*4*3;
 			float y = (float) i * hauteurEtage;
@@ -217,4 +263,5 @@ public class Batiment3D {
 	    vertexBuffer.put(tabPoints);
 	    vertexBuffer.position(0);
 	}
+	
 }

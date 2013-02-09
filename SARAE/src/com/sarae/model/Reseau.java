@@ -26,6 +26,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import com.sarae.view.onglets.schema3d.TextureEtage;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -203,6 +205,7 @@ public class Reseau{
 	    tmp = new Batiment(2,50,20,20,
 							1,1,"Batiment 443","1",
 							"lol","1", null, new Position(4.638685,43.672018), new Vector<Batiment.Niveau>());
+	    tmp.niveaux.add(tmp.new Niveau(-2, 4, DataManager.getBitmapFromAsset(context, "plans/plan2D_3.jpg"), vec2));
 	    tmp.niveaux.add(tmp.new Niveau(-1, 4, DataManager.getBitmapFromAsset(context, "plans/plan2D_3.jpg"), vec));
 		tmp.niveaux.add(tmp.new Niveau(0, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec2));
 		tmp.niveaux.add(tmp.new Niveau(1, 5, null, vec));
@@ -210,6 +213,7 @@ public class Reseau{
 		tmp.niveaux.add(tmp.new Niveau(3, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
 	    DataManager.addBatiment(tmp);
 		
+	    TextureEtage.TypeEtage.loadBitmaps(context);
 	}
 	
 	/*

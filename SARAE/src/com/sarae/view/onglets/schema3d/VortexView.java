@@ -26,11 +26,19 @@ public class VortexView extends GLSurfaceView {
 				//_renderer.setColor(event.getX() / getWidth(), event.getY() / getHeight(), 1.0f);
 				float currentX = event.getX();
 				
-				_renderer.setAngle(event.getX() / 2);	// Bla bla bla
+				_renderer.setAngle(event.getX() / 2);
 				
 				lastX = currentX;
 			}
 		});
 		return true;
+	}
+	
+	@Override public void onPause() {
+		super.onPause();
+	}
+	
+	@Override public void onResume() {
+		super.onResume();
 	}
 }

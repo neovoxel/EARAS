@@ -7,12 +7,13 @@ import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import com.sarae.model.Batiment;
+import com.sarae.model.DataManager;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.opengl.GLUtils;
 
-public class Etare3D {
+public class TextureEtage {
 	private int[] id = null;
 	private Bitmap bmp = null;
 	
@@ -23,8 +24,8 @@ public class Etare3D {
 	private float[] texCoords;
 	private FloatBuffer texBuffer;
 		
-	public Etare3D(Batiment.Niveau.CodeEtare code) {
-		bmp = code.logo;
+	public TextureEtage(TypeEtage e) {
+		bmp = e.getBitmap();
 		
 		texCoords = new float[] {
 			0.f, 1.f,
@@ -93,11 +94,24 @@ public class Etare3D {
 	}
 	
 	public void draw(GL10 gl) {
-		gl.glColor4f(1.f, 1.f, 1.f, 1.f);
+		gl.glColor4f(1.f, 1.f, 1.f, 0.5f);
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, id[0]);
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
 		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, texBuffer);
 		
 		gl.glDrawElements(GL10.GL_TRIANGLES, surfaceIndexes.length, GL10.GL_UNSIGNED_SHORT, indexBufferSurface);
 	}
+	
+	public enum TypeEtage {
+		RDC, SSOL;
+		private static final String[] FILES = new String[]
+		{ "RDC.jpg", "SSOL.jpg" };
+		private static Bitmap[] BMPS = new Bitmap[2];
+		public static void loadBitmaps(Context c) {
+			for (int i = 0 ; i < values().length ; ++i)
+				BMPS[i] = DataManager.getBitmapFromAsset(c, FILES[i]);
+		};
+		public Bitmap getBitmap()
+		{ return BMPS[this.ordinal()]; }
+	};
 }
