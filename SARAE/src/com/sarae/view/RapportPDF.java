@@ -25,7 +25,7 @@ public class RapportPDF extends Activity {
 		web.setBackgroundColor(Color.GRAY);
 		String content = "<html><center>";
 		for(int i = 0 ; i < 2 ; i++)
-			content += "<div><img src=\"pdfTest.jpg\"></div><br />";
+			content += "<div><img src=\"PDF.jpg\"></div><br />";
 		content +="</center></html>";
 		web.loadDataWithBaseURL("file:///android_asset/",content,"text/html","utf-8","");
 	}
