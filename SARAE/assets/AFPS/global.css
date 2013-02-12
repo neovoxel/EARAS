@@ -29,9 +29,13 @@ input[type="checkbox"] { width:50px; height:50px; }
 #divbutton { text-align:center; }
 
 /********* COLOR *********/
-.red { color:red; }
-.green { color: green; }
-.yellow { color: #CEB637; }
+.red { background-color:red; }
+.green { background-color: green; }
+.yellow { background-color: yellow; }
+
+.rouge { color:red; }
+.vert { color: green; }
+.jaune { color: #CEB637; }
 /********************************************************************************************/
 
 /************************************ FICHE AFPS PAGE 2 *************************************/
