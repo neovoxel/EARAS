@@ -2,7 +2,6 @@ package com.sarae.view;
 
 import com.sarae.R;
 import com.sarae.model.DataManager;
-import com.sarae.view.onglets.CameraLivePreview;
 import com.sarae.view.onglets.FicheAFPS;
 import com.sarae.view.onglets.InfoChoix;
 import com.sarae.view.onglets.RedigerRapport;

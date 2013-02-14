@@ -29,7 +29,7 @@ public class Bouttonbat extends ImageView {
 			}
 		});
 		
-		Bitmap tmp = DataManager.getBitmapFromAsset(context, "img/bouttonrouge.png");
+		Bitmap tmp = DataManager.getBitmapFromAsset(context, "img/boutonRouge.png");
 		setImageBitmap(tmp);
 		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		lp.setMargins(posX-tmp.getWidth()/2, posY-tmp.getHeight()/2, 0, 0);
