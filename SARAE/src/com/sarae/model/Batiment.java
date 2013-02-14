@@ -26,9 +26,9 @@ public class Batiment {
 		tauxVulnera=0;
 		
 		libelle="Sans nom";
-		typeMateriaux="Non d�finie";
-		typePenteToit="Non d�finie";
-		typeMatToit="Non d�finie";
+		typeMateriaux="Non définie";
+		typePenteToit="Non définie";
+		typeMatToit="Non définie";
 		
 		docPDF=null;
 		position=new Position();
