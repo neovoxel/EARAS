@@ -1,6 +1,5 @@
 package com.sarae.view.onglets;
 
-import com.sarae.MainActivity;
 import com.sarae.model.DataManager;
 import com.sarae.view.RapportPDF;
 
@@ -28,7 +27,7 @@ public class InfoChoix {
 		layoutParamsPDF.setMargins(0, 0, 10, 0);
 		
 		buttonPDF = new ImageButton(context, attrs);
-		buttonPDF.setImageBitmap(DataManager.getBitmapFromAsset(context, "buttonPDF.jpg"));
+		buttonPDF.setImageBitmap(DataManager.getBitmapFromAsset(context, "buttonPDF.png"));
 		buttonPDF.setLayoutParams(layoutParamsPDF);
 		buttonPDF.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
