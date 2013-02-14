@@ -42,7 +42,6 @@ public class RedigerRapport{
 			
 			public void onClick(View arg0) {
 				enregistrer();
-				//Toast.makeText(context, "Le rapport a �t� enregistr� avec succ�s.", Toast.LENGTH_LONG).show();
 			}
 		});
 		
