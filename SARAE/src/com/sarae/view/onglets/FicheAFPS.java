@@ -32,6 +32,10 @@ public class FicheAFPS {
 	private String str;
 	private boolean already_load;
 	
+	/**
+	 * Constructeur de la class Fiche AFPS
+	 * @param Prend en paramètre le context et l'identifiant du bâtiment.
+	 */
 	public FicheAFPS(Context _context, int id)
 	{
 		context = _context;
@@ -77,23 +81,38 @@ public class FicheAFPS {
         for(int i = 0 ; i < nb ; i++)
         	str += data[i];
         
-        /* An instance of this class will be registered as a JavaScript interface */  
+        /**
+         * Inner Class JavaScript Interface permettant au fichier .js d'appeller ses fonctions.  
+         * @author benenuts
+         */
         class MyJavaScriptInterface
         {   
+        	/**
+        	 * Fonction appeller par le fichier parseur.js 
+        	 * qui appelle elle-même la fonction ecrireFichier(String nomFichier,String monText) 
+        	 * qui à son tour enregistre dans un fichier texte les données de la fiche AFPS
+        	 * @param Prends en paramètre la String contenant la chaine du résultat
+        	 */
             public void saveResultat(String resultat)  
-            { 
-                ecrireFicher(id_bat + ".afps", resultat);
-            }
+            { ecrireFicher(id_bat + ".afps", resultat); }
             
+            /**
+             * Fonction appeler par le fichier inputDefaultData.js
+             * qui permet d'ajouter à la fiche AFPS les données qui n'ont pas besoin d'être rempli
+             * tel que les positions GPS, longueur, largeur du bâtiment etc..
+             * @return Retourne la String des données par défaut
+             */
             public String getDefaultData()
-            {  
-                return str;
-            }
+            { return str; }
             
+            /**
+             * Fonction appeler par le fichier inputData.js
+             * qui permet d'ajouter à la fiche AFPS les données qui ont déjà été rempli
+             * ultérieurement.
+             * @return Retourne la String des données utltérieurement saisi
+             */
             public String getData()  
-            { 
-                return resultat;
-            }
+            { return resultat; }
         }
 		
 		myweb = new WebView(context);
@@ -106,6 +125,11 @@ public class FicheAFPS {
 		
 		myweb.setWebViewClient(new WebViewClient()
         {
+			/**
+			 * Fonction qui appele les fichiers inputDefaultData.js 
+			 * et inputData.js une fois que la fiche AFPS à terminé de s'ouvrir
+			 * pour pouvoir implenté les données nécessaire
+			 */
         	public void onPageFinished(WebView view, String url)
         	{
         		if(!already_load)
@@ -122,6 +146,12 @@ public class FicheAFPS {
 		save.setLayoutParams(layoutParambutton);
 		save.setOnClickListener(new OnClickListener() 
 		{
+			/**
+			 * Lorsqu'on clique sur le bouton Enregistrer
+			 * cette fonction appele le fichier parseur.js qui va
+			 * récupérer les données saisis sur la fiche AFPS et appeler
+			 * la fonction saveResultat(String resultat) pour les stocker dans un fichier.
+			 */
 			public void onClick(View arg0) 
 			{
 				myweb.loadUrl("javascript:parseur();");
@@ -139,6 +169,12 @@ public class FicheAFPS {
 		layout.addView(save);
 	}
 	
+	/**
+	 * Fonction qui permet d'ouvrir un fichier contenant les données 
+	 * de la fiche AFPS.
+	 * @param Prend en paramètre le nom du fichier.
+	 * @return Retourne la string que contient le fichier.
+	 */
 	private String lireFichier(String nomFichier) 
     {
         File dir = context.getDir("Fiche_AFPS",Context.MODE_PRIVATE);
@@ -176,7 +212,12 @@ public class FicheAFPS {
         return monText;
 
       }
-    
+
+	/**
+	 * Fonction qui permet d'enregistrer dans un fichier les données 
+	 * de la fiche AFPS.
+	 * @param Prend en paramètre le nom du fichier et la string que l'on veut enregistrer.
+	 */
 	private void ecrireFicher(String nomFichier,String monText) 
 	{
        BufferedWriter writer = null;
