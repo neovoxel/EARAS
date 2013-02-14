@@ -110,9 +110,8 @@ public final class CameraLivePreview extends SurfaceView
 
             if (!pictureFileDir.exists() && !pictureFileDir.mkdirs()) {
 
-              Log.d("MakePhotoActivity", "Can't create directory to save image.");
-              Toast.makeText(myContext, "Can't create directory to save image.",
-                  Toast.LENGTH_LONG).show();
+              Log.d("MakePhotoActivity", "Impossible de créer le dossier de destination.");
+              Toast.makeText(myContext, "Impossible de créer le dossier de destination.",Toast.LENGTH_LONG).show();
               return;
 
             }
@@ -129,12 +128,12 @@ public final class CameraLivePreview extends SurfaceView
               FileOutputStream fos = new FileOutputStream(pictureFile);
               fos.write(data);
               fos.close();
-              Toast.makeText(myContext, "New Image saved:" + photoFile,
+              Toast.makeText(myContext, "Nouvelle image sauvegardée : " + photoFile,
                   Toast.LENGTH_LONG).show();
             } catch (Exception error) {
-              Log.d("MakePhotoActivity", "File" + filename + "not saved: "
+              Log.d("MakePhotoActivity", "File" + filename + "not saved : "
                   + error.getMessage());
-              Toast.makeText(myContext, "Image could not be saved.",
+              Toast.makeText(myContext, "L'image n'a pas pu être sauvegardée.",
                   Toast.LENGTH_LONG).show();
             }
             	myVp.update();

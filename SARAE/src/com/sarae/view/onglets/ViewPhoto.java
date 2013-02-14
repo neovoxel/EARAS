@@ -66,7 +66,7 @@ public class ViewPhoto{
 						
 						DataManager.DeleteFile(imagePath.get(nb));
 						update();
-						Toast.makeText(context, "Photo supprimée", Toast.LENGTH_SHORT).show();
+						Toast.makeText(context, "Photo supprimÃ©e", Toast.LENGTH_SHORT).show();
 						
 					}
 				});
