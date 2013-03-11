@@ -9,6 +9,7 @@ import java.util.Vector;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,16 +26,19 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.*;
 
-import com.sarae.view.onglets.schema3d.TextureEtage;
+import com.sarae.MainActivity;
+import com.sarae.model.Batiment.Niveau;
 
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.location.Address;
 import android.os.CountDownTimer;
 import android.os.NetworkOnMainThreadException;
 import android.util.Log;
-
 
 public class Reseau{
 	
@@ -43,7 +47,7 @@ public class Reseau{
 	    	public String toString(){
 	    		switch(this){
 	    			case CONNECTE:
-	    				return "Status: Connect�";
+	    				return "Status: Connection";
 	    			case ENVOIE:
 	    				return "Status: Envoie";
 	    			case RECEPTION:
@@ -60,123 +64,169 @@ public class Reseau{
 	    	}
 	    }
 	private boolean connected=false;
-	// CrÃ©ation du socket et connexion
+	// CrÃƒÂ©ation du socket et connexion
     private  Status status=Status.DOWN;
-    private String reponse=null;
+    private byte[] reponse;
     public String commande;
     private boolean timeElapsed=false;
+    private double x,y;
     
     private static Reseau singleton = new Reseau();
+    
+    public static class JsonParser {
+
+		static InputStream is = null;
+
+		static JSONObject jObj = null;
+
+		static String json = "";
+
+		// Constructeur de notre classe
+		public JsonParser() {
+
+		}
+    }
+
 	
 	private Reseau() {}
 	
-	/*
-	public InetAddress getHost()
-	{return host;}
-	
-	
-	public int getPort()
-	{ return port;}
-	
-	public void setConnexion(String _host, int _port)
-	{
-		try { host=InetAddress.getByName(_host); }
-		catch (UnknownHostException e) { status=Status.ERREUR; }
-		port=_port;
-	}	
-	
-	public boolean connexion(){
-		 try {
-			 setConnexion("192.168.7.1", 80);
-			 sRecup = new Socket(host, port);	// J'Ã©cris un commentaire lol - Pierre
-		 } catch (UnknownHostException e) {
-			 System.out.println(" 1 Marche po");
-			 status=Status.ERREUR;
-			 Log.e("1", "erreur host",e);
-			return connected=false;
-		 } catch (IOException e) {
-			 System.out.println(" 2 Marche po");
-			 status=Status.ERREUR;
-			 Log.e("2", "erreur IOException",e);
-			return connected=false;
-		 } catch (NetworkOnMainThreadException e) {
-			 System.out.println(" 3 Marche po");
-			 status=Status.ERREUR;
-			 Log.e("3", "erreur Thread",e);
-			 return connected=false;
-		 }
-		 status=Status.CONNECTE;
-		 return connected=true;
-	}
-	
-	public void deconnexion()
-	{
-		if(sRecup != null)
-			try {
-				sRecup.close();
-				status = Status.DOWN;
-			} catch (IOException e)
-			{  }
-	}
-	
-	public boolean isConnected()
-	{return connected;}
-	
-	public Status getStatus(){
-		return status;
-	}
-	/*
-	public static boolean ping()
-	{	
-		new Thread(new Runnable() {
-			 
-			public void run() {
-				setConnexion("192.168.7.1", 80);
-				
-				if(connexion())
-				{
-					String tmp="coucou";
-					try {
-						//sRecup.getOutputStream().write(buffer, 0, buffer.length);
-						PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(sRecup.getOutputStream())),true);
-			            out.println(tmp); 
-					}
-					catch (IOException e) { }
-				} 
-				
-
-			}}).start();
-		return true;
-	}//*/
 	
 	///*
-	public boolean chargerDonnees(double x, double y,Activity myActivity, Context context) {
+	public boolean chargerDonnees(double _x, double _y,MainActivity myActivity, Context context) {
 		//*
 		
 		/*
 		 * ENVOIE DE COORDONNEE
 		 */
+		x=_x;y=_y;
+		
+		DataManager.setLatitude(x);
+		DataManager.setLongitude(y);
+		DataManager.clearZone();
+		DataManager.clearBatiment();
+			
+
 		Vector<Bitmap> tiles = new Vector<Bitmap>();
 		
-		envoie("Handling.php?x="+x+"&y="+y+""); //On demande une liste d'image
-		String links[] = recoit().split(";");
-		System.out.println("FICHIER:"+links[0]);
-		envoie("map/Z18/"+links[0]); //On récupère une image
-		writeFile(links[0], recoit().getBytes(), myActivity);
-		tiles.add(DataManager.getBitmapFromAsset(context, myActivity.getDir("getData",Activity.MODE_PRIVATE).getAbsolutePath()+links[0]));
+		try {
+			envoie("Handling.php?x="+x+"&y="+y+"",myActivity);
+		} catch (Exception e) {
+			return false;
+		} //On demande une liste d'image
+		System.out.println(new String(reponse));
+		String blocs[] = new String(reponse).split("@");
+		System.out.println("Bloc 0:"+blocs[0]);
+		String links[] = new String(blocs[0]).split(";");
+		System.out.println(reponse);
+		DataManager.origin_Latitude=Double.parseDouble(links[0]);//Latitude
+		DataManager.origin_Longitude=Double.parseDouble(links[1]);//longitude
+		DataManager.map_largeur=Integer.parseInt(links[2]);//largeur map en nb tiles
+		System.out.println("origin_x : "+ DataManager.origin_Latitude);
+		System.out.println("origin_y : "+ DataManager.origin_Longitude);
+		System.out.println("largeur : "+ DataManager.map_largeur);
+		System.out.println("nombre d'image a dl : "+(links.length-3));
+		for (int i=3; i<links.length;i++)//AJOUT DES IMAGES DE LA CARTE
+		{
+			System.out.println("FICHIER:"+links[i]);
+			try {
+				envoie("map/Z18/"+links[i],myActivity);
+			} catch (Exception e) {
+				return false;
+			} //On rÃ©cupÃ¨re une image
+			tiles.add(BitmapFactory.decodeByteArray(reponse, 0, reponse.length));
+			DataManager.addZone(tiles.get(i-3));
+		}
 		
-		DataManager.addZone(tiles.get(0));
 		
+		JSONObject json=null;
+		try {
+			json = new JSONObject(blocs[1]);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+			return false;			
+		}
+		JSONArray batiments=null;
+		try {
+				// récupérer la liste de tous les batiments
+				batiments = json.getJSONArray("batiment"); 
+				// parcourir toute la liste des bat
+				for (int i = 0; i < batiments.length(); i++) {
+					// récupérer un bat de type JSONObject
+					
+					JSONObject bat = batiments.getJSONObject(i);
+					DataManager.addBatiment(new Batiment(bat.getInt("0"),(float) bat.getDouble("hauteur_batiment"),(float)bat.getDouble("largeur_batiment"),(float)bat.getDouble("profondeur_batiment"),
+											(float)bat.getDouble("degrespentetoit"), (float)bat.getDouble("tauxvulnera"), bat.getString("libelle_batiment"), bat.getString("typemateriaux_batiment"),
+													bat.getString("typepentetoit"), bat.getString("typemattoit"), null, new Position(bat.getDouble("lat_batiment"), bat.getDouble("lon_batiment")),
+													new Vector<Niveau>()));
+					System.out.println("batiment ajouter");
+	
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+				return false;
+			}
+		
+		JSONArray niveaux=null;
+		try {
+			// récupérer la liste de tous les etages
+			niveaux = json.getJSONArray("niveau"); 
+			// parcourir toute la liste des bat
+			for (int i = 0; i < niveaux.length(); i++) {
+				// récupérer un bat de type JSONObject
+				JSONObject niv = niveaux.getJSONObject(i);
+				Batiment tmp = DataManager.getBatimentById(niv.getInt("id_batiment"));
+				tmp.niveaux.add(tmp.new Niveau(niv.getInt("numniveau"),niv.getInt("id_niveau"),niv.getInt("nombre_pieces"), getBitmap(niv.getString("plan"), myActivity), new Vector<Batiment.Niveau.CodeEtare>()));
+				System.out.println("niveau ajouter");
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		JSONArray dangers=null;
+		Map<Integer, Batiment.Niveau.CodeEtare> map = new HashMap<Integer, Batiment.Niveau.CodeEtare>();
+		try {
+			// récupérer la liste de tous les produits
+			dangers = json.getJSONArray("produitsdangereux"); 
+			// parcourir toute la liste des produits
+			for (int i = 0; i < dangers.length(); i++) {
+				// récupérer un produit de type JSONObject
+				JSONObject dan = dangers.getJSONObject(i);
+				Batiment batbat = new Batiment();
+				Batiment.Niveau nivniv = batbat.new Niveau();
+				map.put((Integer)dan.getInt("id_produit"), nivniv.new CodeEtare(dan.getString("attributproduit"),getBitmap("ETARE_LOGO/"+dan.getString("attributproduit")+".jpg",myActivity)));
+				System.out.println("danger ajouter");
+
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return false;
+		}
+		JSONArray association=null;
+		try {
+			// récupérer la liste de tous les produits
+			association = json.getJSONArray("contient"); 
+			// parcourir toute la liste des produits
+			for (int i = 0; i < association.length(); i++) {
+				// récupérer un produit de type JSONObject
+				JSONObject asso = association.getJSONObject(i);
+				DataManager.getNiveauById(asso.getInt("id_niveau")).codes.add(map.get(asso.getInt("id_produit")));
+				System.out.println("danger ajouter");
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return false;
+		}
 		
 		return true; //Tout va bien wesh
 	}
 	
-	public void testPierre(Context context) {
+	/*public void testPierre(Context context) {
 		Batiment batbat = new Batiment();
 		Batiment.Niveau nivniv = batbat.new Niveau();
 		
 		Map<String, Batiment.Niveau.CodeEtare> map = new HashMap<String, Batiment.Niveau.CodeEtare>();
-		map.put("nocif", nivniv.new CodeEtare("nocif", DataManager.getBitmapFromAsset(context, "etare/nocif.jpg")));
+		map.put("nocif", nivniv.new CodeEtare("nocif", DataManager.getBitmapFromAsset(context, "etare/nocif.bmp")));
 		map.put("toxique", nivniv.new CodeEtare("toxique", DataManager.getBitmapFromAsset(context, "etare/toxique.jpg")));
 		map.put("comburant", nivniv.new CodeEtare("comburant", DataManager.getBitmapFromAsset(context, "etare/comburant.jpg")));
 		
@@ -190,22 +240,21 @@ public class Reseau{
 		Batiment tmp = new Batiment(0,20,10,6,
 							1,1,"HopitalNice","1",
 							"Tr","1", null, new Position(4.637843,43.673163), new Vector<Batiment.Niveau>());
-	    tmp.niveaux.add(tmp.new Niveau(0, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
-		tmp.niveaux.add(tmp.new Niveau(1, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec2));
-		tmp.niveaux.add(tmp.new Niveau(2, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
+	    //tmp.niveaux.add(tmp.new Niveau(0, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
+		//tmp.niveaux.add(tmp.new Niveau(1, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec2));
+		//tmp.niveaux.add(tmp.new Niveau(2, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
 	    DataManager.addBatiment(tmp);
 	    
 	    tmp = new Batiment(1,20,20,10,
 							1,1,"IUT","1",
 							"Pt","1", null, new Position(4.640016,43.672491), new Vector<Batiment.Niveau>());
-	    //tmp.niveaux.add(tmp.new Niveau(0, 6, DataManager.getBitmapFromAsset(context, "plans/plan2D_2.png"), vec));
-		//tmp.niveaux.add(tmp.new Niveau(1, 3, DataManager.getBitmapFromAsset(context, "plans/plan2D_3.jpg"), vec2));
+	    tmp.niveaux.add(tmp.new Niveau(0, 6, DataManager.getBitmapFromAsset(context, "plans/plan2D_2.png"), vec));
+		tmp.niveaux.add(tmp.new Niveau(1, 3, DataManager.getBitmapFromAsset(context, "plans/plan2D_3.jpg"), vec2));
 	    DataManager.addBatiment(tmp);
 	    
 	    tmp = new Batiment(2,50,20,20,
 							1,1,"Batiment 443","1",
 							"lol","1", null, new Position(4.638685,43.672018), new Vector<Batiment.Niveau>());
-	    tmp.niveaux.add(tmp.new Niveau(-2, 4, DataManager.getBitmapFromAsset(context, "plans/plan2D_3.jpg"), vec2));
 	    tmp.niveaux.add(tmp.new Niveau(-1, 4, DataManager.getBitmapFromAsset(context, "plans/plan2D_3.jpg"), vec));
 		tmp.niveaux.add(tmp.new Niveau(0, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec2));
 		tmp.niveaux.add(tmp.new Niveau(1, 5, null, vec));
@@ -213,34 +262,45 @@ public class Reseau{
 		tmp.niveaux.add(tmp.new Niveau(3, 5, DataManager.getBitmapFromAsset(context, "plans/plan2D.png"), vec));
 	    DataManager.addBatiment(tmp);
 		
-	    TextureEtage.TypeEtage.loadBitmaps(context);
-	}
+	}*/
 	
+	public Status getStatus()
+	{
+		return status;
+	}
 	/*
 	 * FAIRE UNE FONCTION ENVOIE ET RECUP!
 	 */
-	private void envoie(String cmd){
+	private void envoie(String cmd,MainActivity myActivity) throws Exception{
 		commande=cmd;
 		reponse=null;
-		new Thread(new Runnable() {
-			public void run() {	
 				DefaultHttpClient httpClient = new DefaultHttpClient();
 				HttpGet httpget = new HttpGet("http://192.168.7.1/"+commande);
 				HttpResponse rep = null;
 				try {
 					rep = httpClient.execute(httpget);
+					System.out.println("Envoie requette get");
 				} catch (ClientProtocolException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				HttpEntity entity = rep.getEntity();
+				HttpEntity entity = null;
 				
+				if (rep != null)
+				entity = rep.getEntity();
+				else
+				{
+					myActivity.handler.sendEmptyMessage(1);
+					throw new Exception("Connexion impossible.");
+				}
 				if (entity != null)
+				{
 					try {
-						reponse = EntityUtils.toString(entity);
+						reponse = EntityUtils.toByteArray(entity);
+						System.out.println("Reponse recu");
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -248,58 +308,28 @@ public class Reseau{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-			}}).start();
+				}
+				else
+				{
+					myActivity.handler.sendEmptyMessage(1);
+				}
+		
 		
 	}
 		
-	public String recoit(){	
-		timeElapsed = false;
-		CountDownTimer timer= new CountDownTimer(3000,1) {
-			
-			@Override
-			public void onTick(long millisUntilFinished) {
-				
-			}
-			
-			@Override
-			public void onFinish() {
-				timeElapsed=true;
-				
-			}
-		};
-		timer.start();
-		while(reponse==null && !timeElapsed);
-		return reponse;
-	}
-	
-	
-	/*
-	 * ECRITURE DE FICHIER
-	 */
-	private void writeFile(String name, byte data[], Activity myActivity){
+	private Bitmap getBitmap(String lien,MainActivity activity)
+	{
 		try {
-			DataOutputStream writer = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(myActivity.getDir("getData",Activity.MODE_PRIVATE).getAbsolutePath()+name)));
-			writer.write(data);
-			writer.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
+			envoie(lien, activity);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if (reponse!= null)
+		return BitmapFactory.decodeByteArray(reponse, 0, reponse.length);
+		return null;
 	}
 	
-	
-	
-	private String getSubString(String chaine){
-		int i=0;
-		while(chaine.charAt(i)!=':' || i<chaine.length())
-			i++;
-		String s = chaine.substring(0, i-1);
-		chaine=chaine.substring(i+1); 
-		return s; 
-	}
 	
 	public static Reseau getInstance(){
 		return singleton;

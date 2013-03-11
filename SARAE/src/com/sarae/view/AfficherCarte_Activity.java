@@ -22,7 +22,8 @@ public class AfficherCarte_Activity extends Activity {
 	ImageView iv;
 	Vector<Batiment> batiments;
 
-	private float XMin,YMin,XPas,YPas;
+	private double XMin,YMin,XPas,YPas;
+	private double PosX,PosY;
 	private RelativeLayout rl;
 	private Point size;
 	
@@ -49,27 +50,38 @@ public class AfficherCarte_Activity extends Activity {
         	}
         }
         
-        iv.setImageBitmap(combineImages(bitmaplist));
-        
+     
+        //iv.setImageBitmap(DataManager.getZone(0));
         
         ///////////////////////////////////////////////////////////////
         
         batiments = DataManager.getBatiments();
-        
+       
         ////////////////////////////////////////////////////////////////
         
-        XPas=0.001379f;
-        YPas=0.000991f;
+        PosX= DataManager.getLatitude();
+        PosY= DataManager.getLongitude();
         
-        XMin=4.637528f;//ORIGINE EN X
-        YMin= 43.673764f;//ORIGINE EN Y
+        XPas=0.001379;
+        YPas=0.000991;
         
+        XMin=DataManager.origin_Latitude;//ORIGINE EN X
+        YMin= DataManager.origin_Longitude;//ORIGINE EN Y
+        
+        //XMin=DataManager.getLatitude();//ORIGINE EN X
+        //YMin=DataManager.getLongitude();//ORIGINE EN Y
+        
+      // iv.setImageBitmap(getZone(combineImages(DataManager.imgZone)));
+      //iv.setImageBitmap(combineImages(DataManager.imgZone));
        rl = (RelativeLayout) findViewById(R.id.Relat);
-       rl.addView(new BouttonBleu(rl.getContext(), xtoi(4.639458f), ytoi(43.672647f)));
+       
+       iv.setImageBitmap(getZone(combineImages(DataManager.imgZone)));
+       //iv.setImageBitmap(combineImages(DataManager.imgZone));
+       rl.addView(new BouttonBleu(rl.getContext(),size.x/2, size.y/2));
        
        for(int i=0;i<batiments.size();i++)
        {
-    	   rl.addView(new Bouttonbat(rl.getContext(),this, xtoi(batiments.get(i).position.x), ytoi(batiments.get(i).position.y), batiments.get(i)));
+    	   rl.addView(new Bouttonbat(rl.getContext(),this, xtoi(batiments.get(i).position.y,size.x/3), ytoi(batiments.get(i).position.x,size.y/2), batiments.get(i)));
        }
        
        
@@ -89,57 +101,39 @@ public class AfficherCarte_Activity extends Activity {
         
     }
 
-    public int xtoi(double d)
+    public int xtoi(double d,int largeurTilepx)
     {
-    	float w=3*XPas;
-		return (int)((d-XMin)*size.x/w);
+    	
+		return (int)((d-XMin)/XPas*largeurTilepx);
     	
     }
     
-    public int ytoi(double d)
+    public int ytoi(double d,int hauteurTilepx)
     {
-    	float w=2*YPas;
-		return (int)((YMin-d)*size.y/w);
-    	
+		return (int)((YMin-d)/YPas*hauteurTilepx);	
     }
     
-    /*public static Bitmap getBitmapFromAsset(Context context, String strName) {
-        AssetManager assetManager = context.getAssets();
-
-        InputStream istr;
-        Bitmap bitmap = null;
-        try {
-            istr = assetManager.open(strName);
-            bitmap = BitmapFactory.decodeStream(istr);
-        } catch (IOException e) {
-        	System.out.println("bitmap null");
-            return null;
-            
-        }
-        
-      
-
-        return bitmap;
-    }*/
     
-    public Bitmap combineImages(ArrayList<Bitmap> listeimage) { // can add a 3rd parameter 'String loc' if you want to save the new image - left some code to do that at the bottom 
+    public Bitmap combineImages(Vector<Bitmap> listeimage) {
         Bitmap cs = null; 
      
         int width, height = 0; 
          
         
-          width = 3*256; 
-          height = 2*256; 
+        int x= DataManager.map_largeur;
+        int y= DataManager.imgZone.size()/x;
+        width = x*256; 
+        height = y*256; 
   
         cs = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888); 
      
         Canvas comboImage = new Canvas(cs); 
         
-        for (int i=0;i<2;i++)
+        for (int j=0;j<y;j++)
         {
-        	for (int j=0;j<3;j++)
+        	for (int i=0;i<x;i++)
         	{
-        		comboImage.drawBitmap(listeimage.get(j+i*3), j*256f, i*256f, null); 
+        		comboImage.drawBitmap(listeimage.get(i+j*x), i*256f, j*256f, null); 
       
         	}
         }
@@ -147,5 +141,24 @@ public class AfficherCarte_Activity extends Activity {
         return cs; 
       }
     
+	    public Bitmap getZone(Bitmap map)
+	    {
+	    	
+	    	int x =xtoi(PosX, 256)- (int)(1.5*256.0);
+	    	int y = ytoi(PosY, 256)- 256;
+	    	
+	    	XMin=PosX-=1.5*XPas;
+	    	YMin=PosY+=YPas;
+	    	System.out.println("X:"+x);
+	    	System.out.println("Y:"+y);
+	    	if(x>0 && y>0)
+	    	{
+	    	Bitmap finale = Bitmap.createBitmap(map, x, y, 3*256, 2*256);
+	    	return finale;
+	    	}
+	    	return null;
+	    }
     }
+    
+    
 

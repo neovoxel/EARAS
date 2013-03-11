@@ -63,7 +63,7 @@ public class ViewPhoto{
 				al.setButton("Supprimer", new DialogInterface.OnClickListener() {
 					
 					public void onClick(DialogInterface dialog, int which) {
-						
+						DataManager.delPhoto(imagePath.get(nb));
 						DataManager.DeleteFile(imagePath.get(nb));
 						update();
 						Toast.makeText(context, "Photo supprimée", Toast.LENGTH_SHORT).show();

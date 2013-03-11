@@ -32,7 +32,7 @@ public class Batiment {
 		
 		docPDF=null;
 		position=new Position();
-		niveaux=null;
+		niveaux=new Vector<Batiment.Niveau>();
 	}
 	
 	public void copy(final Batiment b) {
@@ -82,12 +82,13 @@ public class Batiment {
 	
 	// CLASSE NIVEAU
 	public class Niveau{
-		public int numEtage, nombrePieces;
+		public int id_Niveau,numEtage, nombrePieces;
 		public Bitmap plan2D;
 		public Vector<CodeEtare> codes = new Vector<CodeEtare>();
 		public Niveau()	{}
-		public Niveau(int numEtage, int nombrePieces, Bitmap plan2D, Vector<CodeEtare> codes)
+		public Niveau(int numEtage, int id_niveau,int nombrePieces, Bitmap plan2D, Vector<CodeEtare> codes)
 		{
+			this.id_Niveau=id_niveau;
 			this.numEtage=numEtage;
 			this.nombrePieces=nombrePieces;
 			this.plan2D=plan2D;

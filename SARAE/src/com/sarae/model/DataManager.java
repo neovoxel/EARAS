@@ -5,16 +5,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Vector;
 
+import com.sarae.model.Batiment.Niveau;
+
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 public class DataManager {
-	private static Vector<Bitmap> imgZone = new Vector<Bitmap>();
-	private static Vector<Bitmap> photos = new Vector<Bitmap>();
+	public static Vector<Bitmap> imgZone = new Vector<Bitmap>();
+	private static Vector<String> photos = new Vector<String>();
 	private static Vector<Batiment> batiments = new Vector<Batiment>();
-	//private static Vector<MapTile> mapTiles = new Vector<MapTile>();
+	private static double posLatitude=0;
+	private static double posLongitude=0;
+	public static double origin_Latitude=0;
+	public static double origin_Longitude=0;
+	public static int map_largeur=0;
 	
 	private DataManager() {  }
 	
@@ -25,7 +31,7 @@ public class DataManager {
 	public static void addZone(Bitmap img)
 	{ imgZone.add(img);}
 	
-	public static void addPhoto(Bitmap img)
+	public static void addPhoto(String img)
 	{ photos.add(img);}
 	
 	//public void addMapTile(MapTile mapTile)
@@ -47,11 +53,25 @@ public class DataManager {
 		return null;
 	}
 	
+	public static Niveau getNiveauById(int id) {
+		for (int i = 0 ; i < batiments.size() ; ++i) {
+			for (int j=0; j< batiments.get(i).niveaux.size();j++){
+			if (batiments.get(i).niveaux.get(j).id_Niveau == id)
+				return batiments.get(i).niveaux.get(j);
+			}
+		}
+		return null;
+	}
+	
 	public static Bitmap getZone(int index)
 	{ return imgZone.get(index);}
 	
-	public static Bitmap getPhoto(int index)
+	public static String getPhoto(int index)
 	{ return photos.get(index);}
+	
+	public static int getPhotoSize() {
+		return photos.size();
+	}
 	
 	//public MapTile getMapTile(int index)
 	//{ return mapTiles.get(index);}
@@ -82,6 +102,16 @@ public class DataManager {
 	public static void delPhoto(int index)
 	{ photos.removeElementAt(index);}
 	
+	public static void delPhoto(String img) {
+		for (int i = 0 ; i < photos.size() ; ++i) {
+			if (photos.get(i) == img) {
+				delPhoto(i);
+				return;
+			}
+		}
+			
+	}
+	
 	//public void delMapTiles(int index)
 	//{ mapTiles.removeElementAt(index);}
 	
@@ -110,5 +140,25 @@ public class DataManager {
 	{
 		File tmp = new File(path);
 		tmp.delete();
+	}
+	
+	public static void setLatitude(double lat)
+	{
+		posLatitude = lat;
+	}
+	
+	public static double getLatitude()
+	{
+		return posLatitude;
+	}
+	
+	public static void setLongitude(double lon)
+	{
+		posLongitude=lon;
+	}
+	
+	public static double getLongitude()
+	{
+		return posLongitude;
 	}
 }

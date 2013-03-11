@@ -46,7 +46,7 @@ public class FicheAFPS {
 		str = "";
         nb = 8;
         id_bat = id;
-		Batiment bat = DataManager.getBatiment(id_bat);
+		Batiment bat = DataManager.getBatimentById(id_bat);
         already_load = false;
         enterrer = niveau = 0;
         

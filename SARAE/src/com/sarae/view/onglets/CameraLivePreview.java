@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.sarae.model.DataManager;
+
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Camera;
@@ -121,13 +123,14 @@ public final class CameraLivePreview extends SurfaceView
             String photoFile = id_bat+"_"+ date + ".jpg";
 
             String filename = pictureFileDir.getPath() + File.separator + photoFile;
-
+            
             File pictureFile = new File(filename);
 
             try {
               FileOutputStream fos = new FileOutputStream(pictureFile);
               fos.write(data);
               fos.close();
+              DataManager.addPhoto(filename);
               Toast.makeText(myContext, "Nouvelle image sauvegardée : " + photoFile,
                   Toast.LENGTH_LONG).show();
             } catch (Exception error) {

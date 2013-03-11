@@ -14,6 +14,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+/**
+ * Représente la vue 3D.
+ * C'est cette classe qui affiche la VortexView et les boutons plans 2D.
+ * @author Dark Ghost
+ *
+ */
 public class Activity3D extends Activity {
 	private LinearLayout myLayout;
 	private Button[] boutonsEtages;
@@ -26,7 +32,7 @@ public class Activity3D extends Activity {
         
         setContentView(R.layout.activity3d);
         
-        final Batiment bat = DataManager.getBatiment(b.getInt("id_bat"));
+        final Batiment bat = DataManager.getBatimentById(b.getInt("id_bat"));
         boutonsEtages = new Button[bat.getNbNiveaux()];
         
         retour3D = new Button(this);
@@ -62,7 +68,6 @@ public class Activity3D extends Activity {
 					myLayout.removeViewAt(1);
 					
 					LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-					//layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
 					
 					ImageView plan = new ImageView(Activity3D.this);
 					plan.setImageBitmap(bat.niveaux.elementAt(j).plan2D);
