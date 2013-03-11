@@ -31,7 +31,13 @@ public class InfoChoix {
 		buttonPDF.setLayoutParams(layoutParamsPDF);
 		buttonPDF.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				activity.startActivity(new Intent(context, RapportPDF.class));
+				if (DataManager.getBatimentById(id_bat).docPDF != null) {
+					Intent myIntent = new Intent(context, RapportPDF.class);
+					myIntent.putExtra("id_bat", id_bat);
+					activity.startActivity(new Intent(context, RapportPDF.class));
+				}
+				else
+					Toast.makeText(activity, "Impossible d'afficher le rapport PDF pour ce bâtiment : données insuffisantes.", Toast.LENGTH_SHORT).show();
 			}
 		});
 		

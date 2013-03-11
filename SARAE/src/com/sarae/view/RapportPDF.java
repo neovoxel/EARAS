@@ -2,6 +2,7 @@ package com.sarae.view;
 
 import com.sarae.R;
 import com.sarae.model.Batiment;
+import com.sarae.model.DataManager;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -13,14 +14,17 @@ import android.util.DisplayMetrics;
 import android.webkit.WebView;
 
 public class RapportPDF extends Activity {
-	WebView web;
-	Batiment bat;
+	private WebView web;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		Bundle b = getIntent().getExtras();
+        
 		setContentView(R.layout.activity_pdf);
+        
+        final Batiment bat = DataManager.getBatimentById(b.getInt("id_bat"));
+		
 		web=(WebView) findViewById(R.id.webview_pdf);
 		web.getSettings().setJavaScriptEnabled(true);
 		web.getSettings().setBuiltInZoomControls(true);
