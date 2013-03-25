@@ -46,14 +46,14 @@ public class RedigerRapport{
 		});
 		
 		text = new EditText(context,attrs);
-		text.setText(lireFichier("rapportbat_"+id_bat+".rap"));
+		text.setText(lireFichier(id_bat+".rap"));
 		text.setLayoutParams(layoutParamText);
 		text.setGravity(Gravity.TOP);
 	}
 
 	
 	private void enregistrer() {
-		ecrireFicher("rapportbat_"+id_bat+".rap", text.getText().toString());
+		ecrireFicher(id_bat+".rap", text.getText().toString());
 	}
 
 	 private String lireFichier(String nomFichier) {

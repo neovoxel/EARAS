@@ -62,8 +62,8 @@ public class AfficherCarte_Activity extends Activity {
         PosX= DataManager.getLatitude();
         PosY= DataManager.getLongitude();
         
-        XPas=0.001379;
-        YPas=0.000991;
+        XPas=0.00138044444444;
+        YPas=0.0009975;
         
         XMin=DataManager.origin_Latitude;//ORIGINE EN X
         YMin= DataManager.origin_Longitude;//ORIGINE EN Y

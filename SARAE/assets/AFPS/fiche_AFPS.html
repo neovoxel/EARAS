@@ -21,8 +21,8 @@
 			
 			<div id="information">
 				<label>Unité d'inspection n°</label><input type="text" name="unite_inspection" id="unite_inspection" value="" size="8"><br>
-				<label>Date inspection</label><input type="text" id="date_inspection" name="date_inspection" value="" size="8" disabled><br>
-				<label>Heure inspection</label><input type="text" id="heure_inspection" name="heure_inspection" value=""  size="8" disabled><br>
+				<label>Date inspection</label><input type="text" name="date_inspection" id="date_inspection" value="" size="8" disabled><br>
+				<label>Heure inspection</label><input type="text" name="heure_inspection" id="heure_inspection" value="" size="8" disabled><br>
 				<hr>	
 				<label>Latitude</label><input type="text" name="lat" id="lat" value="" size="8" disabled><br>
 				<label>Longitude</label><input type="text" name="long" id="long" value="" size="8" disabled><br>
@@ -124,9 +124,9 @@
 					<label>Visite à la demande de</label><div class="yes">Préf / DDE<input name="groupeVisite" value="Pref/DDE" id="Pref/DDE" type="radio">Maire<input name="groupeVisite" value="maire" id="maire" type="radio">Autre<input name="groupeVisite" value="autre0" id="autre0" type="radio"></div>
 				
 					<br><label>Visite accompagné de : </label><br>
-					<span id="nbre"><i>Nom</i></span><input name="visite_name" id="visite_name" type="text"><br>
-					<span id="nbre"><i>Coordonnées</i></span><input name="visite_coord" id="visite_coord" type="text"><br>
-					<span id="nbre"><i>Fonction</i></span><input name="visite_fonct" id="visite_fonct" type="text"><br>
+					<span id="nbre"><i>Nom</i></span><input name="visite_name" id="visite_name" value="" type="text"><br>
+					<span id="nbre"><i>Coordonnées</i></span><input name="visite_coord" id="visite_coord" value="" type="text"><br>
+					<span id="nbre"><i>Fonction</i></span><input name="visite_fonct" id="visite_fonct" value="" type="text"><br>
 				
 					<span class="nb_niveau">CONDITIONS D'AFFICHAGE</span><br>
 					<span class="condition">L'affiche doit être posée par l'inspecteur lui-même</span><br>
@@ -166,11 +166,11 @@
 					
 					<span class="nb_niveau">NOM DES INSPECTEURS DE L'UNITE</span><br>
 					<label><u>Inspecteur n°1</u> : </label><br>
-					<span id="nbre"><i>Nom</i></span><input name="nom_inspecteur1" id="nom_inspecteur1" type="text"><br>
-					<span id="nbre"><i>Prénom</i></span><input name="prenom_inspecteur1" id="prenom_inspecteur1" type="text"><br>
+					<span id="nbre"><i>Nom</i></span><input name="nom_inspecteur1" id="nom_inspecteur1" value="" type="text"><br>
+					<span id="nbre"><i>Prénom</i></span><input name="prenom_inspecteur1" id="prenom_inspecteur1" value="" type="text"><br>
 					<label><u>Inspecteur n°2</u> : </label><br>
-					<span id="nbre"><i>Nom</i></span><input name="nom_inspecteur2" id="nom_inspecteur2" type="text"><br>
-					<span id="nbre"><i>Prénom</i></span><input name="prenom_inspecteur2" id="prenom_inspecteur2" type="text"><br>
+					<span id="nbre"><i>Nom</i></span><input name="nom_inspecteur2" id="nom_inspecteur2" value="" type="text"><br>
+					<span id="nbre"><i>Prénom</i></span><input name="prenom_inspecteur2" id="prenom_inspecteur2" value="" type="text"><br>
 							
 					<div id="numpage"><cite>page 1/2</cite></div>
 					<hr/>
@@ -247,7 +247,7 @@
 							<td style="width:46px;"><input value="A_G2" id="A_G2" name="A_Etendu2" type="radio"></td>
 							
 							<td style="width:46px;"><input value="A_C2" id="A_C2" name="A_Indice2" type="radio"></td>
-							<td style="width:46px;"><input value="A_E2" id="A_E2"name="A_Indice2" type="radio"></td>
+							<td style="width:46px;"><input value="A_E2" id="A_E2" name="A_Indice2" type="radio"></td>
 							<td style="width:46px;"><input value="A_T2" id="A_T2" name="A_Indice2" type="radio"></td>
 							<td style="width:45px;"><input value="A_N2" id="A_N2" name="A_Indice2" type="radio"></td>
 						</tr>
@@ -262,7 +262,7 @@
 							<td style="width:46px;"><input value="A*_G2" id="A*_G2" name="A*_Etendu2" type="radio"></td>
 							
 							<td style="width:46px;"><input value="A*_C2" id="A*_C2" name="A*_Indice2" type="radio"></td>
-							<td style="width:46px;"><input value="A*_E2" id="A*_E2"name="A*_Indice2" type="radio"></td>
+							<td style="width:46px;"><input value="A*_E2" id="A*_E2" name="A*_Indice2" type="radio"></td>
 							<td style="width:46px;"><input value="A*_T2" id="A*_T2" name="A*_Indice2" type="radio"></td>
 							<td style="width:45px;"><input value="A*_N2" id="A*_N2" name="A*_Indice2" type="radio"></td>
 						</tr>
@@ -394,7 +394,7 @@
 						
 							<td style="width:46px;"><input value="C_C4" id="C_C4" name="C_Indice4" type="radio"></td>
 							<td style="width:46px;"><input value="C_E4" id="C_E4" name="C_Indice4" type="radio"></td>
-							<td style="width:46px;"><input value="C_T4" id="C_T4"name="C_Indice4" type="radio"></td>
+							<td style="width:46px;"><input value="C_T4" id="C_T4" name="C_Indice4" type="radio"></td>
 							<td style="width:45px;"><input value="C_N4" id="C_N4" name="C_Indice4" type="radio"></td>
 						</tr>
 						
@@ -938,7 +938,7 @@
 							<td style="width:46px;"><input value="D_C5" id="D5_C5" name="D_Indice5" type="radio"></td>
 							<td style="width:46px;"><input value="D_E5" id="D5_E5" name="D_Indice5" type="radio"></td>
 							<td style="width:46px;"><input value="D_T5" id="D5_T5" name="D_Indice5" type="radio"></td>
-							<td style="width:45px;"><input value="D_N5" id="D5_N5"name="D_Indice5" type="radio"></td>
+							<td style="width:45px;"><input value="D_N5" id="D5_N5" name="D_Indice5" type="radio"></td>
 						</tr>
 						
 						<tr>
@@ -953,7 +953,7 @@
 							<td style="width:46px;"><input value="D_C6" id="D_C6" name="D_Indice6" type="radio"></td>
 							<td style="width:46px;"><input value="D_E6" id="D_E6" name="D_Indice6" type="radio"></td>
 							<td style="width:46px;"><input value="D_T6" id="D_T6" name="D_Indice6" type="radio"></td>
-							<td style="width:45px;"><input value="D_N6" id="D_N6"name="D_Indice6" type="radio"></td>
+							<td style="width:45px;"><input value="D_N6" id="D_N6" name="D_Indice6" type="radio"></td>
 						</tr>
 						
 						<tr>

@@ -11,7 +11,7 @@ public class Batiment {
 	public int id_batiment;
 	public float superficie,hauteur,largeur,profondeur,degrePenteToit,tauxVulnera;
 	public String libelle,typeMateriaux,typePenteToit,typeMatToit;
-	public File docPDF;
+	public Bitmap docPDF;
 	public Position position;
 	public Vector<Niveau> niveaux;
 	
@@ -56,7 +56,7 @@ public class Batiment {
 	
 	public Batiment(int id_batiment, float hauteur, float largeur, float profondeur,
 			         float degrePenteToit, float tauxVulnera, String libelle, String typeMateriaux,
-			         String typePenteToit, String typeMatToit, File docPDF, Position position, Vector<Niveau> niveaux)
+			         String typePenteToit, String typeMatToit, Bitmap docPDF, Position position, Vector<Niveau> niveaux)
 	{
 		this.id_batiment=id_batiment;
 		this.hauteur=hauteur;
@@ -97,10 +97,11 @@ public class Batiment {
 		
 		public void copy(final Niveau niveau)
 		{
+			id_Niveau=niveau.id_Niveau;
 			numEtage=niveau.numEtage;
 			nombrePieces=niveau.nombrePieces;
 			plan2D=niveau.plan2D;
-			codes=niveau.codes;
+			codes=new Vector<CodeEtare>(niveau.codes);
 		}
 		// CLASSE CODEETARE
 		public class CodeEtare{

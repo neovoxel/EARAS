@@ -44,7 +44,7 @@ function inputData()
 			else if(tableau[i] == "____Textarea____")	// Type Input Textarea
 			{
 				i++;
-				while(i < tableau.length)
+				while(tableau[i] != "____DefaultData____")
 				{
 					tab = tableau[i].split(":");
 					if(tab[1] != "NULL")

@@ -21,6 +21,7 @@ public final class R {
     }
     public static final class id {
         public static final int BouttonConnexion=0x7f080009;
+        public static final int BouttonEmission=0x7f08000b;
         public static final int ButtonRedigerRapport=0x7f080015;
         public static final int LinearLayoutOnglets=0x7f080012;
         public static final int LinearLayout_connec=0x7f080008;
@@ -30,6 +31,7 @@ public final class R {
         public static final int OngletRapport=0x7f08000f;
         public static final int Relat=0x7f080003;
         public static final int RelativeLayout1=0x7f08000d;
+        public static final int TextEmission=0x7f08000c;
         public static final int TexteConnexion=0x7f08000a;
         public static final int button_save=0x7f080007;
         public static final int editText1=0x7f080014;
@@ -38,8 +40,6 @@ public final class R {
         public static final int linearLayout1=0x7f080005;
         public static final int menu_settings=0x7f080016;
         public static final int monLayout=0x7f080000;
-        public static final int progressBar1=0x7f08000b;
-        public static final int textProgress=0x7f08000c;
         public static final int textView1=0x7f080002;
         public static final int webView1=0x7f080006;
         public static final int webview_pdf=0x7f080013;

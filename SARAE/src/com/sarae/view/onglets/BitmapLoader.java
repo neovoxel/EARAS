@@ -3,7 +3,7 @@ package com.sarae.view.onglets;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-class BitmapLoader
+public class BitmapLoader
 {
   public static int getScale(int originalWidth,int originalHeight,
        final int requiredWidth,final int requiredHeight)

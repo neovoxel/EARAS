@@ -10,12 +10,15 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -23,11 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	private ImageView Bconnexion;
-	private ProgressBar progressBar;
-	private TextView textProgress;
-	private LinearLayout Layout;
-	private TextView connexion;
+	private ImageButton Bconnexion;
+	private ImageButton Bemission;
 	Reseau reseau;
 	private double x=0,y=0;
 	private ProgressDialog progressDialog;
@@ -39,8 +39,34 @@ public class MainActivity extends Activity {
 			switch(msg.what){
 				case 0: //Transfert terminé
 				progressDialog.dismiss();
-				Toast.makeText(MainActivity.this, "Thread terminé", Toast.LENGTH_SHORT).show();
-				MainActivity.this.startActivity(new Intent(MainActivity.this, AfficherCarte_Activity.class));
+				
+				boolean isnull = false ;
+				for(int i = 0 ; i< DataManager.imgZone.size(); i++)
+				{
+					if (DataManager.imgZone.get(i) == null){isnull = true;}
+				}
+				if(isnull)
+				{
+					AlertDialog.Builder adb11 = new AlertDialog.Builder(MainActivity.this);
+				     adb11.setTitle("Erreur Transfert");
+				     adb11.setCancelable(false);
+				     adb11.setMessage("Une erreur est survenu lors du transfert, veuillez réessayer");
+				     adb11.setIcon(android.R.drawable.ic_dialog_alert);
+				     adb11.setPositiveButton("OK", null);
+				     adb11.setNegativeButton("Réessayer", new DialogInterface.OnClickListener() {
+						
+						public void onClick(DialogInterface dialog, int which) {
+							lancerProgress();
+							
+						}
+					});
+				     adb11.show();
+				}
+				else
+				{
+					Toast.makeText(MainActivity.this, "Récupération terminée", Toast.LENGTH_SHORT).show();
+					 MainActivity.this.startActivity(new Intent(MainActivity.this, AfficherCarte_Activity.class));
+				}
 				break;
 				
 				case 409: //Erreur
@@ -63,8 +89,58 @@ public class MainActivity extends Activity {
 					break;
 				case 1: //Connexion Impossible
 					progressDialog.dismiss();
-					Toast.makeText(MainActivity.this, "Impossible de se connecter au serveur", Toast.LENGTH_SHORT).show();
+					 AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
+				     adb.setTitle("Erreur de connexion");
+				     adb.setCancelable(false);
+				     adb.setMessage("Impossible de se connecter au serveur");
+				     adb.setIcon(android.R.drawable.ic_dialog_alert);
+				     adb.setPositiveButton("OK", null);
+				     adb.show();
+					//Toast.makeText(MainActivity.this, "Impossible de se connecter au serveur", Toast.LENGTH_SHORT).show();
 					break;
+				case 2: //debut Progress Carte
+					progressDialog.dismiss();
+					progressDialog = new ProgressDialog(MainActivity.this);
+					progressDialog.setCancelable(false);
+					progressDialog.setTitle("Récupération des cartes de la zone");
+					progressDialog.setMessage("Recupération en cours...");
+					progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+					progressDialog.setMax(Reseau.nombreTileMap);
+					progressDialog.show();
+					break;
+				case 3://Increment ProgressBar Carte
+					progressDialog.setProgress(Reseau.TileCourant);
+					break;
+				case 4://Recuparation des info batiment
+					progressDialog.dismiss();
+					progressDialog=new ProgressDialog(MainActivity.this);
+					progressDialog.setMessage("Récupération des informations des bâtiments");
+					progressDialog.setCancelable(false);
+					progressDialog.show();
+					break;
+				case 5: //Emmision terminée
+					progressDialog.dismiss();
+					AlertDialog.Builder adb1 = new AlertDialog.Builder(MainActivity.this);
+				     adb1.setTitle("Emission réussie");
+				     adb1.setCancelable(false);
+				     adb1.setMessage("Toutes les données ont été envoyées avec succès");
+				     adb1.setIcon(android.R.drawable.ic_dialog_info);
+				     adb1.setPositiveButton("OK", null);
+				     adb1.show();
+					//Toast.makeText(MainActivity.this, "Toutes les données ont était envoyées avec succés", Toast.LENGTH_SHORT).show();
+					break;
+				case 6:
+					progressDialog.dismiss();
+					AlertDialog.Builder adb11 = new AlertDialog.Builder(MainActivity.this);
+				     adb11.setTitle("Aucune donnée");
+				     adb11.setCancelable(false);
+				     adb11.setMessage("Aucune donnée à envoyer au serveur");
+				     adb11.setIcon(android.R.drawable.ic_dialog_alert);
+				     adb11.setPositiveButton("OK", null);
+				     adb11.show();
+					//Toast.makeText(MainActivity.this, "Aucune donnée é envoyer au serveur", Toast.LENGTH_SHORT).show();
+					break;
+					
 			}
 		};
 		};
@@ -76,12 +152,8 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_main);
-	    
+	    reseau = Reseau.getInstance();
 	    progressDialog = new ProgressDialog(this);
-	    Layout= (LinearLayout) findViewById(R.id.LinearLayout_connec);
-	    connexion=(TextView) findViewById(R.id.TexteConnexion);
-	    progressBar = (ProgressBar) findViewById(R.id.progressBar1);
-	    progressBar.setVisibility(ProgressBar.INVISIBLE);
 	    LocationManager lManager=(LocationManager)getSystemService(Context.LOCATION_SERVICE);
 	  		lManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, new LocationListener() {
 	  			
@@ -111,74 +183,68 @@ public class MainActivity extends Activity {
 				}
 	  			});
 	      
-	    
-	    textProgress = (TextView) findViewById(R.id.textProgress);
-	    textProgress.setVisibility(TextView.INVISIBLE);
-	    Bconnexion = (ImageView) findViewById(R.id.BouttonConnexion);
-	    Bconnexion.setImageBitmap(DataManager.getBitmapFromAsset(this, "connexion.png"));
+	  	Bemission = (ImageButton) findViewById(R.id.BouttonEmission);
+		Bemission.setImageBitmap(DataManager.getBitmapFromAsset(this, "newexport.png"));
+	    Bconnexion = (ImageButton) findViewById(R.id.BouttonConnexion);
+	    Bconnexion.setImageBitmap(DataManager.getBitmapFromAsset(this, "newcon.png"));
 	    Bconnexion.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				
 					lancerProgress();
+		    		
+				}
+				
+	    });
+	    
+	    Bemission.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				
+				AlertDialog.Builder adb11 = new AlertDialog.Builder(MainActivity.this);
+			     adb11.setTitle("Confimer Emission ?");
+			     adb11.setCancelable(false);
+			     adb11.setMessage("L'émission des données enverra tous les documents présents sur la tablette vers le serveur. Les documents"+
+			    		 			" seront ensuite effacés de la mémoire. Voulez-vous continuer?");
+			     adb11.setIcon(android.R.drawable.ic_dialog_info);
+			     adb11.setPositiveButton("Continuer", new DialogInterface.OnClickListener() {
 					
-					/*reseau = Reseau.getInstance();
-					progressDialog.setMessage("Coucou");
-					progressDialog.show();
-
-					
-					Thread tmpthread = new Thread(new Runnable() {
-					public void run() {		
-					reseau.chargerDonnees(4.639686,43.672070,MainActivity.this,MainActivity.this);
-					progressDialog.dismiss();
-
-					}});
-					
-					
-					tmpthread.start();
-					
-
-					
-					/*try {
-						tmpthread.join();
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-					System.out.println("Thread reseau terminé");
-					startActivity(new Intent(MainActivity.this, AfficherCarte_Activity.class));
-					
-					/*progressBar.setVisibility(ProgressBar.GONE);
-					textProgress.setVisibility(TextView.INVISIBLE);
-		    		Layout.removeAllViews();
-		    		Layout.addView(Bconnexion);
-		    		Layout.addView(connexion);*/
-					/*while(reseau.getStatus()!=Status.STANDBY)
-					{
-						try {
-							Thread.sleep(500);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						textProgress.setText(reseau.getStatus().toString());
-					}*/
+					public void onClick(DialogInterface dialog, int which) {
+						lancerEmission();
 						
-					 //Toast.makeText(MainActivity.this, "Transfert terminée", Toast.LENGTH_SHORT).show();
+					}
+				});
+			     adb11.setNegativeButton("Annuler", null);
+			     adb11.show();
+
+				
+					
 		    		
 				}
 				
 	    });
     }
     
-    public void mySetText(String s)
+    private void lancerEmission()
     {
-    	//textProgress.setText(s);
+    	progressDialog.setMessage("Connexion");
+		progressDialog.setCancelable(false);
+		progressDialog.show();
+		
+		tmpThread = new Thread(new Runnable() {
+			
+			public void run() {		
+			//if(!reseau.emettreDonnees(MainActivity.this))
+				//handler.sendEmptyMessage(1);
+				reseau.emettreDonnees(MainActivity.this);
+
+			}});
+
+			tmpThread.start();
+    	
     }
     
     private void lancerProgress()
     {
-    	reseau = Reseau.getInstance();
+    	
 
 		progressDialog.setMessage("Connexion");
 		progressDialog.setCancelable(false);
@@ -187,7 +253,7 @@ public class MainActivity extends Activity {
 		tmpThread = new Thread(new Runnable() {
 		
 		public void run() {		
-		if(reseau.chargerDonnees(4.639686,43.672070,MainActivity.this,MainActivity.this))
+		if(reseau.chargerDonnees(4.639505,43.672328,MainActivity.this,MainActivity.this))
 			handler.sendEmptyMessage(0);
 		else
 			handler.sendEmptyMessage(1);

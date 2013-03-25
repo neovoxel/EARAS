@@ -54,7 +54,7 @@ public class FicheAFPS {
         File fiche = new File(dir_fiche.getAbsolutePath() + File.separator + id_bat + ".afps");
         
         if(fiche.exists())
-        	resultat = lireFichier(id_bat + ".afps");
+        	resultat = DataManager.lireFichier("Fiche_AFPS",id_bat +".afps",context);
         else
         	resultat = "";
         
@@ -175,43 +175,6 @@ public class FicheAFPS {
 	 * @param Prend en paramètre le nom du fichier.
 	 * @return Retourne la string que contient le fichier.
 	 */
-	private String lireFichier(String nomFichier) 
-    {
-        File dir = context.getDir("Fiche_AFPS",Context.MODE_PRIVATE);
-        File newfile = new File(dir.getAbsolutePath() + File.separator + nomFichier);
-        String monText="";
-        BufferedReader input = null;
-
-        try 
-        {
-          input = new BufferedReader(new InputStreamReader( new FileInputStream(newfile)));
-          String line;
-
-          StringBuffer buffer = new StringBuffer();
-
-          while ((line = input.readLine()) != null) 
-          {
-               buffer.append(line);
-          }
-
-           monText = buffer.toString();
-        }
-        catch (Exception e) { e.printStackTrace(); }
-        finally 
-        {
-	         if (input != null) {
-		         try 
-		         { input.close(); }
-		         catch (IOException e) 
-		         { 
-		        	 Toast.makeText(context,"Impossible d'ouvrir la fiche AFPS.", Toast.LENGTH_LONG).show();
-		        	 e.printStackTrace(); 
-		         }
-	         }
-        }
-        return monText;
-
-      }
 
 	/**
 	 * Fonction qui permet d'enregistrer dans un fichier les données 

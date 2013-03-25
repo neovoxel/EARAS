@@ -1,16 +1,21 @@
 package com.sarae.model;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Vector;
 
 import com.sarae.model.Batiment.Niveau;
 
+import android.R.integer;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.widget.Toast;
 
 public class DataManager {
 	public static Vector<Bitmap> imgZone = new Vector<Bitmap>();
@@ -63,15 +68,65 @@ public class DataManager {
 		return null;
 	}
 	
+	public static void tri_Niveaux() {
+		for (int i = 0 ; i < batiments.size() ; ++i) {
+			Batiment current_bat = batiments.get(i);
+			
+			int[] tabNiv = new int[current_bat.niveaux.size()];
+			for (int j = 0 ; j < current_bat.niveaux.size() ; ++j)
+				tabNiv[j] = current_bat.niveaux.get(j).numEtage;
+			
+			for (int j = 0 ; j < current_bat.niveaux.size() ; ++j)
+				System.out.println("LOOOOOOOOOOOL1  " + tabNiv[j]);
+			
+			triBulle(tabNiv);
+			
+			for (int j = 0 ; j < current_bat.niveaux.size() ; ++j)
+				System.out.println("LOOOOOOOOOOOL2  " + tabNiv[j]);
+			
+			Vector<Batiment.Niveau> niveaux = new Vector<Batiment.Niveau>();
+			
+			for (int j = 0 ; j < current_bat.niveaux.size() ; ++j) {
+				for (int k = 0 ; k < current_bat.niveaux.size() ; ++k) {
+					if (current_bat.niveaux.get(k).numEtage == tabNiv[j])
+						niveaux.add(current_bat.niveaux.get(k));
+				}
+			}
+			
+			current_bat.niveaux = niveaux;
+		}
+	}
+	
+	public static void triBulle(int tableau[]) {
+	    int longueur=tableau.length;
+	    boolean inversion;
+	    
+	    do {
+	        inversion=false;
+	
+	        for(int i=0;i<longueur-1;i++) {
+	            if(tableau[i]>tableau[i+1]) {
+	                echanger(tableau,i,i+1);
+	                inversion=true;
+	            }
+	        }
+	    } while(inversion);
+    }
+	
+	private static void echanger(int tableau[], int a, int b) {
+		 int tmp = tableau[a];
+         tableau[a] = tableau[b];
+         tableau[b] = tmp;
+	}
+	
 	public static Bitmap getZone(int index)
-	{ return imgZone.get(index);}
+	{ return imgZone.get(index); }
 	
 	public static String getPhoto(int index)
-	{ return photos.get(index);}
+	{ return photos.get(index); }
 	
-	public static int getPhotoSize() {
-		return photos.size();
-	}
+	public static int getPhotoSize()
+	{ return photos.size(); }
 	
 	//public MapTile getMapTile(int index)
 	//{ return mapTiles.get(index);}
@@ -161,4 +216,42 @@ public class DataManager {
 	{
 		return posLongitude;
 	}
+	
+	public static String lireFichier(String dossier,String nomFichier,Context context) 
+    {
+        File dir = context.getDir(dossier,Context.MODE_PRIVATE);
+        File newfile = new File(dir.getAbsolutePath() + File.separator + nomFichier);
+        String monText="";
+        BufferedReader input = null;
+
+        try 
+        {
+          input = new BufferedReader(new InputStreamReader( new FileInputStream(newfile)));
+          String line;
+
+          StringBuffer buffer = new StringBuffer();
+
+          while ((line = input.readLine()) != null) 
+          {
+               buffer.append(line);
+          }
+
+           monText = buffer.toString();
+        }
+        catch (Exception e) { e.printStackTrace(); }
+        finally 
+        {
+	         if (input != null) {
+		         try 
+		         { input.close(); }
+		         catch (IOException e) 
+		         { 
+		        	 Toast.makeText(context,"Impossible d'ouvrir :"+nomFichier, Toast.LENGTH_LONG).show();
+		        	 e.printStackTrace(); 
+		         }
+	         }
+        }
+        return monText;
+
+      }
 }
