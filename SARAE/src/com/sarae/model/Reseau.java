@@ -295,7 +295,7 @@ public class Reseau{
 	    } catch (ClientProtocolException e) {
 	    	myActivity.handler.sendEmptyMessage(1);
 	        return false;
-	    } catch (IOException e) {
+	    } catch (Exception e) {
 	    	myActivity.handler.sendEmptyMessage(1);
 	    	 return false;
 	    }
