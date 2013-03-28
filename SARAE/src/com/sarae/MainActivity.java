@@ -50,7 +50,7 @@ public class MainActivity extends Activity {
 					AlertDialog.Builder adb11 = new AlertDialog.Builder(MainActivity.this);
 				     adb11.setTitle("Erreur Transfert");
 				     adb11.setCancelable(false);
-				     adb11.setMessage("Une erreur est survenu lors du transfert, veuillez réessayer");
+				     adb11.setMessage("Une erreur est survenue lors du transfert, veuillez réessayer");
 				     adb11.setIcon(android.R.drawable.ic_dialog_alert);
 				     adb11.setPositiveButton("OK", null);
 				     adb11.setNegativeButton("Réessayer", new DialogInterface.OnClickListener() {
@@ -92,7 +92,7 @@ public class MainActivity extends Activity {
 					 AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
 				     adb.setTitle("Erreur de connexion");
 				     adb.setCancelable(false);
-				     adb.setMessage("Erreur lors de la connection au serveur");
+				     adb.setMessage("Erreur lors de la connexion au serveur");
 				     adb.setIcon(android.R.drawable.ic_dialog_alert);
 				     adb.setPositiveButton("OK", null);
 				     adb.show();
@@ -197,7 +197,7 @@ public class MainActivity extends Activity {
 						AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
 					     adb.setTitle("Erreur de géolocalisation");
 					     adb.setCancelable(false);
-					     adb.setMessage("Impossible de recuperer votre position");
+					     adb.setMessage("Impossible de récupérer votre position");
 					     adb.setIcon(android.R.drawable.ic_dialog_alert);
 					     adb.setPositiveButton("OK", null);
 					     adb.show();
@@ -212,7 +212,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				
 				AlertDialog.Builder adb11 = new AlertDialog.Builder(MainActivity.this);
-			     adb11.setTitle("Confimer Emission ?");
+			     adb11.setTitle("Confirmer Emission ?");
 			     adb11.setCancelable(false);
 			     adb11.setMessage("L'émission des données enverra tous les documents présents sur la tablette vers le serveur. Les documents"+
 			    		 			" seront ensuite effacés de la mémoire. Voulez-vous continuer?");

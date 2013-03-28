@@ -202,7 +202,7 @@ public class FicheAFPS {
                  try 
                  {
                 	 writer.close();
-                	 Toast.makeText(context,"La fiche AFPS a été sauvegardé avec succès.", Toast.LENGTH_LONG).show();
+                	 Toast.makeText(context,"La fiche AFPS a été sauvegardée avec succès.", Toast.LENGTH_LONG).show();
                  } 
                  catch (IOException e) 
                  {

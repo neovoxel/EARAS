@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 public class ViewPhoto{
 	private SurfaceView  camera;
-
 	private ListView gallery;
 	private int id_bat=0;
 	private Activity myActivity;
@@ -67,7 +66,6 @@ public class ViewPhoto{
 						DataManager.DeleteFile(imagePath.get(nb));
 						update();
 						Toast.makeText(context, "Photo supprimée", Toast.LENGTH_SHORT).show();
-						
 					}
 				});
 				
@@ -81,14 +79,7 @@ public class ViewPhoto{
 				al.show();
 			}
 		});
-		
-		
-		
-		
-		
-	}	
-	
-
+	}
 	
 	public class ImageAdapter extends BaseAdapter {
 		/** The parent context */
@@ -165,10 +156,5 @@ public class ViewPhoto{
 		getDrawableList();
 		gallery.setAdapter(new ImageAdapter(context));
 	}
-	
-	
-	
-	
-	
 	
 }

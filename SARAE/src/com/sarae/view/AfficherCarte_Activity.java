@@ -87,7 +87,7 @@ public class AfficherCarte_Activity extends Activity {
     	   AlertDialog.Builder adb = new AlertDialog.Builder(AfficherCarte_Activity.this);
 		     adb.setTitle("Pas de données");
 		     adb.setCancelable(false);
-		     adb.setMessage("Il n'y as aucune données de batiment disponible pour cette zone");
+		     adb.setMessage("Il n'y a aucune données de batiment disponible pour cette zone");
 		     adb.setIcon(android.R.drawable.ic_dialog_alert);
 		     adb.setPositiveButton("OK", null);
 		     adb.show();
@@ -181,7 +181,7 @@ public class AfficherCarte_Activity extends Activity {
 	    		AlertDialog.Builder adb = new AlertDialog.Builder(AfficherCarte_Activity.this);
 			     adb.setTitle("Erreur de Positionement");
 			     adb.setCancelable(false);
-			     adb.setMessage("Impossible de vous positioner sur la carte. VAssurez-vous de ne pas être hors ou trop proche du bord de la zone disponible sur le serveur");
+			     adb.setMessage("Impossible de vous positioner sur la carte. Assurez-vous de ne pas être hors ou trop proche du bord de la zone disponible sur le serveur");
 			     adb.setIcon(android.R.drawable.ic_dialog_alert);
 			     adb.setPositiveButton("OK", new OnClickListener() {
 					
