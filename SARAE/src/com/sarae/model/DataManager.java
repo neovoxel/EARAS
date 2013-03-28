@@ -95,6 +95,36 @@ public class DataManager {
 			
 			current_bat.niveaux = niveaux;
 		}
+		
+		/*for (int i = 0 ; i < batiments.size() ; ++i) {
+			Batiment current_bat = batiments.get(i);
+			Vector<Integer> indices = new Vector<Integer>();
+			
+			for (int k = 0 ; k < current_bat.getNbNiveaux() ; ++k) {
+				int indice_min = current_bat.getNbNiveaux()-1;
+				for (int j = 0 ; j < current_bat.getNbNiveaux() ; ++j) {
+					if ((current_bat.niveaux.get(j).numEtage < current_bat.niveaux.get(indice_min).numEtage)) {
+						boolean exists = false;
+						for (int l = 0 ; l < indices.size() ; ++l) {
+							if (indices.get(l) == j) {
+								exists = true;
+								break;
+							}
+						}
+						if (!exists)
+							indice_min = j;
+					}
+				}
+				indices.add(indice_min);
+			}
+			
+			Vector<Batiment.Niveau> niveaux = new Vector<Batiment.Niveau>();
+			
+			for (int j = 0 ; j < current_bat.getNbNiveaux() ; ++j)
+				niveaux.add(current_bat.niveaux.get(indices.get(j)));
+			
+			current_bat.niveaux = niveaux;
+		}*/
 	}
 	
 	public static void triBulle(int tableau[]) {

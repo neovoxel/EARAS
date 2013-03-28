@@ -92,7 +92,7 @@ public class MainActivity extends Activity {
 					 AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
 				     adb.setTitle("Erreur de connexion");
 				     adb.setCancelable(false);
-				     adb.setMessage("Impossible de se connecter au serveur");
+				     adb.setMessage("Erreur lors de la connection au serveur");
 				     adb.setIcon(android.R.drawable.ic_dialog_alert);
 				     adb.setPositiveButton("OK", null);
 				     adb.show();
@@ -168,7 +168,7 @@ public class MainActivity extends Activity {
 	  			}
 	  			
 	  			public void onProviderDisabled(String provider) {
-	  				// TODO Auto-generated method stub
+	  				x=0;y=0;
 	  				
 	  			}
 	  			
@@ -190,7 +190,19 @@ public class MainActivity extends Activity {
 	    Bconnexion.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				
-					lancerProgress();
+					if(x!=0 && y!=0)
+						lancerProgress();
+					else
+					{
+						AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
+					     adb.setTitle("Erreur de géolocalisation");
+					     adb.setCancelable(false);
+					     adb.setMessage("Impossible de recuperer votre position");
+					     adb.setIcon(android.R.drawable.ic_dialog_alert);
+					     adb.setPositiveButton("OK", null);
+					     adb.show();
+					}
+					
 		    		
 				}
 				
@@ -253,7 +265,7 @@ public class MainActivity extends Activity {
 		tmpThread = new Thread(new Runnable() {
 		
 		public void run() {		
-		if(reseau.chargerDonnees(4.639505,43.672328,MainActivity.this,MainActivity.this))
+		if(reseau.chargerDonnees(y,x,MainActivity.this,MainActivity.this))
 			handler.sendEmptyMessage(0);
 		else
 			handler.sendEmptyMessage(1);

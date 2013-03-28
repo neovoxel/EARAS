@@ -3,12 +3,16 @@ package com.sarae.view;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import com.sarae.MainActivity;
 import com.sarae.R;
 import com.sarae.model.Batiment;
 import com.sarae.model.DataManager;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
@@ -68,20 +72,26 @@ public class AfficherCarte_Activity extends Activity {
         XMin=DataManager.origin_Latitude;//ORIGINE EN X
         YMin= DataManager.origin_Longitude;//ORIGINE EN Y
         
-        //XMin=DataManager.getLatitude();//ORIGINE EN X
-        //YMin=DataManager.getLongitude();//ORIGINE EN Y
-        
-      // iv.setImageBitmap(getZone(combineImages(DataManager.imgZone)));
-      //iv.setImageBitmap(combineImages(DataManager.imgZone));
        rl = (RelativeLayout) findViewById(R.id.Relat);
        
        iv.setImageBitmap(getZone(combineImages(DataManager.imgZone)));
-       //iv.setImageBitmap(combineImages(DataManager.imgZone));
        rl.addView(new BouttonBleu(rl.getContext(),size.x/2, size.y/2));
        
        for(int i=0;i<batiments.size();i++)
        {
     	   rl.addView(new Bouttonbat(rl.getContext(),this, xtoi(batiments.get(i).position.y,size.x/3), ytoi(batiments.get(i).position.x,size.y/2), batiments.get(i)));
+       }
+       
+       if (batiments.size()<1)
+       {
+    	   AlertDialog.Builder adb = new AlertDialog.Builder(AfficherCarte_Activity.this);
+		     adb.setTitle("Pas de données");
+		     adb.setCancelable(false);
+		     adb.setMessage("Il n'y as aucune données de batiment disponible pour cette zone");
+		     adb.setIcon(android.R.drawable.ic_dialog_alert);
+		     adb.setPositiveButton("OK", null);
+		     adb.show();
+    	   
        }
        
        
@@ -151,12 +161,38 @@ public class AfficherCarte_Activity extends Activity {
 	    	YMin=PosY+=YPas;
 	    	System.out.println("X:"+x);
 	    	System.out.println("Y:"+y);
+	    	Bitmap finale=null;
 	    	if(x>0 && y>0)
 	    	{
-	    	Bitmap finale = Bitmap.createBitmap(map, x, y, 3*256, 2*256);
-	    	return finale;
+	    		try{
+	    			finale = Bitmap.createBitmap(map, x, y, 3*256, 2*256);
+	    		}
+	    		catch(Exception e)
+	    		{
+	    			
+	    			
+	    			return null;
+	    		}
+	    		
 	    	}
-	    	return null;
+	    	
+	    	if (finale==null)
+	    	{
+	    		AlertDialog.Builder adb = new AlertDialog.Builder(AfficherCarte_Activity.this);
+			     adb.setTitle("Erreur de Positionement");
+			     adb.setCancelable(false);
+			     adb.setMessage("Impossible de vous positioner sur la carte. VAssurez-vous de ne pas être hors ou trop proche du bord de la zone disponible sur le serveur");
+			     adb.setIcon(android.R.drawable.ic_dialog_alert);
+			     adb.setPositiveButton("OK", new OnClickListener() {
+					
+					public void onClick(DialogInterface dialog, int which) {
+						AfficherCarte_Activity.this.finish();
+						
+					}
+				});
+			     adb.show();
+	    	}
+	    	return finale;
 	    }
     }
     

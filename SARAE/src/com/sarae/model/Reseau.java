@@ -90,9 +90,16 @@ public class Reseau{
 		String links[] = new String(blocs[0]).split(";");
 		System.out.println(reponse);
 		if (links[0]=="")return false;
+		try
+		{
 		DataManager.origin_Latitude=Double.parseDouble(links[0]);//Latitude
 		DataManager.origin_Longitude=Double.parseDouble(links[1]);//longitude
 		DataManager.map_largeur=Integer.parseInt(links[2]);//largeur map en nb tiles
+		}
+		catch(Exception e)
+		{
+			return false;
+		}
 		System.out.println("origin_x : "+ DataManager.origin_Latitude);
 		System.out.println("origin_y : "+ DataManager.origin_Longitude);
 		System.out.println("largeur : "+ DataManager.map_largeur);

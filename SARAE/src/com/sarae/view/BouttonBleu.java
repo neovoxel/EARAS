@@ -31,7 +31,7 @@ public class BouttonBleu extends ImageView implements SensorEventListener {
 		setLayoutParams(lp);
 		setImageBitmap(bleu);
       
-		final Toast toast = Toast.makeText(context, "Ceci est VOUS", Toast.LENGTH_LONG);
+		final Toast toast = Toast.makeText(context, "Vous êtes ici", Toast.LENGTH_LONG);
 		setOnClickListener(new OnClickListener() {
 			public void onClick(View arg0) {
 				toast.show();
